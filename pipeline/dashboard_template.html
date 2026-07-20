@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>J. Paul Getty Trust — Financial Dashboard (990-PF)</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<style>
+:root{
+  --bg:#14130f; --panel:#1e1c17; --panel2:#26231c; --line:#3a362c;
+  --text:#ece7db; --muted:#a49c8a; --gold:#c9a45c; --gold2:#e6c987;
+  --green:#7fa66a; --red:#c96a5c; --blue:#7d9bb5; --violet:#a08cb5; --teal:#6aa6a0;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--text);font-family:Georgia,'Times New Roman',serif;line-height:1.5}
+.wrap{max-width:1240px;margin:0 auto;padding:28px 20px 60px}
+header{border-bottom:1px solid var(--line);padding-bottom:22px;margin-bottom:26px}
+h1{font-size:30px;font-weight:normal;letter-spacing:.5px}
+h1 .accent{color:var(--gold)}
+.sub{color:var(--muted);font-size:14px;margin-top:6px;font-family:Verdana,Geneva,sans-serif}
+.badge{display:inline-block;border:1px solid var(--gold);color:var(--gold);border-radius:3px;padding:1px 8px;font-size:11px;margin-left:8px;vertical-align:2px;font-family:Verdana,Geneva,sans-serif}
+.controls{display:flex;flex-wrap:wrap;gap:14px;align-items:center;margin:18px 0 26px;font-family:Verdana,Geneva,sans-serif;font-size:13px}
+.controls label{color:var(--muted)}
+select,button.tgl,button.dl{background:var(--panel2);color:var(--text);border:1px solid var(--line);border-radius:4px;padding:6px 10px;font-size:13px;cursor:pointer;font-family:Verdana,Geneva,sans-serif}
+button.tgl.on{background:var(--gold);color:#14130f;border-color:var(--gold);font-weight:bold}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:14px;margin-bottom:28px}
+.kpi{background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:16px 18px}
+.kpi .k{color:var(--muted);font-size:12px;text-transform:uppercase;letter-spacing:1px;font-family:Verdana,Geneva,sans-serif}
+.kpi .v{font-size:26px;color:var(--gold2);margin-top:6px}
+.kpi .d{font-size:12px;margin-top:4px;font-family:Verdana,Geneva,sans-serif}
+.up{color:var(--green)} .dn{color:var(--red)}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:18px 18px 10px;margin-bottom:18px}
+.card.full{grid-column:1 / -1}
+.card h2{font-size:17px;font-weight:normal;color:var(--gold2);margin-bottom:2px}
+.card .note{color:var(--muted);font-size:12px;margin-bottom:10px;font-family:Verdana,Geneva,sans-serif}
+.chartbox{position:relative;height:340px}
+.chartbox.tall{height:400px}
+table{width:100%;border-collapse:collapse;font-size:12.5px;font-family:Verdana,Geneva,sans-serif}
+th,td{padding:7px 9px;text-align:right;border-bottom:1px solid var(--line);white-space:nowrap}
+th{color:var(--gold);font-weight:normal;cursor:pointer;user-select:none;position:sticky;top:0;background:var(--panel)}
+th:first-child,td:first-child{text-align:left}
+tr:hover td{background:var(--panel2)}
+.scroll{overflow:auto;max-height:420px;margin-bottom:10px}
+.src{color:var(--muted);font-size:11.5px;font-family:Verdana,Geneva,sans-serif;margin:8px 0}
+.archive{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:8px;font-family:Verdana,Geneva,sans-serif;font-size:12px;margin-bottom:8px}
+.archive a{display:block;background:var(--panel2);border:1px solid var(--line);border-radius:4px;padding:8px 10px;color:var(--text);text-decoration:none}
+.archive a:hover{border-color:var(--gold)}
+.archive .yr{color:var(--gold2)}
+.archive .tag{display:block;color:var(--muted);font-size:10.5px;margin-top:2px}
+.archive a.unv .tag{color:var(--red)}
+footer{color:var(--muted);font-size:12px;font-family:Verdana,Geneva,sans-serif;border-top:1px solid var(--line);padding-top:16px;margin-top:10px}
+footer p{margin-bottom:6px}
+html{scroll-behavior:smooth}
+.card{scroll-margin-top:64px}
+nav{position:sticky;top:0;z-index:50;background:rgba(20,19,15,.96);backdrop-filter:blur(4px);border-bottom:1px solid var(--line);margin:0 -20px 22px;padding:10px 20px;display:flex;flex-wrap:wrap;gap:6px;font-family:Verdana,Geneva,sans-serif;font-size:12px}
+nav a{color:var(--muted);text-decoration:none;padding:5px 11px;border-radius:20px;border:1px solid transparent}
+nav a:hover{color:var(--gold2);border-color:var(--line);background:var(--panel)}
+@media(max-width:900px){.grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+  <h1>The <span class="accent">J. Paul Getty Trust</span> — Financial Dashboard<span class="badge">Form 990-PF</span></h1>
+  <div class="sub">EIN 95-1790021 · Los Angeles, CA · Private operating foundation · Fiscal years ending June 30, 2010 – 2024 · All figures from as-filed IRS returns</div>
+</header>
+
+<nav>
+  <a href="#top">Overview</a><a href="#sec-net">Net Worth</a><a href="#sec-rev">Revenue</a><a href="#sec-exp">Expenses</a><a href="#sec-dist">Distributions</a><a href="#sec-people">People</a><a href="#sec-inv">Investments</a><a href="#sec-table">Data Table</a><a href="#sec-off">Leadership</a><a href="#sec-arch">Archive</a>
+</nav>
+
+<div class="controls" id="top">
+  <label>From</label><select id="yrFrom"></select>
+  <label>To</label><select id="yrTo"></select>
+  <button class="tgl on" id="btnNom">Nominal $</button>
+  <button class="tgl" id="btnReal">2024 dollars (CPI-U)</button>
+  <button class="dl" id="btnCsv">⬇ Download CSV</button>
+</div>
+
+<div class="kpis" id="kpis"></div>
+
+<div class="grid">
+  <div class="card full" id="sec-net">
+    <h2>Endowment &amp; Net Worth</h2>
+    <div class="note">Fair-market value of all assets (Form 990-PF item I) vs. book-value net assets and total liabilities, end of fiscal year.</div>
+    <div class="chartbox tall"><canvas id="chNet"></canvas></div>
+  </div>
+  <div class="card" id="sec-rev">
+    <h2>Revenue Composition</h2>
+    <div class="note">Part I, column (a). Realized investment gains dominate and swing with markets — negative bars are net realized losses.</div>
+    <div class="chartbox"><canvas id="chRev"></canvas></div>
+  </div>
+  <div class="card" id="sec-exp">
+    <h2>Operating Expense Composition</h2>
+    <div class="note">Part I, column (a), lines 13–25. "Grants paid" is line 25; the Getty is an operating foundation, so most spending is direct program operations.</div>
+    <div class="chartbox"><canvas id="chExp"></canvas></div>
+  </div>
+  <div class="card" id="sec-dist">
+    <h2>Mission Spending &amp; Distributions</h2>
+    <div class="note">Charitable-purpose disbursements (Part I col. d), qualifying distributions (Part XII), and minimum investment return (Part X).</div>
+    <div class="chartbox"><canvas id="chDist"></canvas></div>
+  </div>
+  <div class="card" id="sec-people">
+    <h2>People Costs</h2>
+    <div class="note">Salaries &amp; wages, pension/benefits, and officer/trustee compensation (Part I lines 13–15). FY2019 detail unavailable (paper filing).</div>
+    <div class="chartbox"><canvas id="chPeople"></canvas></div>
+  </div>
+  <div class="card full" id="sec-inv">
+    <h2>Investment Performance Proxies</h2>
+    <div class="note">Net realized gains on asset sales, net investment income, and year-over-year change in FMV of assets.</div>
+    <div class="chartbox"><canvas id="chInv"></canvas></div>
+  </div>
+  <div class="card full" id="sec-table">
+    <h2>All Tracked Metrics — FY2010–FY2024</h2>
+    <div class="note">Click a column header to sort. Values as filed (nominal $). Scroll horizontally for all fields.</div>
+    <div class="scroll"><table id="bigTable"></table></div>
+  </div>
+  <div class="card full" id="sec-off">
+    <h2>Officer &amp; Trustee Compensation — FY2024</h2>
+    <div class="note">Part VIII, as filed for the year ending June 30, 2024. Compensation excludes benefits/expense allowances unless noted.</div>
+    <div class="scroll" style="max-height:320px"><table id="offTable"></table></div>
+  </div>
+  <div class="card full" id="sec-arch">
+    <h2>Filing Archive — 1200 Getty Center Drive</h2>
+    <div class="note">Original filings at ProPublica Nonprofit Explorer. Years 2001–2006 are scanned paper filings: figures are not machine-verifiable and are deliberately excluded from the charts above. FY2007–2009 (clean e-file text) are pending verified extraction.</div>
+    <div class="archive" id="archive"></div>
+  </div>
+</div>
+
+<footer id="foot">
+  <p><b>Sources.</b> IRS e-file XML via GivingTuesday 990 Data Lake (990-infrastructure.gtdata.org / gt990datalake-rawdata S3) for FY2010–FY2018 and FY2020–FY2024; IRS-extracted structured data via ProPublica Nonprofit Explorer API for FY2019 (paper-filed, no XML exists). Cross-checked: every overlapping value agrees between the two sources, and each year's beginning-of-year balance ties to the prior year's end-of-year balance.</p>
+  <p><b>Notes.</b> Fiscal years end June 30 (FY2024 = July 2023–June 2024). "2024 dollars" uses annual-average CPI-U for the calendar year of each fiscal year end. FY2019 gaps: expense line-item detail and qualifying distributions are not in the extracted dataset. Total revenue in FY2009-era markets and FY2020/FY2023 reflects realized-gain timing, not operating health. Prepared <span id="genDate"></span>; not financial advice.</p>
+</footer>
+</div>
+
+<script>
+const RAW = __DATA__;
+const CPI = {2010:218.056,2011:224.939,2012:229.594,2013:232.957,2014:236.736,2015:237.017,2016:240.007,2017:245.120,2018:251.107,2019:255.657,2020:258.811,2021:270.970,2022:292.655,2023:304.702,2024:313.689};
+const CPI24 = CPI[2024];
+let mode = 'nom';           // 'nom' | 'real'
+let from = 2010, to = 2024;
+const Y = RAW.years;        // sorted ascending by fy
+const fmtB = v => v==null?'—':(Math.abs(v)>=1e9? (v/1e9).toFixed(2)+' B' : (v/1e6).toFixed(1)+' M');
+const fmt$ = v => v==null?'—':'$'+fmtB(v);
+const fmtFull = v => v==null?'—':v.toLocaleString('en-US');
+const adj = (v,fy) => v==null?null:(mode==='real'? Math.round(v*CPI24/CPI[fy]) : v);
+const sel = () => Y.filter(d=>d.fy>=from && d.fy<=to);
+const COL = {gold:'#c9a45c',gold2:'#e6c987',green:'#7fa66a',red:'#c96a5c',blue:'#7d9bb5',violet:'#a08cb5',teal:'#6aa6a0',grey:'#8d8877',sand:'#b5a488',rust:'#b5836a'};
+Chart.defaults.color = '#a49c8a';
+Chart.defaults.borderColor = '#3a362c';
+Chart.defaults.font.family = 'Verdana,Geneva,sans-serif';
+Chart.defaults.font.size = 11;
+const money = {ticks:{callback:v=>'$'+fmtB(v)}};
+const ttMoney = {callbacks:{label:c=>` ${c.dataset.label}: $${fmtFull(c.parsed.y)}`}};
+
+function makeKpis(){
+  const last = Y[Y.length-1], prev = Y[Y.length-2];
+  const items = [
+    ['FMV of assets','fmv_assets'],['Total revenue','total_revenue'],['Total expenses','total_expenses'],
+    ['Qualifying distributions','qualifying_distributions'],['Grants paid','grants_paid'],['Salaries & wages','other_salaries']
+  ];
+  document.getElementById('kpis').innerHTML = items.map(([k,f])=>{
+    const v=last[f], p=prev[f];
+    const pct = (v!=null&&p)? ((v-p)/Math.abs(p)*100) : null;
+    const cls = pct==null?'':(pct>=0?'up':'dn');
+    const arrow = pct==null?'':(pct>=0?'▲':'▼');
+    return `<div class="kpi"><div class="k">${k} · FY${last.fy}</div><div class="v">${fmt$(v)}</div>
+      <div class="d ${cls}">${pct==null?'':arrow+' '+Math.abs(pct).toFixed(1)+'% vs FY'+prev.fy}</div></div>`;
+  }).join('');
+}
+
+let charts = {};
+function line(ds,label,data,color,extra={}){return Object.assign({label,data,borderColor:color,backgroundColor:color+'33',pointRadius:2.5,pointBackgroundColor:color,tension:.25,spanGaps:true},extra)}
+function bar(label,data,color,stack){return {label,data,backgroundColor:color+'cc',borderColor:color,borderWidth:1,stack}}
+
+function build(){
+  const S = sel(), labels = S.map(d=>'FY'+d.fy);
+  const g = f => S.map(d=>adj(d[f],d.fy));
+  const sum = (...fs) => S.map(d=>{let t=null;fs.forEach(f=>{if(d[f]!=null)t=(t||0)+d[f]});return t==null?null:adj(t,S[0]&&0?0:0)||adj(t, d.fy)});
+  // note: sum() adjusted per-year below instead
+  const gsum = (...fs) => S.map(d=>{let t=null;fs.forEach(f=>{if(d[f]!=null)t=(t||0)+d[f]});return t==null?null:adj(t,d.fy)});
+  Object.values(charts).forEach(c=>c.destroy());
+
+  charts.net = new Chart(chNet,{type:'line',data:{labels,datasets:[
+    line(0,'FMV of all assets',g('fmv_assets'),COL.gold,{borderWidth:2.5,fill:true}),
+    line(0,'Net assets (book)',g('net_assets_eoy'),COL.blue),
+    line(0,'Total liabilities',g('total_liabilities_eoy'),COL.red),
+    line(0,'Mortgages & notes payable',g('mortgages_payable'),COL.rust,{borderDash:[5,4],pointRadius:0})
+  ]},options:{responsive:true,maintainAspectRatio:false,scales:{y:money},plugins:{tooltip:ttMoney}}});
+
+  charts.rev = new Chart(chRev,{type:'bar',data:{labels,datasets:[
+    bar('Net realized gains on sales',g('net_gain_assets'),COL.gold,'r'),
+    bar('Interest, dividends & rents',gsum('interest','dividends','gross_rents'),COL.blue,'r'),
+    bar('Program revenue (net of COGS)',g('gross_profit'),COL.teal,'r'),
+    bar('Contributions & gifts received',g('contributions'),COL.green,'r'),
+    bar('Other income',g('other_income'),COL.grey,'r'),
+    line(0,'Total revenue',g('total_revenue'),COL.gold2,{type:'line',borderWidth:2})
+  ]},options:{responsive:true,maintainAspectRatio:false,scales:{x:{stacked:true},y:Object.assign({stacked:true},money)},plugins:{tooltip:ttMoney}}});
+
+  charts.exp = new Chart(chExp,{type:'bar',data:{labels,datasets:[
+    bar('Salaries & wages',g('other_salaries'),COL.blue,'e'),
+    bar('Pension & benefits',g('pension_benefits'),COL.teal,'e'),
+    bar('Officer/trustee comp',g('comp_officers'),COL.gold,'e'),
+    bar('Professional fees',gsum('legal_fees','accounting_fees','other_prof_fees'),COL.violet,'e'),
+    bar('Interest',g('interest_exp'),COL.rust,'e'),
+    bar('Depreciation',g('depreciation'),COL.grey,'e'),
+    bar('Occupancy, travel, printing',gsum('occupancy','travel_conf','printing_publications'),COL.sand,'e'),
+    bar('Other expenses',g('other_expenses'),COL.red,'e'),
+    bar('Grants paid',g('grants_paid'),COL.green,'e'),
+    line(0,'Total expenses & disbursements',g('total_expenses'),COL.gold2,{type:'line',borderWidth:2})
+  ]},options:{responsive:true,maintainAspectRatio:false,scales:{x:{stacked:true},y:Object.assign({stacked:true},money)},plugins:{tooltip:ttMoney}}});
+
+  charts.dist = new Chart(chDist,{type:'line',data:{labels,datasets:[
+    line(0,'Qualifying distributions (Pt XII)',g('qualifying_distributions'),COL.gold,{borderWidth:2.5}),
+    line(0,'Charitable disbursements (col d)',g('total_disburse_charitable'),COL.green),
+    line(0,'Minimum investment return',g('min_investment_return'),COL.violet,{borderDash:[5,4],pointRadius:0})
+  ]},options:{responsive:true,maintainAspectRatio:false,scales:{y:money},plugins:{tooltip:ttMoney}}});
+
+  charts.people = new Chart(chPeople,{type:'line',data:{labels,datasets:[
+    line(0,'Salaries & wages',g('other_salaries'),COL.blue,{borderWidth:2.5}),
+    line(0,'Pension & benefits',g('pension_benefits'),COL.teal),
+    line(0,'Officer/trustee compensation',g('comp_officers'),COL.gold)
+  ]},options:{responsive:true,maintainAspectRatio:false,scales:{y:money},plugins:{tooltip:ttMoney}}});
+
+  const fmvDelta = S.map((d,i)=>{ if(i===0) return null; const a=S[i-1].fmv_assets,b=d.fmv_assets; return (a==null||b==null)?null:adj(b-a,d.fy); });
+  charts.inv = new Chart(chInv,{type:'bar',data:{labels,datasets:[
+    bar('YoY change in FMV of assets',fmvDelta,COL.gold,'i1'),
+    line(0,'Net realized gains',g('net_gain_assets'),COL.blue,{type:'line'}),
+    line(0,'Net investment income',g('net_investment_income'),COL.green,{type:'line'})
+  ]},options:{responsive:true,maintainAspectRatio:false,scales:{y:money},plugins:{tooltip:ttMoney}}});
+}
+
+const FIELDS = [
+ ['fy','Fiscal yr'],['total_revenue','Revenue'],['total_expenses','Expenses'],['excess_revenue','Surplus'],
+ ['contributions','Gifts rcvd'],['dividends','Dividends'],['net_gain_assets','Realized gains'],['other_income','Other inc'],
+ ['comp_officers','Officer comp'],['other_salaries','Salaries'],['pension_benefits','Benefits'],
+ ['total_operating','Operating exp'],['grants_paid','Grants paid'],['total_disburse_charitable','Charitable disb'],
+ ['net_investment_income','Net inv income'],['qualifying_distributions','Qualifying dist'],['min_investment_return','Min inv return'],
+ ['total_assets_eoy','Assets (book)'],['total_liabilities_eoy','Liabilities'],['net_assets_eoy','Net assets'],['fmv_assets','Assets (FMV)']
+];
+let sortF = 'fy', sortDir = 1;
+function table(){
+  const S = [...Y].sort((a,b)=>((a[sortF]??-Infinity)-(b[sortF]??-Infinity))*sortDir);
+  let h = '<tr>'+FIELDS.map(([f,l])=>`<th data-f="${f}">${l}${sortF===f?(sortDir>0?' ▲':' ▼'):''}</th>`).join('')+'</tr>';
+  h += S.map(d=>'<tr>'+FIELDS.map(([f])=>`<td>${f==='fy'?('FY'+d.fy+(d.source==='pp'?'†':'')):fmtFull(d[f])}</td>`).join('')+'</tr>').join('');
+  bigTable.innerHTML = h;
+  bigTable.querySelectorAll('th').forEach(th=>th.onclick=()=>{const f=th.dataset.f; if(sortF===f)sortDir*=-1; else {sortF=f;sortDir=1;} table();});
+}
+function officers(){
+  const o = RAW.officers2024.filter(x=>x.comp!=null).sort((a,b)=>b.comp-a.comp);
+  offTable.innerHTML = '<tr><th>Name</th><th>Title</th><th>Compensation</th><th>Benefits</th></tr>'+
+    o.map(x=>`<tr><td>${x.name||''}</td><td style="text-align:left">${(x.title||'').replace(/\s+/g,' ')}</td><td>$${fmtFull(x.comp)}</td><td>${x.benefits!=null?'$'+fmtFull(x.benefits):'—'}</td></tr>`).join('');
+}
+function archive(){
+  document.getElementById('archive').innerHTML = RAW.archive.map(a=>
+    `<a href="${a.url}" target="_blank" class="${a.cls||''}"><span class="yr">FY${a.fy}</span><span class="tag">${a.tag}</span></a>`).join('');
+}
+function csv(){
+  const rows = [FIELDS.map(([,l])=>l).join(',')].concat(Y.map(d=>FIELDS.map(([f])=>d[f]??'').join(',')));
+  const blob = new Blob([rows.join('\n')],{type:'text/csv'});
+  const u = URL.createObjectURL(blob); const a=document.createElement('a');
+  a.href=u; a.download='getty_trust_990pf_fy2010_2024.csv'; a.click(); URL.revokeObjectURL(u);
+}
+
+// controls
+const yrs = Y.map(d=>d.fy);
+yrFrom.innerHTML = yrs.map(y=>`<option ${y===2010?'selected':''}>${y}</option>`).join('');
+yrTo.innerHTML = yrs.map(y=>`<option ${y===2024?'selected':''}>${y}</option>`).join('');
+yrFrom.onchange = e=>{from=+e.target.value; if(from>to){to=from;yrTo.value=to;} build();};
+yrTo.onchange = e=>{to=+e.target.value; if(to<from){from=to;yrFrom.value=from;} build();};
+btnNom.onclick = ()=>{mode='nom';btnNom.classList.add('on');btnReal.classList.remove('on');build();};
+btnReal.onclick = ()=>{mode='real';btnReal.classList.add('on');btnNom.classList.remove('on');build();};
+btnCsv.onclick = csv;
+document.getElementById('genDate').textContent = 'July 2026';
+
+makeKpis(); build(); table(); officers(); archive();
+</script>
+</body>
+</html>
