@@ -9,12 +9,18 @@ xml = json.load(open('parsed_xml.json'))
 # user directly from the source PDF (ProPublica display_990 viewer, confirmed period 07/01/2018-
 # 06/30/2019) since no XML or clean text layer exists for this filing; user confirmed the read-back
 # values before they were entered here.
+# FY2019 expense line items (legal/accounting/other prof fees, interest, taxes, depreciation, occupancy,
+# travel, printing, other expenses) and salaries/pension/QD were transcribed by the user directly from
+# the source PDF (ProPublica display_990 viewer, period 07/01/2018-06/30/2019; no XML or clean text
+# layer exists for this paper filing) and confirmed. The ten expense line items plus comp_officers,
+# other_salaries and pension_benefits sum to exactly 307,822,113 -- matching the filing's own printed
+# line-24 total AND the independently-sourced ProPublica total_operating figure to the dollar.
 fy2019 = {
  'contributions':8706512,'interest':0,'dividends':23651135,'gross_rents':349120,
  'net_gain_assets':275215048,'gross_profit':11367185,'other_income':72844697,
  'total_revenue':392133697,'comp_officers':7476079,'other_salaries':100116806,'pension_benefits':43373398,
- 'legal_fees':None,'accounting_fees':None,'other_prof_fees':None,'interest_exp':None,'taxes':None,
- 'depreciation':None,'occupancy':None,'travel_conf':None,'printing_publications':None,'other_expenses':None,
+ 'legal_fees':3110798,'accounting_fees':812672,'other_prof_fees':1412464,'interest_exp':21248968,'taxes':144222,
+ 'depreciation':47577242,'occupancy':15526674,'travel_conf':7231962,'printing_publications':1318436,'other_expenses':58472392,
  'total_operating':307822113,'grants_paid':15903064,'total_expenses':323725177,
  'excess_revenue':68408520,'net_investment_income':460637430,'adjusted_net_income':0,
  'total_disburse_charitable':238726771,'operating_disburse_charitable':None,
@@ -132,10 +138,11 @@ _checks = [
  (2007, dict(rev=[2412188,10599524,53997881,180234,362683457,10537329,27484262], exp13_23=[3618645,82022458,45961519,8381177,631370,8822990,24936570,939815,47780443,11340711,4699905,4278649,63078587])),
  (2008, dict(rev=[4475309,11542703,48956353,234450,338330805,9004317,31497787], exp13_23=[3979144,86161000,60146457,4818837,584930,11312274,44568556,801439,48230402,11863596,4427785,3867029,69644395])),
  (2009, dict(rev=[5006626,1920370,29851084,386737,-249044122,7939274,28326076], exp13_23=[3501872,86219142,34197842,1828727,313249,7289497,24347611,631079,47888624,12007770,5112564,2692109,55434080])),
+ (2019, dict(rev=None, exp13_23=[7476079,100116806,43373398,3110798,812672,1412464,21248968,144222,47577242,15526674,7231962,1318436,58472392])),
 ]
 for fy, c in _checks:
     d = by[fy]
-    if sum(c['rev']) != d['total_revenue']: errors.append(f"FY{fy} hand-sum revenue {sum(c['rev'])} != {d['total_revenue']}")
+    if c['rev'] is not None and sum(c['rev']) != d['total_revenue']: errors.append(f"FY{fy} hand-sum revenue {sum(c['rev'])} != {d['total_revenue']}")
     if sum(c['exp13_23']) != d['total_operating']: errors.append(f"FY{fy} hand-sum operating {sum(c['exp13_23'])} != {d['total_operating']}")
 
 print('ERRORS:', len(errors)); [print('  !!', e) for e in errors]

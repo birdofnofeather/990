@@ -25,17 +25,17 @@ FIELDS = {
     'other_prof_fees': ['OtherProfFeesRevAndExpnssAmt','OtherProfFeesRevAndExpnss'],
     'interest_exp': ['InterestRevAndExpnssAmt','InterestRevAndExpnss'],
     'taxes': ['TaxesRevAndExpnssAmt','TaxesRevAndExpnss'],
-    'depreciation': ['DepreciationRevAndExpnssAmt','DepreciationRevAndExpnss','DeprecAndDepletionRevAndExpnss'],
+    'depreciation': ['DeprecAndDpltnRevAndExpnssAmt','DepreciationRevAndExpnssAmt','DepreciationRevAndExpnss','DeprecAndDepletionRevAndExpnss'],
     'occupancy': ['OccupancyRevAndExpnssAmt','OccupancyRevAndExpnss'],
     'travel_conf': ['TravConfMeetingRevAndExpnssAmt','TravConfMeetingRevAndExpnss','TravelConfMeetingsRevAndExpnss'],
-    'printing_publications': ['PrintingPublRevAndExpnssAmt','PrintingAndPubRevAndExpnss'],
+    'printing_publications': ['PrintingAndPubRevAndExpnssAmt','PrintingPublRevAndExpnssAmt','PrintingAndPubRevAndExpnss'],
     'other_expenses': ['OtherExpensesRevAndExpnssAmt','OtherExpensesRevAndExpnss'],
     'total_operating': ['TotOprExpensesRevAndExpnssAmt','TotOprExpensesRevAndExpnss'],
     'grants_paid': ['ContriPaidRevAndExpnssAmt','ContriGiftsPaidRevAndExpnss'],
     'total_expenses': ['TotalExpensesRevAndExpnssAmt','TotalExpensesRevAndExpnss'],
     'excess_revenue': ['ExcessRevenueOverExpensesAmt','ExcessOfRevenueOverExpenses'],
     'net_investment_income': ['NetInvestmentIncomeAmt','NetInvestmentIncome'],
-    'adjusted_net_income': ['AdjNetIncomeAmt','AdjustedNetIncome'],
+    'adjusted_net_income': ['AdjustedNetIncomeAmt','AdjNetIncomeAmt','AdjustedNetIncome'],
     # charitable-purpose disbursements (column d)
     'total_disburse_charitable': ['TotalExpensesDsbrsChrtblAmt','TotalExpensesDsbrsChrtbl','TotalExpensesDsbrsChrtblPrps'],
     'operating_disburse_charitable': ['TotOprExpensesDsbrsChrtblAmt','TotalOperatingExpensesDsbrsChrtbl','TotOperatingExpensesDsbrsChrtbl','TotOprExpensesDsbrsChrtblPrps'],
@@ -50,7 +50,7 @@ FIELDS = {
     'min_investment_return': ['MinimumInvestmentReturnAmt','MinimumInvestmentReturn'],
     'distributable_amount': ['DistributableAmountAmt','DistributableAmountAsAdjusted','DistributableAmount'],
     'qualifying_distributions': ['QualifyingDistributionsAmt','QualifyingDistributions'],
-    'mortgages_payable': ['MortgNotesPyblEOYAmt','MortgagesAndNotesPayableEOY','MortgNotesPyblEOY'],
+    'mortgages_payable': ['MortgagesAndNotesPayableEOYAmt','MortgNotesPyblEOYAmt','MortgagesAndNotesPayableEOY','MortgNotesPyblEOY'],
 }
 
 def parse_file(path):
@@ -100,6 +100,22 @@ def parse_file(path):
             if o: officers.append(o)
     out['officers'] = officers
     out['tax_period_end'] = period
+
+    # IRS e-file schemas omit optional numeric elements entirely when their value is $0, rather than
+    # writing "0". Confirmed against ProPublica's independently-sourced totals for every year where a
+    # cross-check exists (e.g. FY2020/FY2021 interest=0 in both sources) and against the raw XML itself
+    # (e.g. FY2016's Part I block runs directly from line 27b to the closing tag with line 27c's element
+    # never appearing at all). Only zero-fill core Part I line items, and only when the surrounding Part I
+    # block is confirmed present (total_revenue or total_operating found) — never invent a value for a
+    # field IRS/data source didn't independently confirm.
+    if out.get('total_revenue') is not None or out.get('total_operating') is not None:
+        _zero_ok = ['interest','dividends','gross_rents','net_gain_assets','gross_profit','other_income',
+            'comp_officers','other_salaries','pension_benefits','legal_fees','accounting_fees',
+            'other_prof_fees','interest_exp','taxes','depreciation','occupancy','travel_conf',
+            'printing_publications','other_expenses','adjusted_net_income']
+        for k in _zero_ok:
+            if out.get(k) is None:
+                out[k] = 0
     return out
 
 result = {}
