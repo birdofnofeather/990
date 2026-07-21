@@ -19,7 +19,7 @@ FIELDS = {
     # Part I expenses (column a = per books)
     'comp_officers': ['CompOfcrDirTrstRevAndExpnssAmt','CompOfcrDirTrstRevAndExpnss'],
     'other_salaries': ['OthEmplSlrsWgsRevAndExpnssAmt','OthEmplSlrsWgsRevAndExpnss'],
-    'pension_benefits': ['PensionEmplBnftRevAndExpnssAmt','PensionEmplBenefitsRevAndExpnss'],
+    'pension_benefits': ['PensionEmplBnftRevAndExpnssAmt','PensionEmplBnftRevAndExpnss','PensionEmplBenefitsRevAndExpnss'],
     'legal_fees': ['LegalFeesRevAndExpnssAmt','LegalFeesRevAndExpnss'],
     'accounting_fees': ['AccountingFeesRevAndExpnssAmt','AccountingFeesRevAndExpnss'],
     'other_prof_fees': ['OtherProfFeesRevAndExpnssAmt','OtherProfFeesRevAndExpnss'],
@@ -27,7 +27,7 @@ FIELDS = {
     'taxes': ['TaxesRevAndExpnssAmt','TaxesRevAndExpnss'],
     'depreciation': ['DepreciationRevAndExpnssAmt','DepreciationRevAndExpnss','DeprecAndDepletionRevAndExpnss'],
     'occupancy': ['OccupancyRevAndExpnssAmt','OccupancyRevAndExpnss'],
-    'travel_conf': ['TravConfMeetingRevAndExpnssAmt','TravelConfMeetingsRevAndExpnss'],
+    'travel_conf': ['TravConfMeetingRevAndExpnssAmt','TravConfMeetingRevAndExpnss','TravelConfMeetingsRevAndExpnss'],
     'printing_publications': ['PrintingPublRevAndExpnssAmt','PrintingAndPubRevAndExpnss'],
     'other_expenses': ['OtherExpensesRevAndExpnssAmt','OtherExpensesRevAndExpnss'],
     'total_operating': ['TotOprExpensesRevAndExpnssAmt','TotOprExpensesRevAndExpnss'],
@@ -37,8 +37,8 @@ FIELDS = {
     'net_investment_income': ['NetInvestmentIncomeAmt','NetInvestmentIncome'],
     'adjusted_net_income': ['AdjNetIncomeAmt','AdjustedNetIncome'],
     # charitable-purpose disbursements (column d)
-    'total_disburse_charitable': ['TotalExpensesDsbrsChrtblAmt','TotalExpensesDsbrsChrtbl'],
-    'operating_disburse_charitable': ['TotOprExpensesDsbrsChrtblAmt','TotalOperatingExpensesDsbrsChrtbl','TotOperatingExpensesDsbrsChrtbl'],
+    'total_disburse_charitable': ['TotalExpensesDsbrsChrtblAmt','TotalExpensesDsbrsChrtbl','TotalExpensesDsbrsChrtblPrps'],
+    'operating_disburse_charitable': ['TotOprExpensesDsbrsChrtblAmt','TotalOperatingExpensesDsbrsChrtbl','TotOperatingExpensesDsbrsChrtbl','TotOprExpensesDsbrsChrtblPrps'],
     # header / page 1
     'fmv_assets': ['FMVAssetsEOYAmt','FMVAssetsEOY'],
     # balance sheet EOY

@@ -63,7 +63,7 @@ nav a:hover{color:var(--gold2);border-color:var(--line);background:var(--panel)}
 <div class="wrap">
 <header>
   <h1>The <span class="accent">J. Paul Getty Trust</span> — Financial Dashboard<span class="badge">Form 990-PF</span></h1>
-  <div class="sub">EIN 95-1790021 · Los Angeles, CA · Private operating foundation · Fiscal years ending June 30, 2010 – 2024 · All figures from as-filed IRS returns</div>
+  <div class="sub">EIN 95-1790021 · Los Angeles, CA · Private operating foundation · Fiscal years ending June 30, 2007 – 2024 · All figures from as-filed IRS returns</div>
 </header>
 
 <nav>
@@ -98,12 +98,12 @@ nav a:hover{color:var(--gold2);border-color:var(--line);background:var(--panel)}
   </div>
   <div class="card" id="sec-dist">
     <h2>Mission Spending &amp; Distributions</h2>
-    <div class="note">Charitable-purpose disbursements (Part I col. d), qualifying distributions (Part XII), and minimum investment return (Part X).</div>
+    <div class="note">Charitable-purpose disbursements (Part I col. d), qualifying distributions (Part XII), and minimum investment return (Part X). Qualifying-distributions line breaks at FY2019 — not reported in any available source for that filing.</div>
     <div class="chartbox"><canvas id="chDist"></canvas></div>
   </div>
   <div class="card" id="sec-people">
     <h2>People Costs</h2>
-    <div class="note">Salaries &amp; wages, pension/benefits, and officer/trustee compensation (Part I lines 13–15). FY2019 detail unavailable (paper filing).</div>
+    <div class="note">Salaries &amp; wages, pension/benefits, and officer/trustee compensation (Part I lines 13–15). Salaries &amp; pension lines break at FY2019 — that filing was paper-only with no machine-readable detail available from any source; officer comp is unaffected.</div>
     <div class="chartbox"><canvas id="chPeople"></canvas></div>
   </div>
   <div class="card full" id="sec-inv">
@@ -112,7 +112,7 @@ nav a:hover{color:var(--gold2);border-color:var(--line);background:var(--panel)}
     <div class="chartbox"><canvas id="chInv"></canvas></div>
   </div>
   <div class="card full" id="sec-table">
-    <h2>All Tracked Metrics — FY2010–FY2024</h2>
+    <h2>All Tracked Metrics — FY2007–FY2024</h2>
     <div class="note">Click a column header to sort. Values as filed (nominal $). Scroll horizontally for all fields.</div>
     <div class="scroll"><table id="bigTable"></table></div>
   </div>
@@ -123,23 +123,23 @@ nav a:hover{color:var(--gold2);border-color:var(--line);background:var(--panel)}
   </div>
   <div class="card full" id="sec-arch">
     <h2>Filing Archive — 1200 Getty Center Drive</h2>
-    <div class="note">Original filings at ProPublica Nonprofit Explorer. Years 2001–2006 are scanned paper filings: figures are not machine-verifiable and are deliberately excluded from the charts above. FY2007–2009 (clean e-file text) are pending verified extraction.</div>
+    <div class="note">Original filings at ProPublica Nonprofit Explorer. Years 2001–2006 are scanned paper filings: figures are not machine-verifiable and are deliberately excluded from the charts above.</div>
     <div class="archive" id="archive"></div>
   </div>
 </div>
 
 <footer id="foot">
-  <p><b>Sources.</b> IRS e-file XML via GivingTuesday 990 Data Lake (990-infrastructure.gtdata.org / gt990datalake-rawdata S3) for FY2010–FY2018 and FY2020–FY2024; IRS-extracted structured data via ProPublica Nonprofit Explorer API for FY2019 (paper-filed, no XML exists). Cross-checked: every overlapping value agrees between the two sources, and each year's beginning-of-year balance ties to the prior year's end-of-year balance.</p>
-  <p><b>Notes.</b> Fiscal years end June 30 (FY2024 = July 2023–June 2024). "2024 dollars" uses annual-average CPI-U for the calendar year of each fiscal year end. FY2019 gaps: expense line-item detail and qualifying distributions are not in the extracted dataset. Total revenue in FY2009-era markets and FY2020/FY2023 reflects realized-gain timing, not operating health. Prepared <span id="genDate"></span>; not financial advice.</p>
+  <p><b>Sources.</b> IRS e-file XML via GivingTuesday 990 Data Lake (990-infrastructure.gtdata.org / gt990datalake-rawdata S3) for FY2010–FY2018 and FY2020–FY2024; hand-verified extraction from IRS e-file text-layer PDFs (990s.foundationcenter.org archive, confirmed "As Filed Data" e-file marker, not scanned) for FY2007–FY2009; IRS-extracted structured data via ProPublica Nonprofit Explorer API for FY2019 (paper-filed, no XML or clean-text PDF exists anywhere). Every value is cross-checked: column sums match printed subtotals exactly, each year's beginning-of-year balance ties to the prior year's end-of-year balance across the full FY2007–FY2024 span, and overlapping totals agree across independent sources. FY2001–FY2006 are scanned filings and are never charted — no OCR appears anywhere in this dashboard.</p>
+  <p><b>Notes.</b> Fiscal years end June 30 (FY2024 = July 2023–June 2024). "2024 dollars" uses annual-average CPI-U for the calendar year of each fiscal year end. FY2019 gaps (shown as broken lines, not interpolated): salary/pension detail and qualifying distributions are not available from any source for that filing — officer compensation and all balance-sheet figures are unaffected. Total revenue swings (FY2009 crisis-year loss; FY2020/FY2023 dips) reflect realized-gain timing, not operating health. Prepared <span id="genDate"></span>; not financial advice.</p>
 </footer>
 </div>
 
 <script>
 const RAW = __DATA__;
-const CPI = {2010:218.056,2011:224.939,2012:229.594,2013:232.957,2014:236.736,2015:237.017,2016:240.007,2017:245.120,2018:251.107,2019:255.657,2020:258.811,2021:270.970,2022:292.655,2023:304.702,2024:313.689};
+const CPI = {2007:207.342,2008:215.303,2009:214.537,2010:218.056,2011:224.939,2012:229.594,2013:232.957,2014:236.736,2015:237.017,2016:240.007,2017:245.120,2018:251.107,2019:255.657,2020:258.811,2021:270.970,2022:292.655,2023:304.702,2024:313.689};
 const CPI24 = CPI[2024];
 let mode = 'nom';           // 'nom' | 'real'
-let from = 2010, to = 2024;
+let from = 2007, to = 2024;
 const Y = RAW.years;        // sorted ascending by fy
 const fmtB = v => v==null?'—':(Math.abs(v)>=1e9? (v/1e9).toFixed(2)+' B' : (v/1e6).toFixed(1)+' M');
 const fmt$ = v => v==null?'—':'$'+fmtB(v);
@@ -198,6 +198,15 @@ function build(){
     line(0,'Total revenue',g('total_revenue'),COL.gold2,{type:'line',borderWidth:2})
   ]},options:{responsive:true,maintainAspectRatio:false,scales:{x:{stacked:true},y:Object.assign({stacked:true},money)},plugins:{tooltip:ttMoney}}});
 
+  const expKnownParts = ['other_salaries','pension_benefits','comp_officers','legal_fees','accounting_fees',
+    'other_prof_fees','interest_exp','depreciation','occupancy','travel_conf','printing_publications','other_expenses'];
+  const expGap = S.map(d=>{
+    if (d.total_operating==null) return null;
+    const knownSum = expKnownParts.reduce((t,k)=>t+(d[k]||0),0);
+    const anyNull = expKnownParts.some(k=>d[k]==null);
+    const gap = d.total_operating - knownSum;
+    return (anyNull && gap>0) ? adj(gap, d.fy) : null;
+  });
   charts.exp = new Chart(chExp,{type:'bar',data:{labels,datasets:[
     bar('Salaries & wages',g('other_salaries'),COL.blue,'e'),
     bar('Pension & benefits',g('pension_benefits'),COL.teal,'e'),
@@ -207,19 +216,20 @@ function build(){
     bar('Depreciation',g('depreciation'),COL.grey,'e'),
     bar('Occupancy, travel, printing',gsum('occupancy','travel_conf','printing_publications'),COL.sand,'e'),
     bar('Other expenses',g('other_expenses'),COL.red,'e'),
+    Object.assign(bar('Detail not available (paper filing)',expGap,'#5a564a','e'),{borderDash:[3,2]}),
     bar('Grants paid',g('grants_paid'),COL.green,'e'),
     line(0,'Total expenses & disbursements',g('total_expenses'),COL.gold2,{type:'line',borderWidth:2})
   ]},options:{responsive:true,maintainAspectRatio:false,scales:{x:{stacked:true},y:Object.assign({stacked:true},money)},plugins:{tooltip:ttMoney}}});
 
   charts.dist = new Chart(chDist,{type:'line',data:{labels,datasets:[
-    line(0,'Qualifying distributions (Pt XII)',g('qualifying_distributions'),COL.gold,{borderWidth:2.5}),
+    Object.assign(line(0,'Qualifying distributions (Pt XII)',g('qualifying_distributions'),COL.gold,{borderWidth:2.5}),{spanGaps:false}),
     line(0,'Charitable disbursements (col d)',g('total_disburse_charitable'),COL.green),
     line(0,'Minimum investment return',g('min_investment_return'),COL.violet,{borderDash:[5,4],pointRadius:0})
   ]},options:{responsive:true,maintainAspectRatio:false,scales:{y:money},plugins:{tooltip:ttMoney}}});
 
   charts.people = new Chart(chPeople,{type:'line',data:{labels,datasets:[
-    line(0,'Salaries & wages',g('other_salaries'),COL.blue,{borderWidth:2.5}),
-    line(0,'Pension & benefits',g('pension_benefits'),COL.teal),
+    Object.assign(line(0,'Salaries & wages',g('other_salaries'),COL.blue,{borderWidth:2.5}),{spanGaps:false}),
+    Object.assign(line(0,'Pension & benefits',g('pension_benefits'),COL.teal),{spanGaps:false}),
     line(0,'Officer/trustee compensation',g('comp_officers'),COL.gold)
   ]},options:{responsive:true,maintainAspectRatio:false,scales:{y:money},plugins:{tooltip:ttMoney}}});
 
@@ -265,7 +275,7 @@ function csv(){
 
 // controls
 const yrs = Y.map(d=>d.fy);
-yrFrom.innerHTML = yrs.map(y=>`<option ${y===2010?'selected':''}>${y}</option>`).join('');
+yrFrom.innerHTML = yrs.map(y=>`<option ${y===2007?'selected':''}>${y}</option>`).join('');
 yrTo.innerHTML = yrs.map(y=>`<option ${y===2024?'selected':''}>${y}</option>`).join('');
 yrFrom.onchange = e=>{from=+e.target.value; if(from>to){to=from;yrTo.value=to;} build();};
 yrTo.onchange = e=>{to=+e.target.value; if(to<from){from=to;yrFrom.value=from;} build();};

@@ -20,6 +20,54 @@ fy2019 = {
  'mortgages_payable':581125000,'source':'pp','tax_period_end':'2019-06-30'
 }
 
+# FY2007-2009: hand-verified line-by-line from IRS e-file text-layer PDFs (990s.foundationcenter.org
+# archive; confirmed "As Filed Data" e-file marker on page 1, NOT scanned/OCR). Every value below was
+# read directly from `pdftotext -layout` output and cross-checked: column sums equal the printed
+# subtotals exactly (revenue lines 1-11 = line 12; expense lines 13-23 = line 24; 24+25=26), and the
+# balance-sheet chain is unbroken through FY2009 EOY -> FY2010 XML BOY (7,892,039,339, exact match).
+fy2007 = {
+ 'contributions':2412188,'interest':10599524,'dividends':53997881,'gross_rents':180234,
+ 'net_gain_assets':362683457,'gross_profit':10537329,'other_income':27484262,'total_revenue':467894875,
+ 'comp_officers':3618645,'other_salaries':82022458,'pension_benefits':45961519,
+ 'legal_fees':8381177,'accounting_fees':631370,'other_prof_fees':8822990,'interest_exp':24936570,
+ 'taxes':939815,'depreciation':47780443,'occupancy':11340711,'travel_conf':4699905,
+ 'printing_publications':4278649,'other_expenses':63078587,'total_operating':306492839,
+ 'grants_paid':12473734,'total_expenses':318966573,'excess_revenue':148928302,
+ 'net_investment_income':500538750,'adjusted_net_income':142594798,
+ 'total_disburse_charitable':210277025,'operating_disburse_charitable':192496860,
+ 'fmv_assets':11187006719,'total_assets_eoy':10009311136,'total_assets_boy':9022859457,
+ 'total_liabilities_eoy':1130101900,'net_assets_eoy':8879209236,
+ 'min_investment_return':289333461,'distributable_amount':None,'qualifying_distributions':282006488,
+ 'mortgages_payable':612638169,'source':'pdf-text','tax_period_end':'2007-06-30'}
+fy2008 = {
+ 'contributions':4475309,'interest':11542703,'dividends':48956353,'gross_rents':234450,
+ 'net_gain_assets':338330805,'gross_profit':9004317,'other_income':31497787,'total_revenue':444041724,
+ 'comp_officers':3979144,'other_salaries':86161000,'pension_benefits':60146457,
+ 'legal_fees':4818837,'accounting_fees':584930,'other_prof_fees':11312274,'interest_exp':44568556,
+ 'taxes':801439,'depreciation':48230402,'occupancy':11863596,'travel_conf':4427785,
+ 'printing_publications':3867029,'other_expenses':69644395,'total_operating':350405844,
+ 'grants_paid':17146106,'total_expenses':367551950,'excess_revenue':76489774,
+ 'net_investment_income':523269094,'adjusted_net_income':94767793,
+ 'total_disburse_charitable':255252009,'operating_disburse_charitable':236492736,
+ 'fmv_assets':10837340620,'total_assets_eoy':9525252079,'total_assets_boy':10009311136,
+ 'total_liabilities_eoy':1098742386,'net_assets_eoy':8426509693,
+ 'min_investment_return':307526206,'distributable_amount':None,'qualifying_distributions':354181826,
+ 'mortgages_payable':630555000,'source':'pdf-text','tax_period_end':'2008-06-30'}
+fy2009 = {
+ 'contributions':5006626,'interest':1920370,'dividends':29851084,'gross_rents':386737,
+ 'net_gain_assets':-249044122,'gross_profit':7939274,'other_income':28326076,'total_revenue':-175613955,
+ 'comp_officers':3501872,'other_salaries':86219142,'pension_benefits':34197842,
+ 'legal_fees':1828727,'accounting_fees':313249,'other_prof_fees':7289497,'interest_exp':24347611,
+ 'taxes':631079,'depreciation':47888624,'occupancy':12007770,'travel_conf':5112564,
+ 'printing_publications':2692109,'other_expenses':55434080,'total_operating':281464166,
+ 'grants_paid':13109320,'total_expenses':294573486,'excess_revenue':-470187441,
+ 'net_investment_income':42079555,'adjusted_net_income':13367085,
+ 'total_disburse_charitable':198572362,'operating_disburse_charitable':183798338,
+ 'fmv_assets':9339172138,'total_assets_eoy':7892039339,'total_assets_boy':9525252079,
+ 'total_liabilities_eoy':1050239178,'net_assets_eoy':6841800161,
+ 'min_investment_return':238891497,'distributable_amount':None,'qualifying_distributions':240737201,
+ 'mortgages_payable':626630000,'source':'pdf-text','tax_period_end':'2009-06-30'}
+
 years = []
 for fy, d in xml.items():
     d = dict(d); d['fy'] = int(fy); d['source'] = 'xml'
@@ -27,6 +75,9 @@ for fy, d in xml.items():
     years.append(d)
 fy2019['fy'] = 2019
 years.append(fy2019)
+for fy, d in [(2007,fy2007),(2008,fy2008),(2009,fy2009)]:
+    d = dict(d); d['fy'] = fy
+    years.append(d)
 years.sort(key=lambda d: d['fy'])
 
 # ---------------- VERIFICATION ----------------
@@ -72,6 +123,17 @@ for d in years:
         if abs(sum(comp) - d['total_revenue']) > 2:
             warns.append(f"FY{d['fy']} revenue components sum {sum(comp)} vs total {d['total_revenue']} (diff {sum(comp)-d['total_revenue']})")
 
+# 4) hand-verified sum checks for FY2007-2009 (belt-and-suspenders vs. the numbers above)
+_checks = [
+ (2007, dict(rev=[2412188,10599524,53997881,180234,362683457,10537329,27484262], exp13_23=[3618645,82022458,45961519,8381177,631370,8822990,24936570,939815,47780443,11340711,4699905,4278649,63078587])),
+ (2008, dict(rev=[4475309,11542703,48956353,234450,338330805,9004317,31497787], exp13_23=[3979144,86161000,60146457,4818837,584930,11312274,44568556,801439,48230402,11863596,4427785,3867029,69644395])),
+ (2009, dict(rev=[5006626,1920370,29851084,386737,-249044122,7939274,28326076], exp13_23=[3501872,86219142,34197842,1828727,313249,7289497,24347611,631079,47888624,12007770,5112564,2692109,55434080])),
+]
+for fy, c in _checks:
+    d = by[fy]
+    if sum(c['rev']) != d['total_revenue']: errors.append(f"FY{fy} hand-sum revenue {sum(c['rev'])} != {d['total_revenue']}")
+    if sum(c['exp13_23']) != d['total_operating']: errors.append(f"FY{fy} hand-sum operating {sum(c['exp13_23'])} != {d['total_operating']}")
+
 print('ERRORS:', len(errors)); [print('  !!', e) for e in errors]
 print('WARNINGS:', len(warns)); [print('  ~', w) for w in warns]
 if errors: sys.exit(1)
@@ -89,9 +151,9 @@ archive = [
  {'fy':2004,'url':PP+'2005_06_PF%2F95-1790021_990PF_200406.pdf','tag':'scan — unverified','cls':'unv'},
  {'fy':2005,'url':PP+'2007_01_PF%2F95-1790021_990PF_200506.pdf','tag':'scan — unverified','cls':'unv'},
  {'fy':2006,'url':PP+'2007_06_PF%2F95-1790021_990PF_200606.pdf','tag':'scan — unverified','cls':'unv'},
- {'fy':2007,'url':PP+'2009_01_PF%2F95-1790021_990PF_200706.pdf','tag':'e-file text — extraction pending'},
- {'fy':2008,'url':PP+'2009_06_PF%2F95-1790021_990PF_200806.pdf','tag':'e-file text — extraction pending'},
- {'fy':2009,'url':PP+'2010_06_PF%2F95-1790021_990PF_200906.pdf','tag':'e-file text — extraction pending'},
+ {'fy':2007,'url':PP+'2009_01_PF%2F95-1790021_990PF_200706.pdf','tag':'in dashboard (e-file text)'},
+ {'fy':2008,'url':PP+'2009_06_PF%2F95-1790021_990PF_200806.pdf','tag':'in dashboard (e-file text)'},
+ {'fy':2009,'url':PP+'2010_06_PF%2F95-1790021_990PF_200906.pdf','tag':'in dashboard (e-file text)'},
  {'fy':2010,'url':PP+'2011_06_PF%2F95-1790021_990PF_201006.pdf','tag':'in dashboard (XML)'},
  {'fy':2011,'url':PP+'2012_07_PF%2F95-1790021_990PF_201106.pdf','tag':'in dashboard (XML)'},
  {'fy':2012,'url':PP+'2013_10_PF%2F95-1790021_990PF_201206.pdf','tag':'in dashboard (XML)'},
