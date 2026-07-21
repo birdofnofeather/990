@@ -98,12 +98,12 @@ nav a:hover{color:var(--gold2);border-color:var(--line);background:var(--panel)}
   </div>
   <div class="card" id="sec-dist">
     <h2>Mission Spending &amp; Distributions</h2>
-    <div class="note">Charitable-purpose disbursements (Part I col. d), qualifying distributions (Part XII), and minimum investment return (Part X). Qualifying-distributions line breaks at FY2019 — not reported in any available source for that filing.</div>
+    <div class="note">Charitable-purpose disbursements (Part I col. d), qualifying distributions (Part XII), and minimum investment return (Part X). FY2019 qualifying distributions transcribed directly from the paper filing and confirmed against the source PDF.</div>
     <div class="chartbox"><canvas id="chDist"></canvas></div>
   </div>
   <div class="card" id="sec-people">
     <h2>People Costs</h2>
-    <div class="note">Salaries &amp; wages, pension/benefits, and officer/trustee compensation (Part I lines 13–15). Salaries &amp; pension lines break at FY2019 — that filing was paper-only with no machine-readable detail available from any source; officer comp is unaffected.</div>
+    <div class="note">Salaries &amp; wages, pension/benefits, and officer/trustee compensation (Part I lines 13–15). FY2019 salaries/pension were transcribed directly from the paper filing (no machine-readable source exists for that year) and confirmed against the source PDF.</div>
     <div class="chartbox"><canvas id="chPeople"></canvas></div>
   </div>
   <div class="card full" id="sec-inv">
@@ -129,8 +129,8 @@ nav a:hover{color:var(--gold2);border-color:var(--line);background:var(--panel)}
 </div>
 
 <footer id="foot">
-  <p><b>Sources.</b> IRS e-file XML via GivingTuesday 990 Data Lake (990-infrastructure.gtdata.org / gt990datalake-rawdata S3) for FY2010–FY2018 and FY2020–FY2024; hand-verified extraction from IRS e-file text-layer PDFs (990s.foundationcenter.org archive, confirmed "As Filed Data" e-file marker, not scanned) for FY2007–FY2009; IRS-extracted structured data via ProPublica Nonprofit Explorer API for FY2019 (paper-filed, no XML or clean-text PDF exists anywhere). Every value is cross-checked: column sums match printed subtotals exactly, each year's beginning-of-year balance ties to the prior year's end-of-year balance across the full FY2007–FY2024 span, and overlapping totals agree across independent sources. FY2001–FY2006 are scanned filings and are never charted — no OCR appears anywhere in this dashboard.</p>
-  <p><b>Notes.</b> Fiscal years end June 30 (FY2024 = July 2023–June 2024). "2024 dollars" uses annual-average CPI-U for the calendar year of each fiscal year end. FY2019 gaps (shown as broken lines, not interpolated): salary/pension detail and qualifying distributions are not available from any source for that filing — officer compensation and all balance-sheet figures are unaffected. Total revenue swings (FY2009 crisis-year loss; FY2020/FY2023 dips) reflect realized-gain timing, not operating health. Prepared <span id="genDate"></span>; not financial advice.</p>
+  <p><b>Sources.</b> IRS e-file XML via GivingTuesday 990 Data Lake (990-infrastructure.gtdata.org / gt990datalake-rawdata S3) for FY2010–FY2018 and FY2020–FY2024; hand-verified extraction from IRS e-file text-layer PDFs (990s.foundationcenter.org archive, confirmed "As Filed Data" e-file marker, not scanned) for FY2007–FY2009; IRS-extracted structured data via ProPublica Nonprofit Explorer API for FY2019 totals, with salaries, pension/benefits, and qualifying distributions transcribed directly from the source PDF and confirmed by the user (that filing is paper-only — no XML or clean text layer exists). Every value is cross-checked: column sums match printed subtotals exactly, each year's beginning-of-year balance ties to the prior year's end-of-year balance across the full FY2007–FY2024 span, and overlapping totals agree across independent sources. FY2001–FY2006 are scanned filings and are never charted — no OCR appears anywhere in this dashboard.</p>
+  <p><b>Notes.</b> Fiscal years end June 30 (FY2024 = July 2023–June 2024). "2024 dollars" uses annual-average CPI-U for the calendar year of each fiscal year end. FY2019: several expense line items (legal/accounting/professional fees, interest, taxes, depreciation, occupancy, travel, printing, other expenses — shown as one combined "detail not available" bar in the expense chart) are not available from any source for that filing; salaries, pension, and qualifying distributions are filled in. Total revenue swings (FY2009 crisis-year loss; FY2020/FY2023 dips) reflect realized-gain timing, not operating health. Prepared <span id="genDate"></span>; not financial advice.</p>
 </footer>
 </div>
 

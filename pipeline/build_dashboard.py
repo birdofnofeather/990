@@ -4,11 +4,15 @@ import json, sys
 
 xml = json.load(open('parsed_xml.json'))
 
-# FY2019 (FYE 2019-06-30, paper-filed; IRS-extracted structured data via ProPublica API, tax_prd 201906)
+# FY2019 (FYE 2019-06-30, paper-filed; totals from IRS-extracted structured data via ProPublica API,
+# tax_prd 201906). Salaries, pension/benefits, and qualifying distributions were transcribed by the
+# user directly from the source PDF (ProPublica display_990 viewer, confirmed period 07/01/2018-
+# 06/30/2019) since no XML or clean text layer exists for this filing; user confirmed the read-back
+# values before they were entered here.
 fy2019 = {
  'contributions':8706512,'interest':0,'dividends':23651135,'gross_rents':349120,
  'net_gain_assets':275215048,'gross_profit':11367185,'other_income':72844697,
- 'total_revenue':392133697,'comp_officers':7476079,'other_salaries':None,'pension_benefits':None,
+ 'total_revenue':392133697,'comp_officers':7476079,'other_salaries':100116806,'pension_benefits':43373398,
  'legal_fees':None,'accounting_fees':None,'other_prof_fees':None,'interest_exp':None,'taxes':None,
  'depreciation':None,'occupancy':None,'travel_conf':None,'printing_publications':None,'other_expenses':None,
  'total_operating':307822113,'grants_paid':15903064,'total_expenses':323725177,
@@ -16,8 +20,8 @@ fy2019 = {
  'total_disburse_charitable':238726771,'operating_disburse_charitable':None,
  'fmv_assets':13418017359,'total_assets_eoy':11002762921,'total_assets_boy':None,
  'total_liabilities_eoy':927412012,'net_assets_eoy':10075350909,
- 'min_investment_return':360148962,'distributable_amount':None,'qualifying_distributions':None,
- 'mortgages_payable':581125000,'source':'pp','tax_period_end':'2019-06-30'
+ 'min_investment_return':360148962,'distributable_amount':None,'qualifying_distributions':261122820,
+ 'mortgages_payable':581125000,'source':'pp+user-transcribed','tax_period_end':'2019-06-30'
 }
 
 # FY2007-2009: hand-verified line-by-line from IRS e-file text-layer PDFs (990s.foundationcenter.org
