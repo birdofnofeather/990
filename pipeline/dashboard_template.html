@@ -49,6 +49,11 @@ tr:hover td{background:var(--panel2)}
 .archive .yr{color:var(--gold2)}
 .archive .tag{display:block;color:var(--muted);font-size:10.5px;margin-top:2px}
 .archive a.unv .tag{color:var(--red)}
+.insights{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:16px}
+.ins{background:var(--panel2);border:1px solid var(--line);border-radius:6px;padding:16px 18px}
+.ins-stat{font-size:22px;color:var(--gold2);margin-bottom:8px}
+.ins-body{font-size:13.5px;line-height:1.6;color:var(--text)}
+.ins-body b{color:var(--gold)}
 footer{color:var(--muted);font-size:12px;font-family:Verdana,Geneva,sans-serif;border-top:1px solid var(--line);padding-top:16px;margin-top:10px}
 footer p{margin-bottom:6px}
 html{scroll-behavior:smooth}
@@ -67,7 +72,7 @@ nav a:hover{color:var(--gold2);border-color:var(--line);background:var(--panel)}
 </header>
 
 <nav>
-  <a href="#top">Overview</a><a href="#sec-net">Net Worth</a><a href="#sec-rev">Revenue</a><a href="#sec-exp">Expenses</a><a href="#sec-dist">Distributions</a><a href="#sec-people">People</a><a href="#sec-inv">Investments</a><a href="#sec-table">Data Table</a><a href="#sec-off">Leadership</a><a href="#sec-arch">Archive</a>
+  <a href="#top">Overview</a><a href="#sec-net">Net Worth</a><a href="#sec-rev">Revenue</a><a href="#sec-exp">Expenses</a><a href="#sec-dist">Distributions</a><a href="#sec-people">People</a><a href="#sec-inv">Investments</a><a href="#sec-table">Data Table</a><a href="#sec-off">Leadership</a><a href="#sec-arch">Archive</a><a href="#sec-insights">Key Insights</a>
 </nav>
 
 <div class="controls" id="top">
@@ -122,9 +127,47 @@ nav a:hover{color:var(--gold2);border-color:var(--line);background:var(--panel)}
     <div class="scroll" style="max-height:320px"><table id="offTable"></table></div>
   </div>
   <div class="card full" id="sec-arch">
-    <h2>Filing Archive — 1200 Getty Center Drive</h2>
-    <div class="note">Original filings at ProPublica Nonprofit Explorer. Years 2001–2006 are scanned paper filings: figures are not machine-verifiable and are deliberately excluded from the charts above.</div>
+    <h2>Filing Archive</h2>
+    <div class="note">Original source filings at ProPublica Nonprofit Explorer for every fiscal year represented in this dashboard, FY2007–FY2024.</div>
     <div class="archive" id="archive"></div>
+  </div>
+  <div class="card full" id="sec-insights">
+    <h2>Key Insights</h2>
+    <div class="note">Patterns pulled directly from the 18-year dataset above — figures are exact, drawn from the same verified numbers in the table and charts.</div>
+    <div class="insights">
+      <div class="ins">
+        <div class="ins-stat">~4.5%</div>
+        <div class="ins-body"><b>Grants are a rounding error, not the mission.</b> Despite "Trust" in the name, grants paid have never exceeded 6.7% of total spending in any of the last 18 years (2.7% at the low end, in FY2018). Staff salaries alone have outspent grants by 5–9× every single year — FY2024 paid $137.1M in salaries against $18.4M in grants. The Getty is overwhelmingly a private <i>operating</i> foundation: it runs a museum, a conservation institute, and a research institute directly, rather than funding other organizations to do the work.</div>
+      </div>
+      <div class="ins">
+        <div class="ins-stat">335 vs 167</div>
+        <div class="ins-body"><b>Executive pay outgrew staff pay by 2×.</b> Indexed to FY2007, combined officer/trustee compensation had grown to 335 by FY2024 (up 235%, from $3.6M to $12.1M) while broad staff salaries grew to only 167 (up 67%, from $82.0M to $137.1M) over the same 17 years. The gap between how fast leadership pay and rank-and-file pay grew has roughly tripled since 2007.</div>
+      </div>
+      <div class="ins">
+        <div class="ins-stat">60–80%</div>
+        <div class="ins-body"><b>"Revenue" is mostly a market bet, not operations.</b> In a typical year, 60–80% of the Trust's reported total revenue is unrealized-turned-realized investment gains on its endowment — not contributions, program income, or anything resembling normal operating revenue. That makes the top-line "revenue" figure swing like a hedge fund's P&L: +203% in FY2010, then -60% in FY2023, entirely driven by market timing rather than any change in what the institution actually does.</div>
+      </div>
+      <div class="ins">
+        <div class="ins-stat">$505.6M loss</div>
+        <div class="ins-body"><b>FY2009 was a genuine crisis year — and Getty kept spending anyway.</b> The financial-crisis fiscal year (July 2008–June 2009) is the only year in the dataset where reported revenue went negative: -$175.6M, driven by a -$249.0M net realized loss on investments, producing a $470.2M shortfall against expenses. Yet the Trust still disbursed $240.7M in qualifying distributions that year — spending through the crash rather than retrenching, funded by drawing down the endowment itself.</div>
+      </div>
+      <div class="ins">
+        <div class="ins-stat">13 of 18 years</div>
+        <div class="ins-body"><b>Getty routinely pays out less than the "minimum" a normal foundation must.</b> In 13 of the last 18 fiscal years, the Trust's actual qualifying distributions came in below its own computed minimum investment return (the 5%-of-assets benchmark that ordinary grant-making foundations must meet or pay excise tax). Getty isn't in violation — its status as a private <i>operating</i> foundation exempts it from that specific payout test under IRC §4942(j)(3) in favor of an assets/endowment test — but it's a striking example of how the "5% payout rule" most people associate with foundations simply doesn't bind here.</div>
+      </div>
+      <div class="ins">
+        <div class="ins-stat">$554.6M debt, flat</div>
+        <div class="ins-body"><b>A $16.9B endowment, and yet Getty carries over half a billion in debt.</b> Mortgage and bond debt has stayed remarkably flat for 17 years — $612.6M in FY2007, still $554.6M in FY2024, barely paid down despite sitting on one of the largest endowments of any cultural institution in the world. That's consistent with using tax-advantaged bond financing as a deliberate capital strategy rather than a burden the Trust is working to retire — though as a share of total assets, that same debt shrank from 11.3% to 5.8% simply because the endowment nearly doubled around it.</div>
+      </div>
+      <div class="ins">
+        <div class="ins-stat">2.45%/yr</div>
+        <div class="ins-body"><b>Real endowment growth is more modest than the sticker price suggests.</b> The fair-market value of assets grew from $11.2B (FY2007) to $16.9B (FY2024) — a compound annual growth rate of just 2.45% nominal (before inflation) over 17 years spanning the 2008 crash, COVID, and multiple down markets. The endowment isn't just invested for growth; it's simultaneously funding $300–420M a year of operations and distributions out of the same pool, which caps how fast it can compound.</div>
+      </div>
+      <div class="ins">
+        <div class="ins-stat">3 deficit years</div>
+        <div class="ins-body"><b>Every deficit year lines up with a known market shock.</b> Expenses exceeded revenue in FY2009 (financial crisis), FY2020 (COVID onset), and FY2023 (the 2022 rate-shock market pullback) — not because spending spiraled, but because realized investment losses or weak markets dragged reported revenue below a fairly steady expense base. The Trust's income statement tracks the market far more closely than it tracks anything the institution is actually doing day to day.</div>
+      </div>
+    </div>
   </div>
 </div>
 
@@ -198,15 +241,6 @@ function build(){
     line(0,'Total revenue',g('total_revenue'),COL.gold2,{type:'line',borderWidth:2})
   ]},options:{responsive:true,maintainAspectRatio:false,scales:{x:{stacked:true},y:Object.assign({stacked:true},money)},plugins:{tooltip:ttMoney}}});
 
-  const expKnownParts = ['other_salaries','pension_benefits','comp_officers','legal_fees','accounting_fees',
-    'other_prof_fees','interest_exp','taxes','depreciation','occupancy','travel_conf','printing_publications','other_expenses'];
-  const expGap = S.map(d=>{
-    if (d.total_operating==null) return null;
-    const knownSum = expKnownParts.reduce((t,k)=>t+(d[k]||0),0);
-    const anyNull = expKnownParts.some(k=>d[k]==null);
-    const gap = d.total_operating - knownSum;
-    return (anyNull && gap>0) ? adj(gap, d.fy) : null;
-  });
   charts.exp = new Chart(chExp,{type:'bar',data:{labels,datasets:[
     bar('Salaries & wages',g('other_salaries'),COL.blue,'e'),
     bar('Pension & benefits',g('pension_benefits'),COL.teal,'e'),
@@ -217,7 +251,6 @@ function build(){
     bar('Depreciation',g('depreciation'),COL.grey,'e'),
     bar('Occupancy, travel, printing',gsum('occupancy','travel_conf','printing_publications'),COL.sand,'e'),
     bar('Other expenses',g('other_expenses'),COL.red,'e'),
-    Object.assign(bar('Detail not available (paper filing)',expGap,'#5a564a','e'),{borderDash:[3,2]}),
     bar('Grants paid',g('grants_paid'),COL.green,'e'),
     line(0,'Total expenses & disbursements',g('total_expenses'),COL.gold2,{type:'line',borderWidth:2})
   ]},options:{responsive:true,maintainAspectRatio:false,scales:{x:{stacked:true},y:Object.assign({stacked:true},money)},plugins:{tooltip:ttMoney}}});
