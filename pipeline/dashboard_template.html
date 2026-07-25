@@ -324,8 +324,19 @@ function setGiftsView(v){
   renderGifts();
 }
 // -- lightweight fuzzy donor-name matching (no external library) --
-function normName(n){ return n.toUpperCase().replace(/[.,"'()]/g,'').replace(/&/g,'AND').replace(/\s+/g,' ').trim(); }
-function stripThe(n){ return n.replace(/^THE /,''); }
+// Normalize for EXACT-match grouping: case/punctuation-insensitive, strips a leading "THE " and any
+// trailing legal-entity-type suffixes (INC, LLC, CORP, CO, LTD, LP, LLP, PC...) since those denote the
+// same underlying organization, not a different one -- e.g. "X Foundation" and "X Foundation Inc" merge
+// exactly here, no fuzzy scoring needed. Substantive name words (Foundation, Trust, Fund, Family,
+// Charitable) are deliberately left alone since those can distinguish genuinely different entities.
+const ENTITY_SUFFIX = /\b(INC|INCORPORATED|LLC|L L C|CORP|CORPORATION|CO|COMPANY|LTD|LIMITED|LP|LLP|PC|PLC)$/;
+function normName(n){
+  let s = n.toUpperCase().replace(/[.,"'()]/g,'').replace(/&/g,'AND').replace(/\s+/g,' ').trim();
+  s = s.replace(/^THE /,'').trim();
+  let prev;
+  do { prev = s; s = s.replace(ENTITY_SUFFIX,'').trim(); } while (s !== prev && s.length);
+  return s;
+}
 function levenshtein(a,b){
   const m=a.length,n=b.length;
   if(!m) return n; if(!n) return m;
@@ -355,7 +366,7 @@ function groupDonors(rows){
   // conservative on purpose: this catches spelling/punctuation variants, not different aliases of a donor.
   const buckets = new Map();
   for(const key of groups.keys()){
-    const b = stripThe(key).slice(0,3);
+    const b = key.slice(0,3);
     if(!buckets.has(b)) buckets.set(b, []);
     buckets.get(b).push(key);
   }
