@@ -62,7 +62,6 @@ nav a:hover{color:var(--gold2);border-color:var(--line);background:var(--panel)}
 .info:hover::after{content:attr(data-tip);position:absolute;left:0;top:22px;z-index:60;width:300px;background:var(--panel2);border:1px solid var(--gold);border-radius:6px;padding:10px 12px;color:var(--text);font-size:12px;font-family:Verdana,Geneva,sans-serif;line-height:1.5;white-space:normal;box-shadow:0 4px 16px rgba(0,0,0,.5)}
 .link-btn{background:none;border:none;color:var(--gold);text-decoration:underline;cursor:pointer;font-family:Verdana,Geneva,sans-serif;font-size:12px;padding:0}
 .link-btn:hover{color:var(--gold2)}
-.subchart-note{color:var(--muted);font-size:11.5px;font-family:Verdana,Geneva,sans-serif;margin:14px 0 6px}
 .bigTable-wrap th:first-child,.bigTable-wrap td:first-child{position:sticky;left:0;z-index:2;background:var(--panel)}
 .bigTable-wrap tr:hover td:first-child{background:var(--panel2)}
 .bigTable-wrap th:first-child{z-index:3}
@@ -122,11 +121,9 @@ nav a:hover{color:var(--gold2);border-color:var(--line);background:var(--panel)}
     <div class="chartbox"><canvas id="chExp"></canvas></div>
   </div>
   <div class="card" id="sec-dist">
-    <h2>Mission Spending &amp; Distributions<span class="info" data-tip="Minimum investment return is NOT what the Trust actually earned on its investments — it's a formula required by tax law (roughly 5% of the fair-market value of investment assets not used directly for charity). For most private foundations it sets a required annual payout floor; qualifying distributions and charitable disbursements are what the Trust actually spent toward its mission that year.">ⓘ</span></h2>
-    <div class="note">Charitable-purpose disbursements (Part I col. d) and qualifying distributions (Part XII) are what the Trust actually spent on its mission. Minimum investment return (Part X) is a legally required <i>formula</i> — roughly 5% of investment assets — not the Trust's actual investment performance; see the chart below for how much above or below that floor each measure landed.</div>
+    <h2>Mission Spending &amp; Distributions<span class="info" data-tip="Minimum investment return is NOT what the Trust actually earned on its investments — it's a formula required by tax law (roughly 5% of the fair-market value of investment assets not used directly for charity). For most private foundations it sets a required annual payout floor. Qualifying distributions and charitable disbursements (stacked as bars) are what the Trust actually spent toward its mission — note these two overlap conceptually (charitable disbursements feed into the qualifying-distributions total), so the stacked bar height is not two fully independent amounts added together.">ⓘ</span></h2>
+    <div class="note">Charitable-purpose disbursements (Part I col. d) and qualifying distributions (Part XII) — what the Trust actually spent on its mission, stacked — against minimum investment return (Part X), a legally required <i>formula</i> (roughly 5% of investment assets), not the Trust's actual investment performance. As a private <i>operating</i> foundation, Getty is exempt from the standard payout test this floor implies for ordinary foundations, so falling below the line isn't a violation.</div>
     <div class="chartbox"><canvas id="chDist"></canvas></div>
-    <div class="subchart-note">Surplus over minimum investment return — positive bars mean the Trust spent more on its mission than the legal floor required; negative bars mean less (which is not a violation: as a private <i>operating</i> foundation, the Getty is exempt from the standard payout test this floor implies for ordinary foundations).</div>
-    <div class="chartbox"><canvas id="chDistSurplus"></canvas></div>
   </div>
   <div class="card" id="sec-people">
     <h2>People Costs<span class="info" data-tip="Salaries &amp; wages and pension/benefits cover regular staff. Officer/trustee compensation is a separate line on the tax form (line 13, vs. line 14 for 'other employee' salaries) — it is NOT included in the salaries figure; it's reported and stacked separately here.">ⓘ</span></h2>
@@ -259,22 +256,11 @@ function build(){
     line(0,'Total expenses & disbursements',g('total_expenses'),COL.gold2,{type:'line',borderWidth:2})
   ]},options:{responsive:true,maintainAspectRatio:false,scales:{x:{stacked:true},y:Object.assign({stacked:true},money)},plugins:{tooltip:ttMoney}}});
 
-  charts.dist = new Chart(chDist,{type:'line',data:{labels,datasets:[
-    Object.assign(line(0,'Qualifying distributions (Pt XII)',g('qualifying_distributions'),COL.gold,{borderWidth:2.5}),{spanGaps:false}),
-    line(0,'Charitable disbursements (col d)',g('total_disburse_charitable'),COL.green),
+  charts.dist = new Chart(chDist,{type:'bar',data:{labels,datasets:[
+    bar('Qualifying distributions (Pt XII)',g('qualifying_distributions'),COL.gold,'d'),
+    bar('Charitable disbursements (col d)',g('total_disburse_charitable'),COL.green,'d'),
     line(0,'Minimum investment return (legal formula, not actual return)',g('min_investment_return'),COL.violet,{borderDash:[5,4],pointRadius:0})
-  ]},options:{responsive:true,maintainAspectRatio:false,scales:{y:money},plugins:{tooltip:ttMoney}}});
-
-  const qdSurplus = S.map(d=>(d.qualifying_distributions!=null&&d.min_investment_return!=null)?adj(d.qualifying_distributions-d.min_investment_return,d.fy):null);
-  const chSurplus = S.map(d=>(d.total_disburse_charitable!=null&&d.min_investment_return!=null)?adj(d.total_disburse_charitable-d.min_investment_return,d.fy):null);
-  const diverge = v => v==null?'#8d887799':(v>=0?COL.green+'cc':COL.red+'cc');
-  charts.distSurplus = new Chart(chDistSurplus,{type:'bar',data:{labels,datasets:[
-    {label:'Qualifying distributions vs minimum',data:qdSurplus,backgroundColor:qdSurplus.map(diverge),borderWidth:0},
-    {label:'Charitable disbursements vs minimum',data:chSurplus,backgroundColor:chSurplus.map(v=>v==null?'#8d887799':(v>=0?COL.teal+'cc':'#c9835ccc')),borderWidth:0}
-  ]},options:{responsive:true,maintainAspectRatio:false,scales:{y:money},plugins:{tooltip:ttMoney,legend:{labels:{generateLabels:c=>[
-    {text:'Qualifying distributions vs minimum',fillStyle:COL.green,strokeStyle:COL.green},
-    {text:'Charitable disbursements vs minimum',fillStyle:COL.teal,strokeStyle:COL.teal}
-  ]}}}}});
+  ]},options:{responsive:true,maintainAspectRatio:false,scales:{x:{stacked:true},y:Object.assign({stacked:true},money)},plugins:{tooltip:ttMoney}}});
 
   charts.people = new Chart(chPeople,{type:'bar',data:{labels,datasets:[
     bar('Salaries & wages',g('other_salaries'),COL.blue,'p'),
