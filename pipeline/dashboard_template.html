@@ -259,7 +259,7 @@ function build(){
   charts.dist = new Chart(chDist,{type:'bar',data:{labels,datasets:[
     bar('Qualifying distributions (Pt XII)',g('qualifying_distributions'),COL.gold,'d'),
     bar('Charitable disbursements (col d)',g('total_disburse_charitable'),COL.green,'d'),
-    line(0,'Minimum investment return (legal formula, not actual return)',g('min_investment_return'),COL.violet,{borderDash:[5,4],pointRadius:0})
+    line(0,'Minimum investment return (legal formula, not actual return)',g('min_investment_return'),COL.violet,{type:'line',borderDash:[5,4],pointRadius:0,borderWidth:2.5,order:-1})
   ]},options:{responsive:true,maintainAspectRatio:false,scales:{x:{stacked:true},y:Object.assign({stacked:true},money)},plugins:{tooltip:ttMoney}}});
 
   charts.people = new Chart(chPeople,{type:'bar',data:{labels,datasets:[
