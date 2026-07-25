@@ -66,16 +66,21 @@ nav a:hover{color:var(--gold2);border-color:var(--line);background:var(--panel)}
 .bigTable-wrap th:first-child,.bigTable-wrap td:first-child{position:sticky;left:0;z-index:2;background:var(--panel)}
 .bigTable-wrap tr:hover td:first-child{background:var(--panel2)}
 .bigTable-wrap th:first-child{z-index:3}
-.modal-backdrop{display:none;position:fixed;inset:0;background:rgba(0,0,0,.65);z-index:100;align-items:center;justify-content:center}
+.modal-backdrop{display:none;position:fixed;inset:0;background:rgba(0,0,0,.65);z-index:100;align-items:center;justify-content:center;padding:20px}
 .modal-backdrop.open{display:flex}
-.modal{background:var(--panel);border:1px solid var(--gold);border-radius:8px;max-width:640px;width:92%;max-height:80vh;display:flex;flex-direction:column;padding:20px}
-.modal-hd{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px}
-.modal-hd h3{color:var(--gold2);font-weight:normal;font-size:18px;display:flex;align-items:center;gap:10px}
-.modal-hd select{font-size:13px}
-.modal-close{background:none;border:none;color:var(--muted);font-size:20px;cursor:pointer;line-height:1}
+.modal{background:var(--panel);border:1px solid var(--gold);border-radius:8px;width:min(880px,96vw);max-height:88vh;display:flex;flex-direction:column;padding:20px}
+.modal-hd{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;margin-bottom:6px}
+.modal-hd h3{color:var(--gold2);font-weight:normal;font-size:18px;margin:0}
+.modal-controls{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:10px;font-family:Verdana,Geneva,sans-serif;font-size:13px}
+.modal-controls input[type=search]{background:var(--panel2);color:var(--text);border:1px solid var(--line);border-radius:4px;padding:6px 10px;font-size:13px;flex:1;min-width:160px}
+.modal-controls select{font-size:13px}
+.modal-close{background:none;border:none;color:var(--muted);font-size:20px;cursor:pointer;line-height:1;flex-shrink:0}
 .modal-close:hover{color:var(--gold)}
 .modal-note{color:var(--muted);font-size:12px;font-family:Verdana,Geneva,sans-serif;margin-bottom:10px}
-.modal-body{overflow:auto}
+.modal-body{overflow-y:auto;overflow-x:hidden;min-width:0}
+.modal-body table{table-layout:fixed;width:100%}
+.modal-body td,.modal-body th{white-space:normal;word-break:break-word;overflow-wrap:break-word}
+.modal-body td:last-child,.modal-body th:last-child{white-space:nowrap}
 @media(max-width:900px){.grid{grid-template-columns:1fr}}
 </style>
 </head>
@@ -159,8 +164,17 @@ nav a:hover{color:var(--gold2);border-color:var(--line);background:var(--panel)}
 <div class="modal-backdrop" id="giftsModal">
   <div class="modal">
     <div class="modal-hd">
-      <h3>Gift schedule <select id="giftsYr"></select></h3>
+      <h3>Gift schedule (donors)</h3>
       <button class="modal-close" onclick="closeGifts()">✕</button>
+    </div>
+    <div class="modal-controls">
+      <label style="color:var(--muted)">Year</label>
+      <select id="giftsYrFrom"></select>
+      <label style="color:var(--muted)">to</label>
+      <select id="giftsYrTo"></select>
+      <input type="search" id="giftsSearch" placeholder="Search by donor name, city, or state…">
+      <button class="tgl on" id="giftsViewGift" onclick="setGiftsView('gift')">By gift</button>
+      <button class="tgl" id="giftsViewDonor" onclick="setGiftsView('donor')">By donor (totals)</button>
     </div>
     <div class="modal-note" id="giftsNote"></div>
     <div class="modal-body"><table id="giftsTable"></table></div>
@@ -302,33 +316,143 @@ function archive(){
   document.getElementById('archive').innerHTML = RAW.archive.map(a=>
     `<a href="${a.url}" target="_blank" class="${a.cls||''}"><span class="yr">FY${a.fy}</span><span class="tag">${a.tag}</span></a>`).join('');
 }
-function renderGifts(fy){
-  const list = (RAW.donors && RAW.donors[fy]) || null;
-  if(!list){
-    giftsNote.innerHTML = `No donor schedule is available for FY${fy}. Getty's Schedule B (list of contributors) is public for private foundations and appears in the IRS e-file XML, but FY2007–FY2009 and FY2019 don't have that machine-readable source (see the Filing Archive section) — only the total on the Revenue chart is available for those years.`;
-    giftsTable.innerHTML = '';
-    return;
+let giftsView = 'gift';
+function setGiftsView(v){
+  giftsView = v;
+  giftsViewGift.classList.toggle('on', v==='gift');
+  giftsViewDonor.classList.toggle('on', v==='donor');
+  renderGifts();
+}
+// -- lightweight fuzzy donor-name matching (no external library) --
+function normName(n){ return n.toUpperCase().replace(/[.,"'()]/g,'').replace(/&/g,'AND').replace(/\s+/g,' ').trim(); }
+function stripThe(n){ return n.replace(/^THE /,''); }
+function levenshtein(a,b){
+  const m=a.length,n=b.length;
+  if(!m) return n; if(!n) return m;
+  let prev=Array.from({length:n+1},(_,i)=>i);
+  for(let i=1;i<=m;i++){
+    const cur=[i];
+    for(let j=1;j<=n;j++){
+      const cost = a[i-1]===b[j-1]?0:1;
+      cur[j]=Math.min(prev[j]+1, cur[j-1]+1, prev[j-1]+cost);
+    }
+    prev=cur;
   }
-  const total = list.reduce((t,d)=>t+d.amt,0);
-  const partI = Y.find(d=>d.fy==fy)?.contributions;
-  giftsNote.innerHTML = `${list.length} contributors reported on Schedule B, totaling $${fmtFull(total)}` +
-    (partI ? ` (Part I, line 1 total for the year: $${fmtFull(partI)} — Schedule B generally omits very small gifts below the IRS reporting threshold, so the two won't match exactly).` : '.') +
-    ` Source: <a href="https://projects.propublica.org/nonprofits/organizations/951790021" target="_blank" style="color:var(--gold)">ProPublica Nonprofit Explorer</a>.`;
-  giftsTable.innerHTML = '<tr><th>Contributor</th><th>City, State</th><th>Amount</th></tr>' +
-    list.map(d=>`<tr><td style="text-align:left">${d.name}</td><td style="text-align:left">${[d.city,d.state].filter(Boolean).join(', ')||'—'}</td><td>$${fmtFull(d.amt)}</td></tr>`).join('');
+  return prev[n];
+}
+function similarity(a,b){ const L=Math.max(a.length,b.length); return L===0?1:1-levenshtein(a,b)/L; }
+function groupDonors(rows){
+  const groups = new Map(); // normalized name -> {names:Set, total, count, years:Set, cities:Set}
+  rows.forEach(d=>{
+    const key = normName(d.name);
+    if(!groups.has(key)) groups.set(key, {names:new Set(), total:0, count:0, years:new Set(), cities:new Set()});
+    const g = groups.get(key);
+    g.names.add(d.name); g.total += d.amt; g.count++; g.years.add(d.year);
+    if(d.city) g.cities.add([d.city,d.state].filter(Boolean).join(', '));
+  });
+  // fuzzy merge pass: only compare names sharing the same first-3-letters bucket (after stripping "THE ")
+  // for speed, and only merge when similarity is high AND (city overlaps OR similarity is very high) --
+  // conservative on purpose: this catches spelling/punctuation variants, not different aliases of a donor.
+  const buckets = new Map();
+  for(const key of groups.keys()){
+    const b = stripThe(key).slice(0,3);
+    if(!buckets.has(b)) buckets.set(b, []);
+    buckets.get(b).push(key);
+  }
+  const removed = new Set();
+  for(const keys of buckets.values()){
+    for(let i=0;i<keys.length;i++){
+      if(removed.has(keys[i]) || !groups.has(keys[i])) continue;
+      for(let j=i+1;j<keys.length;j++){
+        if(removed.has(keys[j]) || !groups.has(keys[j])) continue;
+        const a=keys[i], b=keys[j];
+        if(Math.abs(a.length-b.length) > 5) continue;
+        const sim = similarity(a,b);
+        if(sim < 0.88) continue;
+        const gi=groups.get(a), gj=groups.get(b);
+        const cityOverlap = [...gi.cities].some(c=>gj.cities.has(c)) || gi.cities.size===0 || gj.cities.size===0;
+        if(sim >= 0.94 || (sim >= 0.88 && cityOverlap)){
+          gj.names.forEach(n=>gi.names.add(n));
+          gi.total += gj.total; gi.count += gj.count;
+          gj.years.forEach(y=>gi.years.add(y));
+          gj.cities.forEach(c=>gi.cities.add(c));
+          groups.delete(b);
+          removed.add(b);
+        }
+      }
+    }
+  }
+  return Array.from(groups.values()).map(g=>{
+    const variants = [...g.names];
+    return {name: variants[0], variants, fuzzy: variants.length>1,
+      total: g.total, count: g.count, years: [...g.years].sort((a,b)=>a-b), cities: [...g.cities]};
+  }).sort((a,b)=>b.total-a.total);
+}
+
+function giftsRows(yFrom, yTo, search){
+  let rows = [];
+  Object.keys(RAW.donors||{}).map(Number).filter(y=>y>=yFrom&&y<=yTo).sort((a,b)=>a-b).forEach(y=>{
+    RAW.donors[y].forEach(d=>rows.push({year:y, name:d.name, city:d.city, state:d.state, amt:d.amt}));
+  });
+  if(search){
+    const s = search.toLowerCase();
+    rows = rows.filter(d => (d.name&&d.name.toLowerCase().includes(s)) || (d.city&&d.city.toLowerCase().includes(s)) || (d.state&&d.state.toLowerCase().includes(s)));
+  }
+  rows.sort((a,b)=>b.amt-a.amt);
+  return rows;
+}
+function renderGifts(){
+  const yFrom = +giftsYrFrom.value, yTo = +giftsYrTo.value, search = giftsSearch.value.trim();
+  const rows = giftsRows(yFrom, yTo, search);
+  const donorYears = RAW.donors ? Object.keys(RAW.donors).map(Number) : [];
+  const missing = []; for(let y=yFrom;y<=yTo;y++) if(!donorYears.includes(y)) missing.push(y);
+  const total = rows.reduce((t,d)=>t+d.amt,0);
+  const range = yFrom===yTo ? `FY${yFrom}` : `FY${yFrom}–FY${yTo}`;
+  const missingTxt = missing.length ? ` No donor schedule available for ${missing.map(y=>'FY'+y).join(', ')} — excluded from this range (Getty's Schedule B appears in the IRS e-file XML, but those years don't have that machine-readable source; see Filing Archive).` : '';
+  const srcTxt = ` Source: <a href="https://projects.propublica.org/nonprofits/organizations/951790021" target="_blank" style="color:var(--gold)">ProPublica Nonprofit Explorer</a>.`;
+
+  if(giftsView === 'donor'){
+    const donors = groupDonors(rows);
+    const fuzzyCount = donors.filter(d=>d.fuzzy).length;
+    let note = `${donors.length.toLocaleString()} unique donor${donors.length===1?'':'s'} in ${range}` + (search?` matching "${search}"`:'') + `, totaling $${fmtFull(total)}.`;
+    note += ` Same-name gifts are combined across years automatically; spelling/punctuation variants of the same name are combined with light fuzzy matching (${fuzzyCount} donor${fuzzyCount===1?'':'s'} here ${fuzzyCount===1?'has':'have'} merged variants, shown below in parentheses — this is not a guarantee every alias of a donor was caught, so verify anything that matters).`;
+    note += missingTxt + srcTxt;
+    giftsNote.innerHTML = note;
+    giftsTable.innerHTML = '<tr><th>Donor</th><th>City, State</th><th>Years</th><th>Gifts</th><th>Total</th></tr>' +
+      donors.map(d=>{
+        const alt = d.fuzzy ? `<br><span style="color:var(--muted);font-size:11px">also: ${d.variants.slice(1).join('; ')}</span>` : '';
+        const yrs = d.years.length>4 ? `${d.years[0]}–${d.years[d.years.length-1]} (${d.years.length}yr)` : d.years.map(y=>'FY'+y).join(', ');
+        return `<tr><td>${d.name}${alt}</td><td>${d.cities.slice(0,2).join('; ')||'—'}</td><td>${yrs}</td><td>${d.count}</td><td>$${fmtFull(d.total)}</td></tr>`;
+      }).join('');
+  } else {
+    let note = `${rows.length.toLocaleString()} contributor record${rows.length===1?'':'s'} in ${range}` + (search?` matching "${search}"`:'') + `, totaling $${fmtFull(total)}.`;
+    note += missingTxt + srcTxt;
+    giftsNote.innerHTML = note;
+    const showYear = yFrom !== yTo;
+    giftsTable.innerHTML = '<tr>'+(showYear?'<th>Year</th>':'')+'<th>Contributor</th><th>City, State</th><th>Amount</th></tr>' +
+      rows.map(d=>`<tr>${showYear?`<td>FY${d.year}</td>`:''}<td>${d.name}</td><td>${[d.city,d.state].filter(Boolean).join(', ')||'—'}</td><td>$${fmtFull(d.amt)}</td></tr>`).join('');
+  }
 }
 function openGifts(){
-  const years = RAW.donors ? Object.keys(RAW.donors).map(Number).sort((a,b)=>a-b) : [];
+  const donorYears = RAW.donors ? Object.keys(RAW.donors).map(Number).sort((a,b)=>a-b) : [];
   const allYears = Y.map(d=>d.fy);
-  giftsYr.innerHTML = allYears.map(y=>`<option ${y===to?'selected':''} ${!years.includes(y)?'disabled':''}>${y}${!years.includes(y)?' (unavailable)':''}</option>`).join('');
-  const startYr = years.includes(to) ? to : (years[years.length-1] || to);
-  giftsYr.value = startYr;
-  renderGifts(startYr);
+  const opt = y => `<option value="${y}" ${!donorYears.includes(y)?'disabled':''}>${y}${!donorYears.includes(y)?' (no data)':''}</option>`;
+  giftsYrFrom.innerHTML = allYears.map(opt).join('');
+  giftsYrTo.innerHTML = allYears.map(opt).join('');
+  const dflt = donorYears.includes(to) ? to : (donorYears[donorYears.length-1] || to);
+  giftsYrFrom.value = dflt; giftsYrTo.value = dflt;
+  giftsSearch.value = '';
+  giftsView = 'gift'; giftsViewGift.classList.add('on'); giftsViewDonor.classList.remove('on');
+  renderGifts();
   giftsModal.classList.add('open');
+  giftsSearch.focus();
 }
 function closeGifts(){ giftsModal.classList.remove('open'); }
-giftsYr.onchange = e=>renderGifts(+e.target.value);
+giftsYrFrom.onchange = ()=>{ if(+giftsYrFrom.value > +giftsYrTo.value) giftsYrTo.value = giftsYrFrom.value; renderGifts(); };
+giftsYrTo.onchange = ()=>{ if(+giftsYrTo.value < +giftsYrFrom.value) giftsYrFrom.value = giftsYrTo.value; renderGifts(); };
+giftsSearch.oninput = renderGifts;
 giftsModal.addEventListener('click', e=>{ if(e.target===giftsModal) closeGifts(); });
+document.addEventListener('keydown', e=>{ if(e.key==='Escape') closeGifts(); });
 
 function csv(){
   const rows = [FIELDS.map(([,l])=>l).join(',')].concat(Y.map(d=>FIELDS.map(([f])=>d[f]??'').join(',')));
