@@ -176,10 +176,18 @@ archive = [
  {'fy':2024,'url':'https://projects.propublica.org/nonprofits/organizations/951790021/202531359349102323/full','tag':'XML'},
 ]
 
-data = {'years': years, 'officers2024': officers2024, 'archive': archive}
+# Schedule B donor/contributor lists (public for private foundations). Covers years with source XML
+# only (FY2010-2018, FY2020-2024) via extract_donors.py; FY2007-2009 (PDF text) and FY2019 (no XML)
+# are intentionally absent and flagged as unavailable in the UI rather than guessed at.
+try:
+    donors = json.load(open('donors.json'))
+except FileNotFoundError:
+    donors = {}
+
+data = {'years': years, 'officers2024': officers2024, 'archive': archive, 'donors': donors}
 json.dump(data, open('dataset.json','w'), indent=1)
 
 tpl = open('dashboard_template.html', encoding='utf-8').read()
 html = tpl.replace('__DATA__', json.dumps(data, separators=(',',':')))
 open('Getty_Trust_Financial_Dashboard.html','w',encoding='utf-8').write(html)
-print('OK: dashboard written,', len(years), 'years,', len(officers2024), 'officers')
+print('OK: dashboard written,', len(years), 'years,', len(officers2024), 'officers,', len(donors), 'donor-list years')

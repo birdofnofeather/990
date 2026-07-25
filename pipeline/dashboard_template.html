@@ -56,6 +56,26 @@ html{scroll-behavior:smooth}
 nav{position:sticky;top:0;z-index:50;background:rgba(20,19,15,.96);backdrop-filter:blur(4px);border-bottom:1px solid var(--line);margin:0 -20px 22px;padding:10px 20px;display:flex;flex-wrap:wrap;gap:6px;font-family:Verdana,Geneva,sans-serif;font-size:12px}
 nav a{color:var(--muted);text-decoration:none;padding:5px 11px;border-radius:20px;border:1px solid transparent}
 nav a:hover{color:var(--gold2);border-color:var(--line);background:var(--panel)}
+.card h2{display:flex;align-items:center;gap:7px}
+.info{display:inline-flex;align-items:center;justify-content:center;width:16px;height:16px;border-radius:50%;border:1px solid var(--muted);color:var(--muted);font-size:11px;font-family:Georgia,serif;cursor:help;position:relative;flex-shrink:0}
+.info:hover{border-color:var(--gold);color:var(--gold)}
+.info:hover::after{content:attr(data-tip);position:absolute;left:0;top:22px;z-index:60;width:300px;background:var(--panel2);border:1px solid var(--gold);border-radius:6px;padding:10px 12px;color:var(--text);font-size:12px;font-family:Verdana,Geneva,sans-serif;line-height:1.5;white-space:normal;box-shadow:0 4px 16px rgba(0,0,0,.5)}
+.link-btn{background:none;border:none;color:var(--gold);text-decoration:underline;cursor:pointer;font-family:Verdana,Geneva,sans-serif;font-size:12px;padding:0}
+.link-btn:hover{color:var(--gold2)}
+.subchart-note{color:var(--muted);font-size:11.5px;font-family:Verdana,Geneva,sans-serif;margin:14px 0 6px}
+.bigTable-wrap th:first-child,.bigTable-wrap td:first-child{position:sticky;left:0;z-index:2;background:var(--panel)}
+.bigTable-wrap tr:hover td:first-child{background:var(--panel2)}
+.bigTable-wrap th:first-child{z-index:3}
+.modal-backdrop{display:none;position:fixed;inset:0;background:rgba(0,0,0,.65);z-index:100;align-items:center;justify-content:center}
+.modal-backdrop.open{display:flex}
+.modal{background:var(--panel);border:1px solid var(--gold);border-radius:8px;max-width:640px;width:92%;max-height:80vh;display:flex;flex-direction:column;padding:20px}
+.modal-hd{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px}
+.modal-hd h3{color:var(--gold2);font-weight:normal;font-size:18px;display:flex;align-items:center;gap:10px}
+.modal-hd select{font-size:13px}
+.modal-close{background:none;border:none;color:var(--muted);font-size:20px;cursor:pointer;line-height:1}
+.modal-close:hover{color:var(--gold)}
+.modal-note{color:var(--muted);font-size:12px;font-family:Verdana,Geneva,sans-serif;margin-bottom:10px}
+.modal-body{overflow:auto}
 @media(max-width:900px){.grid{grid-template-columns:1fr}}
 </style>
 </head>
@@ -82,39 +102,41 @@ nav a:hover{color:var(--gold2);border-color:var(--line);background:var(--panel)}
 
 <div class="grid">
   <div class="card full" id="sec-net">
-    <h2>Endowment &amp; Net Worth</h2>
+    <h2>Endowment &amp; Net Worth<span class="info" data-tip="FMV of assets: what everything the Trust owns would sell for today. Net assets (book): assets minus liabilities, at accounting (not market) value. Liabilities: everything the Trust owes. Mortgages &amp; notes payable: the bond/loan debt portion of liabilities.">ⓘ</span></h2>
     <div class="note">Fair-market value of all assets (Form 990-PF item I) vs. book-value net assets and total liabilities, end of fiscal year.</div>
     <div class="chartbox tall"><canvas id="chNet"></canvas></div>
   </div>
   <div class="card" id="sec-rev">
-    <h2>Revenue Composition</h2>
-    <div class="note">Part I, column (a). Realized investment gains dominate and swing with markets — negative bars are net realized losses.</div>
+    <h2>Revenue Composition<span class="info" data-tip="All the money the Trust took in during the year, broken into where it came from: gains from selling investments, interest/dividends/rent, museum &amp; program revenue, donations, and everything else.">ⓘ</span></h2>
+    <div class="note">Part I, column (a). Realized investment gains dominate and swing with markets — negative bars are net realized losses. <button class="link-btn" onclick="openGifts()">View gift schedule (donor list) →</button></div>
     <div class="chartbox"><canvas id="chRev"></canvas></div>
   </div>
   <div class="card" id="sec-exp">
-    <h2>Operating Expense Composition</h2>
+    <h2>Operating Expense Composition<span class="info" data-tip="Everything the Trust spent during the year, broken into categories: staff pay, professional fees, occupancy/travel, grants, etc. The gold line is the total of everything below it.">ⓘ</span></h2>
     <div class="note">Part I, column (a), lines 13–25. "Grants paid" is line 25; the Getty is an operating foundation, so most spending is direct program operations.</div>
     <div class="chartbox"><canvas id="chExp"></canvas></div>
   </div>
   <div class="card" id="sec-dist">
-    <h2>Mission Spending &amp; Distributions</h2>
-    <div class="note">Charitable-purpose disbursements (Part I col. d), qualifying distributions (Part XII), and minimum investment return (Part X).</div>
+    <h2>Mission Spending &amp; Distributions<span class="info" data-tip="Minimum investment return is NOT what the Trust actually earned on its investments — it's a formula required by tax law (roughly 5% of the fair-market value of investment assets not used directly for charity). For most private foundations it sets a required annual payout floor; qualifying distributions and charitable disbursements are what the Trust actually spent toward its mission that year.">ⓘ</span></h2>
+    <div class="note">Charitable-purpose disbursements (Part I col. d) and qualifying distributions (Part XII) are what the Trust actually spent on its mission. Minimum investment return (Part X) is a legally required <i>formula</i> — roughly 5% of investment assets — not the Trust's actual investment performance; see the chart below for how much above or below that floor each measure landed.</div>
     <div class="chartbox"><canvas id="chDist"></canvas></div>
+    <div class="subchart-note">Surplus over minimum investment return — positive bars mean the Trust spent more on its mission than the legal floor required; negative bars mean less (which is not a violation: as a private <i>operating</i> foundation, the Getty is exempt from the standard payout test this floor implies for ordinary foundations).</div>
+    <div class="chartbox"><canvas id="chDistSurplus"></canvas></div>
   </div>
   <div class="card" id="sec-people">
-    <h2>People Costs</h2>
-    <div class="note">Salaries &amp; wages, pension/benefits, and officer/trustee compensation (Part I lines 13–15).</div>
+    <h2>People Costs<span class="info" data-tip="Salaries &amp; wages and pension/benefits cover regular staff. Officer/trustee compensation is a separate line on the tax form (line 13, vs. line 14 for 'other employee' salaries) — it is NOT included in the salaries figure; it's reported and stacked separately here.">ⓘ</span></h2>
+    <div class="note">Salaries &amp; wages, pension/benefits, and officer/trustee compensation (Part I lines 13–15) — three separate line items on the form, stacked here to show total workforce cost. Officer/trustee compensation is reported apart from "other employee" salaries, not included within them.</div>
     <div class="chartbox"><canvas id="chPeople"></canvas></div>
   </div>
   <div class="card full" id="sec-inv">
-    <h2>Investment Performance Proxies</h2>
+    <h2>Investment Performance Proxies<span class="info" data-tip="How the endowment's investments actually performed: net realized gains/losses from selling assets, net investment income (dividends/interest/rent minus related expenses), and the year-over-year change in total market value of assets.">ⓘ</span></h2>
     <div class="note">Net realized gains on asset sales, net investment income, and year-over-year change in FMV of assets.</div>
     <div class="chartbox"><canvas id="chInv"></canvas></div>
   </div>
   <div class="card full" id="sec-table">
     <h2>All Tracked Metrics — FY2007–FY2024</h2>
-    <div class="note">Click a column header to sort. Values as filed (nominal $). Scroll horizontally for all fields.</div>
-    <div class="scroll"><table id="bigTable"></table></div>
+    <div class="note">Click a column header to sort. Values as filed (nominal $). Scroll horizontally for all fields — the fiscal year column stays pinned.</div>
+    <div class="scroll bigTable-wrap"><table id="bigTable"></table></div>
   </div>
   <div class="card full" id="sec-off">
     <h2>Officer &amp; Trustee Compensation — FY2024</h2>
@@ -132,6 +154,17 @@ nav a:hover{color:var(--gold2);border-color:var(--line);background:var(--panel)}
   <p><b>Sources.</b> IRS e-file XML via GivingTuesday 990 Data Lake (990-infrastructure.gtdata.org / gt990datalake-rawdata S3) for FY2010–FY2018 and FY2020–FY2024; hand-verified extraction from IRS e-file text-layer PDFs (990s.foundationcenter.org archive, confirmed "As Filed Data" e-file marker, not scanned) for FY2007–FY2009; IRS-extracted structured data via ProPublica Nonprofit Explorer API for FY2019 totals, with every Part I expense line item and qualifying distributions transcribed directly from the source PDF (ProPublica's display_990 viewer; that filing is paper-only, so no XML or clean text layer exists) and confirmed by the user. Every value is cross-checked: column sums match printed subtotals exactly (FY2019's ten transcribed line items sum to $307,822,113, matching both the filing's own printed total and the independent ProPublica figure), each year's beginning-of-year balance ties to the prior year's end-of-year balance across the full FY2007–FY2024 span, and overlapping totals agree across independent sources. FY2001–FY2006 are scanned filings and are never charted — no OCR appears anywhere in this dashboard.</p>
   <p><b>Notes.</b> Fiscal years end June 30 (FY2024 = July 2023–June 2024). "2024 dollars" uses annual-average CPI-U for the calendar year of each fiscal year end. Total revenue swings (FY2009 crisis-year loss; FY2020/FY2023 dips) reflect realized-gain timing, not operating health. Prepared <span id="genDate"></span>; not financial advice.</p>
 </footer>
+</div>
+
+<div class="modal-backdrop" id="giftsModal">
+  <div class="modal">
+    <div class="modal-hd">
+      <h3>Gift schedule <select id="giftsYr"></select></h3>
+      <button class="modal-close" onclick="closeGifts()">✕</button>
+    </div>
+    <div class="modal-note" id="giftsNote"></div>
+    <div class="modal-body"><table id="giftsTable"></table></div>
+  </div>
 </div>
 
 <script>
@@ -215,14 +248,26 @@ function build(){
   charts.dist = new Chart(chDist,{type:'line',data:{labels,datasets:[
     Object.assign(line(0,'Qualifying distributions (Pt XII)',g('qualifying_distributions'),COL.gold,{borderWidth:2.5}),{spanGaps:false}),
     line(0,'Charitable disbursements (col d)',g('total_disburse_charitable'),COL.green),
-    line(0,'Minimum investment return',g('min_investment_return'),COL.violet,{borderDash:[5,4],pointRadius:0})
+    line(0,'Minimum investment return (legal formula, not actual return)',g('min_investment_return'),COL.violet,{borderDash:[5,4],pointRadius:0})
   ]},options:{responsive:true,maintainAspectRatio:false,scales:{y:money},plugins:{tooltip:ttMoney}}});
 
-  charts.people = new Chart(chPeople,{type:'line',data:{labels,datasets:[
-    Object.assign(line(0,'Salaries & wages',g('other_salaries'),COL.blue,{borderWidth:2.5}),{spanGaps:false}),
-    Object.assign(line(0,'Pension & benefits',g('pension_benefits'),COL.teal),{spanGaps:false}),
-    line(0,'Officer/trustee compensation',g('comp_officers'),COL.gold)
-  ]},options:{responsive:true,maintainAspectRatio:false,scales:{y:money},plugins:{tooltip:ttMoney}}});
+  const qdSurplus = S.map(d=>(d.qualifying_distributions!=null&&d.min_investment_return!=null)?adj(d.qualifying_distributions-d.min_investment_return,d.fy):null);
+  const chSurplus = S.map(d=>(d.total_disburse_charitable!=null&&d.min_investment_return!=null)?adj(d.total_disburse_charitable-d.min_investment_return,d.fy):null);
+  const diverge = v => v==null?'#8d887799':(v>=0?COL.green+'cc':COL.red+'cc');
+  charts.distSurplus = new Chart(chDistSurplus,{type:'bar',data:{labels,datasets:[
+    {label:'Qualifying distributions vs minimum',data:qdSurplus,backgroundColor:qdSurplus.map(diverge),borderWidth:0},
+    {label:'Charitable disbursements vs minimum',data:chSurplus,backgroundColor:chSurplus.map(v=>v==null?'#8d887799':(v>=0?COL.teal+'cc':'#c9835ccc')),borderWidth:0}
+  ]},options:{responsive:true,maintainAspectRatio:false,scales:{y:money},plugins:{tooltip:ttMoney,legend:{labels:{generateLabels:c=>[
+    {text:'Qualifying distributions vs minimum',fillStyle:COL.green,strokeStyle:COL.green},
+    {text:'Charitable disbursements vs minimum',fillStyle:COL.teal,strokeStyle:COL.teal}
+  ]}}}}});
+
+  charts.people = new Chart(chPeople,{type:'bar',data:{labels,datasets:[
+    bar('Salaries & wages',g('other_salaries'),COL.blue,'p'),
+    bar('Pension & benefits',g('pension_benefits'),COL.teal,'p'),
+    bar('Officer/trustee compensation',g('comp_officers'),COL.gold,'p'),
+    line(0,'Total people costs',gsum('other_salaries','pension_benefits','comp_officers'),COL.gold2,{type:'line',borderWidth:2})
+  ]},options:{responsive:true,maintainAspectRatio:false,scales:{x:{stacked:true},y:Object.assign({stacked:true},money)},plugins:{tooltip:ttMoney}}});
 
   const fmvDelta = S.map((d,i)=>{ if(i===0) return null; const a=S[i-1].fmv_assets,b=d.fmv_assets; return (a==null||b==null)?null:adj(b-a,d.fy); });
   charts.inv = new Chart(chInv,{type:'bar',data:{labels,datasets:[
@@ -257,6 +302,34 @@ function archive(){
   document.getElementById('archive').innerHTML = RAW.archive.map(a=>
     `<a href="${a.url}" target="_blank" class="${a.cls||''}"><span class="yr">FY${a.fy}</span><span class="tag">${a.tag}</span></a>`).join('');
 }
+function renderGifts(fy){
+  const list = (RAW.donors && RAW.donors[fy]) || null;
+  if(!list){
+    giftsNote.innerHTML = `No donor schedule is available for FY${fy}. Getty's Schedule B (list of contributors) is public for private foundations and appears in the IRS e-file XML, but FY2007–FY2009 and FY2019 don't have that machine-readable source (see the Filing Archive section) — only the total on the Revenue chart is available for those years.`;
+    giftsTable.innerHTML = '';
+    return;
+  }
+  const total = list.reduce((t,d)=>t+d.amt,0);
+  const partI = Y.find(d=>d.fy==fy)?.contributions;
+  giftsNote.innerHTML = `${list.length} contributors reported on Schedule B, totaling $${fmtFull(total)}` +
+    (partI ? ` (Part I, line 1 total for the year: $${fmtFull(partI)} — Schedule B generally omits very small gifts below the IRS reporting threshold, so the two won't match exactly).` : '.') +
+    ` Source: <a href="https://projects.propublica.org/nonprofits/organizations/951790021" target="_blank" style="color:var(--gold)">ProPublica Nonprofit Explorer</a>.`;
+  giftsTable.innerHTML = '<tr><th>Contributor</th><th>City, State</th><th>Amount</th></tr>' +
+    list.map(d=>`<tr><td style="text-align:left">${d.name}</td><td style="text-align:left">${[d.city,d.state].filter(Boolean).join(', ')||'—'}</td><td>$${fmtFull(d.amt)}</td></tr>`).join('');
+}
+function openGifts(){
+  const years = RAW.donors ? Object.keys(RAW.donors).map(Number).sort((a,b)=>a-b) : [];
+  const allYears = Y.map(d=>d.fy);
+  giftsYr.innerHTML = allYears.map(y=>`<option ${y===to?'selected':''} ${!years.includes(y)?'disabled':''}>${y}${!years.includes(y)?' (unavailable)':''}</option>`).join('');
+  const startYr = years.includes(to) ? to : (years[years.length-1] || to);
+  giftsYr.value = startYr;
+  renderGifts(startYr);
+  giftsModal.classList.add('open');
+}
+function closeGifts(){ giftsModal.classList.remove('open'); }
+giftsYr.onchange = e=>renderGifts(+e.target.value);
+giftsModal.addEventListener('click', e=>{ if(e.target===giftsModal) closeGifts(); });
+
 function csv(){
   const rows = [FIELDS.map(([,l])=>l).join(',')].concat(Y.map(d=>FIELDS.map(([f])=>d[f]??'').join(',')));
   const blob = new Blob([rows.join('\n')],{type:'text/csv'});
