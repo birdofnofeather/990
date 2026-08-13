@@ -30,7 +30,7 @@ button.tgl.on{background:var(--gold);color:#14130f;border-color:var(--gold);font
 .kpi .d{font-size:12px;margin-top:4px;font-family:Verdana,Geneva,sans-serif}
 .up{color:var(--green)} .dn{color:var(--red)}
 .grid{display:grid;grid-template-columns:1fr 1fr;gap:18px}
-.card{background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:18px 18px 10px;margin-bottom:18px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:18px 18px 10px;margin-bottom:18px;position:relative}
 .card.full{grid-column:1 / -1}
 .card.collapsible > h2{cursor:pointer;user-select:none}
 .card.collapsible > h2 .caret{margin-left:auto;color:var(--muted);font-size:13px;transition:transform .15s;flex-shrink:0}
@@ -40,7 +40,7 @@ button.tgl.on{background:var(--gold);color:#14130f;border-color:var(--gold);font
 .card .note{color:var(--muted);font-size:12px;margin-bottom:10px;font-family:Verdana,Geneva,sans-serif}
 .chartbox{position:relative;height:340px}
 .chartbox.tall{height:400px}
-.chart-hint{position:absolute;top:1px;right:3px;z-index:3;font-size:9.5px;color:var(--muted);font-family:Verdana,Geneva,sans-serif;display:flex;align-items:center;gap:5px;opacity:.72;pointer-events:none}
+.chart-hint{position:absolute;top:19px;right:18px;z-index:3;font-size:9.5px;color:var(--muted);font-family:Verdana,Geneva,sans-serif;display:flex;align-items:center;gap:5px;opacity:.8;pointer-events:none}
 .chart-hint .rst{pointer-events:auto;background:var(--panel2);color:var(--muted);border:1px solid var(--line);border-radius:4px;padding:0 5px;font-size:12px;line-height:1.5;cursor:pointer;font-family:Verdana,Geneva,sans-serif}
 .chart-hint .rst:hover{color:var(--gold2);border-color:var(--gold)}
 table{width:100%;border-collapse:collapse;font-size:12.5px;font-family:Verdana,Geneva,sans-serif}
@@ -98,7 +98,7 @@ nav a:hover{color:var(--gold2);border-color:var(--line);background:var(--panel)}
 </header>
 
 <nav>
-  <a href="#top">Overview</a><a href="#sec-net">Net Worth</a><a href="#sec-rev">Revenue</a><a href="#sec-exp">Expenses</a><a href="#sec-dist">Distributions</a><a href="#sec-people">People</a><a href="#sec-inv">Investments</a><a href="#sec-table">Data Table</a><a href="#sec-off">Leadership</a><a href="#sec-arch">Archive</a>
+  <a href="#top">Overview</a><a href="#sec-net">Net Worth</a><a href="#sec-rev">Revenue</a><a href="#sec-exp">Expenses</a><a href="#sec-dist">Distributions</a><a href="#sec-people">People</a><a href="#sec-inv">Investments</a><a href="#sec-table">Data Table</a><a href="#sec-arch">Archive</a>
 </nav>
 
 <div class="controls" id="top">
@@ -115,42 +115,37 @@ nav a:hover{color:var(--gold2);border-color:var(--line);background:var(--panel)}
   <div class="card full" id="sec-net">
     <h2>Endowment &amp; Net Worth<span class="info" data-tip="FMV of assets: what everything the Trust owns would sell for today. Net assets (book): assets minus liabilities, at accounting (not market) value. Liabilities: everything the Trust owes. Mortgages &amp; notes payable: the bond/loan debt portion of liabilities.">ⓘ</span></h2>
     <div class="note">Fair-market value of all assets (Form 990-PF item I) vs. book-value net assets and total liabilities, end of fiscal year.</div>
-    <div class="chartbox tall"><div class="chart-hint">click a key metric to hide it<button class="rst" onclick="resetChart('net')" title="Show all metrics again">↺</button></div><canvas id="chNet"></canvas></div>
+    <div class="chart-hint">click a metric to isolate it<button class="rst" onclick="resetChart('net')" title="Reset — show all metrics">↺</button></div><div class="chartbox tall"><canvas id="chNet"></canvas></div>
   </div>
   <div class="card" id="sec-rev">
     <h2>Revenue Composition<span class="info" data-tip="All the money the Trust took in during the year, broken into where it came from: gains from selling investments, interest/dividends/rent, museum &amp; program revenue, donations, and everything else.">ⓘ</span></h2>
     <div class="note">Part I, column (a). Realized investment gains dominate and swing with markets — negative bars are net realized losses. <button class="link-btn" onclick="openGifts()">View gift schedule (donor list) →</button></div>
-    <div class="chartbox"><div class="chart-hint">click a key metric to hide it<button class="rst" onclick="resetChart('rev')" title="Show all metrics again">↺</button></div><canvas id="chRev"></canvas></div>
+    <div class="chart-hint">click a metric to isolate it<button class="rst" onclick="resetChart('rev')" title="Reset — show all metrics">↺</button></div><div class="chartbox"><canvas id="chRev"></canvas></div>
   </div>
   <div class="card" id="sec-exp">
     <h2>Operating Expense Composition<span class="info" data-tip="Everything the Trust spent during the year, broken into categories: staff pay, professional fees, occupancy/travel, grants, etc. The gold line is the total of everything below it.">ⓘ</span></h2>
     <div class="note">Part I, column (a), lines 13–25. "Grants paid" is line 25; the Getty is an operating foundation, so most spending is direct program operations.</div>
-    <div class="chartbox"><div class="chart-hint">click a key metric to hide it<button class="rst" onclick="resetChart('exp')" title="Show all metrics again">↺</button></div><canvas id="chExp"></canvas></div>
+    <div class="chart-hint">click a metric to isolate it<button class="rst" onclick="resetChart('exp')" title="Reset — show all metrics">↺</button></div><div class="chartbox"><canvas id="chExp"></canvas></div>
   </div>
   <div class="card" id="sec-dist">
-    <h2>Mission Spending &amp; Distributions<span class="info" data-tip="Total qualifying distributions (Part XII) with charitable disbursements (Part I col. d) drawn nested inside it, against minimum investment return (Part X). Charitable disbursements — direct spending on programs, the museum, conservation, etc. — is a component of qualifying distributions (on the 990-PF it is literally line 1a of Part XII), so it is shown INSIDE the gold bar rather than stacked on top. The gold showing above the green is the rest of what counts toward payout: mainly acquisitions of art and facilities for charitable use, program-related investments, and set-asides. MIR is NOT what the Trust earned on its investments; it is a legally required formula (roughly 5% of investment assets not used directly for charity) that sets a payout floor for most private foundations. As a private operating foundation, Getty is exempt from that standard payout test, so falling below the line is not a violation.">ⓘ</span></h2>
+    <h2>Mission Spending &amp; Distributions<span class="info" data-tip="Total qualifying distributions (Part XII) with charitable disbursements (Part I col. d) drawn as a solid core inside the total, against minimum investment return (Part X). Charitable disbursements — direct spending on programs, the museum, conservation, etc. — IS line 1a of Part XII, so it sits inside the total rather than stacked on top. The band above the core is the rest of Part XII: amounts paid to acquire assets used for charitable purposes (line 2 — e.g. art and buildings), program-related investments (line 1b), and set-asides (line 3). Those are real, separate Part XII line items. MIR is NOT what the Trust earned; it is a fixed IRS formula — 5% of the average fair-market value of assets not used for charitable purposes, less any debt used to buy them — that sets the payout floor for most private foundations. The foundation does not choose it, and there is no multi-year smoothing. As a private operating foundation, Getty is exempt from that standard payout test, so falling below the line is not a violation.">ⓘ</span></h2>
     <div class="note">Part I col. d, Part XII, and Part X (Form 990-PF). Charitable disbursements is a subset of qualifying distributions, so it is nested inside the gold bar — not stacked on top of it. Hover ⓘ for detail.</div>
-    <div class="chartbox"><div class="chart-hint">click a key metric to hide it<button class="rst" onclick="resetChart('dist')" title="Show all metrics again">↺</button></div><canvas id="chDist"></canvas></div>
+    <div class="chart-hint">click a metric to isolate it<button class="rst" onclick="resetChart('dist')" title="Reset — show all metrics">↺</button></div><div class="chartbox"><canvas id="chDist"></canvas></div>
   </div>
   <div class="card" id="sec-people">
     <h2>People Costs<span class="info" data-tip="Salaries & wages, pension/benefits, and officer/trustee compensation (Part I lines 13–15) — three separate line items, stacked here to show total workforce cost. Officer/trustee compensation is reported apart from 'other employee' salaries (line 13 vs. line 14) — it is NOT included within the salaries figure.">ⓘ</span></h2>
     <div class="note">Part I, lines 13–15 (Form 990-PF). Hover ⓘ for what these mean.</div>
-    <div class="chartbox"><div class="chart-hint">click a key metric to hide it<button class="rst" onclick="resetChart('people')" title="Show all metrics again">↺</button></div><canvas id="chPeople"></canvas></div>
+    <div class="chart-hint">click a metric to isolate it<button class="rst" onclick="resetChart('people')" title="Reset — show all metrics">↺</button></div><div class="chartbox"><canvas id="chPeople"></canvas></div>
   </div>
   <div class="card full" id="sec-inv">
     <h2>Investment Performance Proxies<span class="info" data-tip="How the endowment's investments actually performed: net realized gains/losses from selling assets, net investment income (dividends/interest/rent minus related expenses), and the year-over-year change in total market value of assets.">ⓘ</span></h2>
     <div class="note">Net realized gains on asset sales, net investment income, and year-over-year change in FMV of assets.</div>
-    <div class="chartbox"><div class="chart-hint">click a key metric to hide it<button class="rst" onclick="resetChart('inv')" title="Show all metrics again">↺</button></div><canvas id="chInv"></canvas></div>
+    <div class="chart-hint">click a metric to isolate it<button class="rst" onclick="resetChart('inv')" title="Reset — show all metrics">↺</button></div><div class="chartbox"><canvas id="chInv"></canvas></div>
   </div>
   <div class="card full" id="sec-table">
     <h2>All Tracked Metrics — FY2007–FY2024</h2>
     <div class="note">Click a column header to sort. Values as filed (nominal $). Scroll horizontally for all fields — the fiscal year column stays pinned.</div>
     <div class="scroll bigTable-wrap"><table id="bigTable"></table></div>
-  </div>
-  <div class="card full collapsible collapsed" id="sec-off">
-    <h2 onclick="toggleCard(this.parentNode)">Officer &amp; Trustee Compensation — FY2024<span class="caret">▾</span></h2>
-    <div class="note">Part VIII, as filed for the year ending June 30, 2024. Compensation excludes benefits/expense allowances unless noted.</div>
-    <div class="scroll" style="max-height:320px"><table id="offTable"></table></div>
   </div>
   <div class="card full collapsible collapsed" id="sec-arch">
     <h2 onclick="toggleCard(this.parentNode)">Filing Archive<span class="caret">▾</span></h2>
@@ -160,7 +155,7 @@ nav a:hover{color:var(--gold2);border-color:var(--line);background:var(--panel)}
 </div>
 
 <footer id="foot">
-  <p><b>Sources.</b> IRS e-file XML via GivingTuesday 990 Data Lake (990-infrastructure.gtdata.org / gt990datalake-rawdata S3) for FY2010–FY2018 and FY2020–FY2024; hand-verified extraction from IRS e-file text-layer PDFs (990s.foundationcenter.org archive, confirmed "As Filed Data" e-file marker, not scanned) for FY2007–FY2009; IRS-extracted structured data via ProPublica Nonprofit Explorer API for FY2019 totals, with every Part I expense line item and qualifying distributions transcribed directly from the source PDF (ProPublica's display_990 viewer; that filing is paper-only, so no XML or clean text layer exists) and confirmed by the user. Every value is cross-checked: column sums match printed subtotals exactly (FY2019's ten transcribed line items sum to $307,822,113, matching both the filing's own printed total and the independent ProPublica figure), each year's beginning-of-year balance ties to the prior year's end-of-year balance across the full FY2007–FY2024 span, and overlapping totals agree across independent sources. FY2001–FY2006 are scanned filings and are never charted — no OCR appears anywhere in this dashboard.</p>
+  <p><b>Sources.</b> IRS e-file XML via GivingTuesday 990 Data Lake (990-infrastructure.gtdata.org / gt990datalake-rawdata S3) for FY2010–FY2018 and FY2020–FY2024; hand-verified extraction from IRS e-file text-layer PDFs (990s.foundationcenter.org archive, confirmed "As Filed Data" e-file marker, not scanned) for FY2007–FY2009; and, for FY2019 (paper-filed — the only year with no e-file XML), IRS-extracted structured totals via the ProPublica Nonprofit Explorer API with the Part I expense line items and qualifying distributions transcribed directly from the source filing and confirmed. Values are cross-checked: each year's beginning-of-year balance ties to the prior year's end-of-year balance across FY2007–FY2024, and overlapping totals agree across independent sources.</p>
   <p><b>Notes.</b> Fiscal years end June 30 (FY2024 = July 2023–June 2024). "2024 dollars" uses annual-average CPI-U for the calendar year of each fiscal year end. Total revenue swings (FY2009 crisis-year loss; FY2020/FY2023 dips) reflect realized-gain timing, not operating health. Prepared <span id="genDate"></span>; not financial advice.</p>
 </footer>
 </div>
@@ -204,6 +199,13 @@ Chart.defaults.font.family = 'Verdana,Geneva,sans-serif';
 Chart.defaults.font.size = 11;
 Chart.defaults.plugins.legend.align = 'start';
 Chart.defaults.plugins.legend.labels.boxWidth = 14;
+Chart.defaults.plugins.legend.onClick = function(e, item, legend){
+  const ch = legend.chart, idx = item.datasetIndex;
+  const vis = ch.data.datasets.map((_,i)=>ch.isDatasetVisible(i));
+  const onlyThis = vis[idx] && vis.every((v,i)=>i===idx ? v : !v);
+  ch.data.datasets.forEach((_,i)=>ch.setDatasetVisibility(i, onlyThis ? true : i===idx));
+  ch.update();
+};
 const money = {ticks:{callback:v=>'$'+fmtB(v)}};
 const ttMoney = {callbacks:{label:c=>` ${c.dataset.label}: $${fmtFull(c.parsed.y)}`}};
 
@@ -268,8 +270,8 @@ function build(){
   ]},options:{responsive:true,maintainAspectRatio:false,scales:{x:{stacked:true},y:Object.assign({stacked:true},money)},plugins:{tooltip:ttMoney}}});
 
   charts.dist = new Chart(chDist,{type:'bar',data:{labels,datasets:[
-    {label:'Qualifying distributions (Pt XII, total)',data:g('qualifying_distributions'),backgroundColor:COL.gold+'bb',borderColor:COL.gold,borderWidth:1,grouped:false,categoryPercentage:0.8,barPercentage:1.0,order:1},
-    {label:'└ of which: charitable disbursements (col d)',data:g('total_disburse_charitable'),backgroundColor:COL.green,borderColor:'#5e7d4d',borderWidth:1,grouped:false,categoryPercentage:0.8,barPercentage:0.5,order:2},
+    {label:'Qualifying distributions (Pt XII, total)',data:g('qualifying_distributions'),backgroundColor:COL.green+'99',borderColor:COL.green,borderWidth:1,grouped:false,categoryPercentage:0.8,barPercentage:1.0,order:1},
+    {label:'└ of which: charitable disbursements (col d)',data:g('total_disburse_charitable'),backgroundColor:COL.gold,borderColor:'#a8823f',borderWidth:1,grouped:false,categoryPercentage:0.8,barPercentage:0.5,order:2},
     line(0,'Minimum investment return (legal payout floor, not actual return)',g('min_investment_return'),COL.violet,{type:'line',borderDash:[5,4],pointRadius:0,borderWidth:2.5,order:3})
   ]},options:{responsive:true,maintainAspectRatio:false,scales:{y:money},plugins:{tooltip:ttMoney}}});
 
@@ -290,7 +292,7 @@ function build(){
 
 const FIELDS = [
  ['fy','Fiscal yr'],['total_revenue','Revenue'],['total_expenses','Expenses'],['excess_revenue','Surplus'],
- ['contributions','Gifts rcvd'],['dividends','Dividends'],['net_gain_assets','Realized gains'],['other_income','Other inc'],
+ ['contributions','Gifts rcvd'],['dividends','Dividends'],['net_gain_assets','Realized gains'],['other_income','Other income'],
  ['comp_officers','Officer comp'],['other_salaries','Salaries'],['pension_benefits','Benefits'],
  ['total_operating','Operating exp'],['grants_paid','Grants paid'],['total_disburse_charitable','Charitable disb'],
  ['net_investment_income','Net inv income'],['qualifying_distributions','Qualifying dist'],['min_investment_return','Min inv return'],
@@ -300,14 +302,9 @@ let sortF = 'fy', sortDir = 1;
 function table(){
   const S = [...Y].sort((a,b)=>((a[sortF]??-Infinity)-(b[sortF]??-Infinity))*sortDir);
   let h = '<tr>'+FIELDS.map(([f,l])=>`<th data-f="${f}">${l}${sortF===f?(sortDir>0?' ▲':' ▼'):''}</th>`).join('')+'</tr>';
-  h += S.map(d=>'<tr>'+FIELDS.map(([f])=>`<td>${f==='fy'?('FY'+d.fy+(d.source==='pp'?'†':'')):fmtFull(d[f])}</td>`).join('')+'</tr>').join('');
+  h += S.map(d=>'<tr>'+FIELDS.map(([f])=>`<td${(typeof d[f]==='number'&&d[f]<0)?' style="color:var(--red)"':''}>${f==='fy'?('FY'+d.fy+(d.source==='pp'?'†':'')):fmtFull(d[f])}</td>`).join('')+'</tr>').join('');
   bigTable.innerHTML = h;
   bigTable.querySelectorAll('th').forEach(th=>th.onclick=()=>{const f=th.dataset.f; if(sortF===f)sortDir*=-1; else {sortF=f;sortDir=1;} table();});
-}
-function officers(){
-  const o = RAW.officers2024.filter(x=>x.comp!=null).sort((a,b)=>b.comp-a.comp);
-  offTable.innerHTML = '<tr><th>Name</th><th>Title</th><th>Compensation</th><th>Benefits</th></tr>'+
-    o.map(x=>`<tr><td>${x.name||''}</td><td style="text-align:left">${(x.title||'').replace(/\s+/g,' ')}</td><td>$${fmtFull(x.comp)}</td><td>${x.benefits!=null?'$'+fmtFull(x.benefits):'—'}</td></tr>`).join('');
 }
 function archive(){
   document.getElementById('archive').innerHTML = RAW.archive.map(a=>
@@ -480,7 +477,7 @@ btnReal.onclick = ()=>{mode='real';btnReal.classList.add('on');btnNom.classList.
 btnCsv.onclick = csv;
 document.getElementById('genDate').textContent = 'July 2026';
 
-makeKpis(); build(); table(); officers(); archive();
+makeKpis(); build(); table(); archive();
 </script>
 </body>
 </html>
