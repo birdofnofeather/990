@@ -146,6 +146,7 @@ nav a:hover{color:var(--gold2);border-color:var(--line);background:var(--panel)}
     <h2>All Tracked Metrics — FY2007–FY2025</h2>
     <div class="note">Click a column header to sort. Values as filed (nominal $). Scroll horizontally for all fields — the fiscal year column stays pinned.</div>
     <div class="scroll bigTable-wrap"><table id="bigTable"></table></div>
+    <div class="src" id="tableLegend"></div>
   </div>
   <div class="card full collapsible collapsed" id="sec-arch">
     <h2 onclick="toggleCard(this.parentNode)">Filing Archive<span class="caret">▾</span></h2>
@@ -221,13 +222,18 @@ function makeKpis(){
     ['FMV of assets','fmv_assets'],['Total revenue','total_revenue'],['Total expenses','total_expenses'],
     ['Qualifying distributions','qualifying_distributions'],['Grants paid','grants_paid'],['Salaries & wages','other_salaries']
   ];
+  // Both years are put on the same basis before comparing. In "real" mode the headline value itself is
+  // unchanged whenever the latest year IS the CPI base year (FY2025 in 2025 dollars is FY2025), but the
+  // prior year gets inflated to base-year dollars, so the percentage is a real change, not a nominal
+  // one. The basis is spelled out on the card so the two readings can't be confused.
   document.getElementById('kpis').innerHTML = items.map(([k,f])=>{
-    const v=last[f], p=prev[f];
+    const v=adj(last[f],last.fy), p=adj(prev[f],prev.fy);
     const pct = (v!=null&&p)? ((v-p)/Math.abs(p)*100) : null;
     const cls = pct==null?'':(pct>=0?'up':'dn');
     const arrow = pct==null?'':(pct>=0?'▲':'▼');
+    const basis = mode==='real' ? ` · real, ${BASE_FY} $` : '';
     return `<div class="kpi"><div class="k">${k} · FY${last.fy}</div><div class="v">${fmt$(v)}</div>
-      <div class="d ${cls}">${pct==null?'':arrow+' '+Math.abs(pct).toFixed(1)+'% vs FY'+prev.fy}</div></div>`;
+      <div class="d ${cls}">${pct==null?'':arrow+' '+Math.abs(pct).toFixed(1)+'% vs FY'+prev.fy+basis}</div></div>`;
   }).join('');
 }
 
@@ -238,6 +244,7 @@ function line(ds,label,data,color,extra={}){return Object.assign({label,data,bor
 function bar(label,data,color,stack){return {label,data,backgroundColor:color+'cc',borderColor:color,borderWidth:1,stack}}
 
 function build(){
+  makeKpis();   // KPIs share the nominal/real basis, so they are rebuilt whenever the charts are
   const S = sel(), labels = S.map(d=>'FY'+d.fy);
   const g = f => S.map(d=>adj(d[f],d.fy));
   const sum = (...fs) => S.map(d=>{let t=null;fs.forEach(f=>{if(d[f]!=null)t=(t||0)+d[f]});return t==null?null:adj(t,S[0]&&0?0:0)||adj(t, d.fy)});
@@ -304,13 +311,30 @@ const FIELDS = [
  ['net_investment_income','Net inv income'],['qualifying_distributions','Qualifying dist'],['min_investment_return','Min inv return'],
  ['total_assets_eoy','Assets (book)'],['total_liabilities_eoy','Liabilities'],['net_assets_eoy','Net assets'],['fmv_assets','Assets (FMV)']
 ];
+// Provenance markers for the fiscal-year column. Keyed by the dataset's own `source` value, and the
+// legend is generated from the sources actually present, so a marker can never appear without an
+// explanation (or be silently dropped if a source string changes).
+const SRC_MARK = {
+  'pdf-text': {mark:'‡', label:'Hand-verified line-by-line from the IRS e-file text-layer PDF. The IRS released no XML for these years; these are as-filed e-file documents, not scans, and no OCR was used.'},
+  'pp+user-transcribed': {mark:'†', label:'Paper-filed year with no e-file XML. Totals are the IRS-extracted structured data via ProPublica; the Part I expense line items and qualifying distributions were transcribed from the filing itself and confirmed against the printed line-24 total.'}
+};
 let sortF = 'fy', sortDir = 1;
 function table(){
   const S = [...Y].sort((a,b)=>((a[sortF]??-Infinity)-(b[sortF]??-Infinity))*sortDir);
   let h = '<tr>'+FIELDS.map(([f,l])=>`<th data-f="${f}">${l}${sortF===f?(sortDir>0?' ▲':' ▼'):''}</th>`).join('')+'</tr>';
-  h += S.map(d=>'<tr>'+FIELDS.map(([f])=>`<td${(typeof d[f]==='number'&&d[f]<0)?' style="color:var(--red)"':''}>${f==='fy'?('FY'+d.fy+(d.source==='pp'?'†':'')):fmtFull(d[f])}</td>`).join('')+'</tr>').join('');
+  const mark = d => (SRC_MARK[d.source] ? SRC_MARK[d.source].mark : '');
+  h += S.map(d=>'<tr>'+FIELDS.map(([f])=>`<td${(typeof d[f]==='number'&&d[f]<0)?' style="color:var(--red)"':''}>${f==='fy'?('FY'+d.fy+mark(d)):fmtFull(d[f])}</td>`).join('')+'</tr>').join('');
   bigTable.innerHTML = h;
   bigTable.querySelectorAll('th').forEach(th=>th.onclick=()=>{const f=th.dataset.f; if(sortF===f)sortDir*=-1; else {sortF=f;sortDir=1;} table();});
+
+  // legend: only the markers that actually occur, each with the years it covers
+  const used = Object.keys(SRC_MARK).filter(s=>Y.some(d=>d.source===s));
+  document.getElementById('tableLegend').innerHTML = used.length===0 ? '' :
+    ['<b>Source markers.</b> Unmarked years are taken straight from the IRS e-file XML.'].concat(
+      used.map(s=>{
+        const yrs = Y.filter(d=>d.source===s).map(d=>'FY'+d.fy).join(', ');
+        return `<span style="color:var(--gold2)">${SRC_MARK[s].mark}</span> ${yrs} — ${SRC_MARK[s].label}`;
+      })).join('<br>');
 }
 function archive(){
   document.getElementById('archive').innerHTML = RAW.archive.map(a=>
@@ -483,7 +507,7 @@ btnReal.onclick = ()=>{mode='real';btnReal.classList.add('on');btnNom.classList.
 btnCsv.onclick = csv;
 document.getElementById('genDate').textContent = 'September 2026';
 
-makeKpis(); build(); table(); archive();
+build(); table(); archive();   // build() draws the KPI row as well as the charts
 </script>
 </body>
 </html>
