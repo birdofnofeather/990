@@ -773,82 +773,128 @@
    "tax_period_end": "2024-06-30",
    "fy": 2024,
    "source": "xml"
+  },
+  {
+   "contributions": 25468138,
+   "interest": 19219711,
+   "dividends": 56820138,
+   "gross_rents": 431048,
+   "net_gain_assets": 524828780,
+   "gross_profit": 9914816,
+   "other_income": 130754014,
+   "total_revenue": 767436645,
+   "comp_officers": 8454414,
+   "other_salaries": 142889738,
+   "pension_benefits": 52155503,
+   "legal_fees": 3129431,
+   "accounting_fees": 1090180,
+   "other_prof_fees": 10140695,
+   "interest_exp": 16907790,
+   "taxes": 1623251,
+   "depreciation": 38465359,
+   "occupancy": 23732779,
+   "travel_conf": 10109768,
+   "printing_publications": 1421606,
+   "other_expenses": 109912620,
+   "total_operating": 420033134,
+   "grants_paid": 28503870,
+   "total_expenses": 448537004,
+   "excess_revenue": 318899641,
+   "net_investment_income": 780536477,
+   "adjusted_net_income": 455019381,
+   "total_disburse_charitable": 363878679,
+   "operating_disburse_charitable": 334780161,
+   "fmv_assets": 17878410628,
+   "total_assets_eoy": 13904189210,
+   "total_liabilities_eoy": 1216380591,
+   "net_assets_eoy": 12687808619,
+   "total_assets_boy": 12953287350,
+   "min_investment_return": 451942461,
+   "distributable_amount": null,
+   "qualifying_distributions": 438486699,
+   "mortgages_payable": 1042480000,
+   "tax_period_end": "2025-06-30",
+   "fy": 2025,
+   "source": "xml"
   }
  ],
- "officers2024": [
-  {
-   "name": "JAMES M WILLIAMS",
-   "title": "VP, TREASURER & CIO",
-   "comp": 2384105,
-   "benefits": 2016507
-  },
-  {
-   "name": "KATHERINE E FLEMING",
-   "title": "TRUSTEE, PRES. & CEO",
-   "comp": 1942360,
-   "benefits": 54509
-  },
-  {
-   "name": "BARBARA JESUELE",
-   "title": "DEPUTY CHIEF INV OFFICER, ASST TREAS",
-   "comp": 1222036,
-   "benefits": 1230039
-  },
-  {
-   "name": "BENJAMIN LIOU",
-   "title": "MNG DIR EQ & BONDS, ASST TRE",
-   "comp": 1116070,
-   "benefits": 1044956
-  },
-  {
-   "name": "DAVID HUGHES",
-   "title": "MNG DIR PUB SEC, ASST TREAS",
-   "comp": 1100423,
-   "benefits": 973508
-  },
-  {
-   "name": "STEVEN A OLSEN",
-   "title": "VP, CFO & COO",
-   "comp": 926229,
-   "benefits": 60680
-  },
-  {
-   "name": "LISA LAPIN",
-   "title": "VP, COMM & CORP RELATIONS",
-   "comp": 925269,
-   "benefits": 48021
-  },
-  {
-   "name": "STEPHEN W CLARK",
-   "title": "VP, GEN. COUNSEL, & SECRETARY",
-   "comp": 712474,
-   "benefits": 95479
-  },
-  {
-   "name": "JENN STRINGER",
-   "title": "VP, CHIEF DIGITAL OFFICER",
-   "comp": 490465,
-   "benefits": 88467
-  },
-  {
-   "name": "KATHARINE KRIEGER",
-   "title": "VP, TREASURER & CIO",
-   "comp": 461538,
-   "benefits": 28586
-  },
-  {
-   "name": "NANCY GIBSON",
-   "title": "VP, CHIEF HR OFFICER",
-   "comp": 437355,
-   "benefits": 71420
-  },
-  {
-   "name": "WILLIAM G HUMPHRIES",
-   "title": "CONTROLLER",
-   "comp": 344430,
-   "benefits": 70751
-  }
- ],
+ "officersLatest": {
+  "fy": 2025,
+  "list": [
+   {
+    "name": "KATHERINE E FLEMING",
+    "title": "TRUSTEE, PRES. & CEO",
+    "comp": 2045637,
+    "benefits": 58905
+   },
+   {
+    "name": "KATHARINE KRIEGER",
+    "title": "VP, TREASURER & CIO",
+    "comp": 1852481,
+    "benefits": 426036
+   },
+   {
+    "name": "BARBARA JESUELE",
+    "title": "DEPUTY CHIEF INV OFFICER",
+    "comp": 925731,
+    "benefits": 272124
+   },
+   {
+    "name": "BENJAMIN LIOU",
+    "title": "SR MNG DIR EQ & BONDS",
+    "comp": 840838,
+    "benefits": 252287
+   },
+   {
+    "name": "STEPHEN W CLARK",
+    "title": "VP, GEN. COUNSEL, & SECRETARY",
+    "comp": 748793,
+    "benefits": 86749
+   },
+   {
+    "name": "PIERRE OUILLET",
+    "title": "EVP, FINANCE & OPERATIONS",
+    "comp": 548077,
+    "benefits": 71704
+   },
+   {
+    "name": "JENN STRINGER",
+    "title": "VP, CHIEF DIGITAL OFFICER",
+    "comp": 520031,
+    "benefits": 77527
+   },
+   {
+    "name": "NANCY GIBSON",
+    "title": "VP, CHIEF HR OFFICER",
+    "comp": 464317,
+    "benefits": 73131
+   },
+   {
+    "name": "WILLIAM G HUMPHRIES",
+    "title": "CONTROLLER",
+    "comp": 362296,
+    "benefits": 74236
+   },
+   {
+    "name": "KELLY S MOODY",
+    "title": "VP, DEVELOP AND INST. ADV.",
+    "comp": 146214,
+    "benefits": 22187
+   },
+   {
+    "name": "ANTONIETA MONALDI ARANGO",
+    "title": "TRUSTEE",
+    "comp": 0,
+    "benefits": 0
+   },
+   {
+    "name": "MARY SCHMIDT CAMPBELL",
+    "title": "TRUSTEE",
+    "comp": 0,
+    "benefits": 0
+   }
+  ]
+ },
  "archive": [
   {
    "fy": 2007,
@@ -938,6 +984,11 @@
   {
    "fy": 2024,
    "url": "https://projects.propublica.org/nonprofits/organizations/951790021/202531359349102323/full",
+   "tag": "XML"
+  },
+  {
+   "fy": 2025,
+   "url": "https://projects.propublica.org/nonprofits/organizations/951790021/202611279349102996/full",
    "tag": "XML"
   }
  ],
@@ -16586,6 +16637,1658 @@
     "city": "SANTA MONICA",
     "state": "CA",
     "amt": 5000
+   }
+  ],
+  "2025": [
+   {
+    "name": "BURKE T ROBERT",
+    "city": "WOODSIDE",
+    "state": "CA",
+    "amt": 7207500
+   },
+   {
+    "name": "ARCADIA FUND (ARCADIA PHILANTHROPIC TRUST)",
+    "city": "LONDON",
+    "state": null,
+    "amt": 1500000
+   },
+   {
+    "name": "HELEN FRANKENTHALER FOUNDATION",
+    "city": "NEW YORK",
+    "state": "NY",
+    "amt": 1500000
+   },
+   {
+    "name": "ANDY WARHOL FOUNDATION FOR THE VISUAL ARTS",
+    "city": "NEW YORK",
+    "state": "NY",
+    "amt": 1000000
+   },
+   {
+    "name": "QATAR MUSEUMS",
+    "city": "DOHA",
+    "state": null,
+    "amt": 1000000
+   },
+   {
+    "name": "GS DONOR ADVISED PHILANTHROPY FUND FOR WEALTH MANAGEMENT",
+    "city": "ALBANY",
+    "state": "NY",
+    "amt": 510000
+   },
+   {
+    "name": "LACMA (LOS ANGELES COUNTY MUSEUM OF ART)",
+    "city": "LOS ANGELES",
+    "state": "CA",
+    "amt": 500000
+   },
+   {
+    "name": "PANDA CHARITABLE (FAMILY) FOUNDATION",
+    "city": "ROSEMEAD",
+    "state": "CA",
+    "amt": 500000
+   },
+   {
+    "name": "GREENE JOSHUA",
+    "city": "FLORENCE",
+    "state": "OR",
+    "amt": 424500
+   },
+   {
+    "name": "FIDELITY CHARITABLE GIFT FUND",
+    "city": "CINCINNATI",
+    "state": "OH",
+    "amt": 368000
+   },
+   {
+    "name": "CALIFORNIA COMMUNITY FOUNDATION",
+    "city": "LOS ANGELES",
+    "state": "CA",
+    "amt": 350000
+   },
+   {
+    "name": "TRELLIS ART FUND",
+    "city": "NEW YORK",
+    "state": "NY",
+    "amt": 330000
+   },
+   {
+    "name": "KOSUGA TOMOKAZU",
+    "city": "AMSTERDAM",
+    "state": null,
+    "amt": 270000
+   },
+   {
+    "name": "SCHWAB CHARITABLE FUND",
+    "city": "SAN FRANCISCO",
+    "state": "CA",
+    "amt": 263500
+   },
+   {
+    "name": "ARISON ARTS FOUNDATION",
+    "city": "CORAL GABLES",
+    "state": "FL",
+    "amt": 250000
+   },
+   {
+    "name": "BANK OF AMERICA",
+    "city": "LOS ANGELES",
+    "state": "CA",
+    "amt": 250000
+   },
+   {
+    "name": "GEORGE W LUCAS JR LIVING TRUST",
+    "city": "LOS ALTOS",
+    "state": "CA",
+    "amt": 250000
+   },
+   {
+    "name": "LOEWENTHEIL STEPHAN",
+    "city": "BROOKLYN",
+    "state": "NY",
+    "amt": 250000
+   },
+   {
+    "name": "MARION BOULTON KIPPY STROUD FOUNDATION",
+    "city": "PHILADELPHIA",
+    "state": "PA",
+    "amt": 250000
+   },
+   {
+    "name": "SEGERSTROM ELIZABETH",
+    "city": "NEWPORT BEACH",
+    "state": "CA",
+    "amt": 250000
+   },
+   {
+    "name": "TEIGER FOUNDATION",
+    "city": "NEW YORK",
+    "state": "NY",
+    "amt": 250000
+   },
+   {
+    "name": "ART INVEST II LLC",
+    "city": "NEW YORK",
+    "state": "NY",
+    "amt": 240000
+   },
+   {
+    "name": "ROBERT RAUSCHENBERG FOUNDATION",
+    "city": "NEW YORK",
+    "state": "NY",
+    "amt": 200000
+   },
+   {
+    "name": "SOUTH COAST PLAZA",
+    "city": "COSTA MESA",
+    "state": "CA",
+    "amt": 200000
+   },
+   {
+    "name": "KRAUS FAMILY FOUNDATION",
+    "city": "NEW YORK",
+    "state": "NY",
+    "amt": 150000
+   },
+   {
+    "name": "LOESBERG MARILYN PEARL",
+    "city": "RANCHO MIRAGE",
+    "state": "CA",
+    "amt": 150000
+   },
+   {
+    "name": "GINN RAYMOND PETTIBON",
+    "city": "NEW YORK",
+    "state": "NY",
+    "amt": 139000
+   },
+   {
+    "name": "PROPPER KERRY",
+    "city": "NEW YORK",
+    "state": "NY",
+    "amt": 135000
+   },
+   {
+    "name": "ENGLISH BRIAN",
+    "city": "SHERMAN OAKS",
+    "state": "CA",
+    "amt": 117500
+   },
+   {
+    "name": "AMERICAN ENDOWMENT FOUNDATION",
+    "city": "HUDSON",
+    "state": "OH",
+    "amt": 111500
+   },
+   {
+    "name": "CORDAY FAMILY FOUNDATION (CORDAY FOUNDATION)",
+    "city": "LOS ANGELES",
+    "state": "CA",
+    "amt": 104633
+   },
+   {
+    "name": "ART DEALERS ASSOCIATION OF AMERICA INC",
+    "city": "NEW YORK",
+    "state": "NY",
+    "amt": 100000
+   },
+   {
+    "name": "BROAD ART FOUNDATION",
+    "city": "LOS ANGELES",
+    "state": "CA",
+    "amt": 100000
+   },
+   {
+    "name": "CHARNAS SHARYN",
+    "city": "LOS ANGELES",
+    "state": "CA",
+    "amt": 100000
+   },
+   {
+    "name": "DONALD A PELS CHARITABLE TRUST",
+    "city": "NEW YORK",
+    "state": "NY",
+    "amt": 100000
+   },
+   {
+    "name": "DUNARD FUND USA",
+    "city": "EDINBURGH",
+    "state": null,
+    "amt": 100000
+   },
+   {
+    "name": "ELLSWORTH KELLY FOUNDATION",
+    "city": "SPENCERTOWN",
+    "state": "NY",
+    "amt": 100000
+   },
+   {
+    "name": "HOWARD AND NANCY MARKS CHARITABLE FOUNDATION (IM H N MARKS)",
+    "city": "LOS ANGELES",
+    "state": "CA",
+    "amt": 100000
+   },
+   {
+    "name": "RICHEMONT NORTH AMERICA INC",
+    "city": "NEW YORK",
+    "state": "NY",
+    "amt": 100000
+   },
+   {
+    "name": "SMIDT FOUNDATION",
+    "city": "BEVERLY HILLS",
+    "state": "CA",
+    "amt": 100000
+   },
+   {
+    "name": "CURRAN DARRYL J",
+    "city": "LOS ANGELES",
+    "state": "CA",
+    "amt": 89500
+   },
+   {
+    "name": "PIRCHER NINA",
+    "city": "W HOLLYWOOD",
+    "state": "CA",
+    "amt": 88409
+   },
+   {
+    "name": "LAURA AGUILAR TRUST OF 2016",
+    "city": "LOS ANGELES",
+    "state": "CA",
+    "amt": 80500
+   },
+   {
+    "name": "A&L BERG FOUNDATION",
+    "city": "LOS ANGELES",
+    "state": "CA",
+    "amt": 75000
+   },
+   {
+    "name": "CHRISTIE'S NEW YORK",
+    "city": "NEW YORK",
+    "state": "NY",
+    "amt": 75000
+   },
+   {
+    "name": "DELOITTE",
+    "city": "LOS ANGELES",
+    "state": "CA",
+    "amt": 75000
+   },
+   {
+    "name": "JOAN MITCHELL FOUNDATION",
+    "city": "NEW YORK",
+    "state": "NY",
+    "amt": 75000
+   },
+   {
+    "name": "MARCH VENTURE CAPITAL MANAGEMENT SERVICES LLC",
+    "city": "LOS ANGELES",
+    "state": "CA",
+    "amt": 75000
+   },
+   {
+    "name": "WILLEM DE KOONING FOUNDATION",
+    "city": "NEW YORK",
+    "state": "NY",
+    "amt": 75000
+   },
+   {
+    "name": "CANON INSURANCE SERVICE",
+    "city": "BEVERLY HILLS",
+    "state": "CA",
+    "amt": 72308
+   },
+   {
+    "name": "MARC SELWYN FINE ART",
+    "city": "BEVERLY HILLS",
+    "state": "CA",
+    "amt": 67000
+   },
+   {
+    "name": "JOY OF GIVING SOMETHING INC",
+    "city": "SYRACUSE",
+    "state": "NY",
+    "amt": 66000
+   },
+   {
+    "name": "CITY NATIONAL BANK",
+    "city": "LOS ANGELES",
+    "state": "CA",
+    "amt": 64633
+   },
+   {
+    "name": "LANNAN FOUNDATION",
+    "city": "SANTA FE",
+    "state": "NM",
+    "amt": 60500
+   },
+   {
+    "name": "PREJZA PAUL",
+    "city": "LOS ANGELES",
+    "state": "CA",
+    "amt": 60000
+   },
+   {
+    "name": "KAIKAI KIKI GALLERY (KAIKAI KIKI CO LTD)",
+    "city": "MINATOKU TOKYO",
+    "state": null,
+    "amt": 58700
+   },
+   {
+    "name": "SF & RL PEPPER FAMILY FOUNDATION",
+    "city": "BEVERLY HILLS",
+    "state": "CA",
+    "amt": 58409
+   },
+   {
+    "name": "ESTATE OF ELLEN CONANT",
+    "city": "HANOVER",
+    "state": "NH",
+    "amt": 56000
+   },
+   {
+    "name": "BECKER HAROLD",
+    "city": "BEVERLY HILLS",
+    "state": "CA",
+    "amt": 50000
+   },
+   {
+    "name": "BUDDY TAUB FOUNDATION",
+    "city": "WEST HOLLYWOOD",
+    "state": "CA",
+    "amt": 50000
+   },
+   {
+    "name": "DAVID HOCKNEY FOUNDATION",
+    "city": "WEST HOLLYWOOD",
+    "state": "CA",
+    "amt": 50000
+   },
+   {
+    "name": "GAGOSIAN GALLERY",
+    "city": "NEW YORK",
+    "state": "NY",
+    "amt": 50000
+   },
+   {
+    "name": "HAUSER & WIRTH LOS ANGELES",
+    "city": "LOS ANGELES",
+    "state": "CA",
+    "amt": 50000
+   },
+   {
+    "name": "LEONETTIO'CONNELL FAMILY FOUNDATION",
+    "city": "LOS ANGELES",
+    "state": "CA",
+    "amt": 50000
+   },
+   {
+    "name": "MOHARI MEDIA US",
+    "city": "WILMINGTON",
+    "state": "DE",
+    "amt": 50000
+   },
+   {
+    "name": "SCHREYER LESLIE",
+    "city": "NEW YORK",
+    "state": "NY",
+    "amt": 50000
+   },
+   {
+    "name": "STONE SURVIVORS TRUST",
+    "city": "SANTA MONICA",
+    "state": "CA",
+    "amt": 48833
+   },
+   {
+    "name": "SWEENEY MILLER REVOCABLE TRUST",
+    "city": "LOS ANGELES",
+    "state": "CA",
+    "amt": 48474
+   },
+   {
+    "name": "HOPKINS THAYER",
+    "city": "SAN FRANCISCO",
+    "state": "CA",
+    "amt": 46725
+   },
+   {
+    "name": "TENREIRO VALERIA",
+    "city": "SACRAMENTO",
+    "state": "CA",
+    "amt": 45000
+   },
+   {
+    "name": "BALSON PAUL J",
+    "city": "PACIFIC PALISADES",
+    "state": "CA",
+    "amt": 42525
+   },
+   {
+    "name": "GORMAN GREG",
+    "city": "LOS ANGELES",
+    "state": "CA",
+    "amt": 41400
+   },
+   {
+    "name": "SOLOMON DAN",
+    "city": "MONARCH BEACH",
+    "state": "CA",
+    "amt": 37500
+   },
+   {
+    "name": "FIDELITY BROKERAGE SERVICES LLC",
+    "city": "NEWARK",
+    "state": "DE",
+    "amt": 36475
+   },
+   {
+    "name": "PILARA FOUNDATION (PILARA FOUNDATION - PIER 24)",
+    "city": "SAN FRANCISCO",
+    "state": "CA",
+    "amt": 36000
+   },
+   {
+    "name": "WILSON MICHAEL G",
+    "city": "LONDON",
+    "state": null,
+    "amt": 35085
+   },
+   {
+    "name": "SILVER MICHAEL NATHAN",
+    "city": "VENICE",
+    "state": "CA",
+    "amt": 33055
+   },
+   {
+    "name": "GREENBERG FOUNDATION",
+    "city": "VENTURA",
+    "state": "CA",
+    "amt": 32585
+   },
+   {
+    "name": "PACE GALLERY - NEW YORK",
+    "city": "NEW YORK",
+    "state": "NY",
+    "amt": 32500
+   },
+   {
+    "name": "LEET STEPHEN",
+    "city": "SAINT LOUIS",
+    "state": "MO",
+    "amt": 32000
+   },
+   {
+    "name": "LOUGHREY SHANNON",
+    "city": "REHOBOTH BEACH",
+    "state": "DE",
+    "amt": 31475
+   },
+   {
+    "name": "ALIPH - INT ALLIANCE FOR THE PROTECTION OF HERITAGE",
+    "city": "GENEVA",
+    "state": null,
+    "amt": 30000
+   },
+   {
+    "name": "KRUP OEST NICOLE",
+    "city": "HEALDSBURG",
+    "state": "CA",
+    "amt": 30000
+   },
+   {
+    "name": "WALLER VALERIA",
+    "city": "NEW YORK",
+    "state": "NY",
+    "amt": 30000
+   },
+   {
+    "name": "MARTIN MARY-ANNE",
+    "city": "NEW YORK",
+    "state": "NY",
+    "amt": 28800
+   },
+   {
+    "name": "LA LOUVER GALLERY",
+    "city": "VENICE",
+    "state": "CA",
+    "amt": 28500
+   },
+   {
+    "name": "ARTIGAS PATRICIA",
+    "city": "PACIFIC PALISADES",
+    "state": "CA",
+    "amt": 27713
+   },
+   {
+    "name": "HALE THORNHILL FOUNDATION",
+    "city": "LOS ANGELES",
+    "state": "CA",
+    "amt": 27534
+   },
+   {
+    "name": "INSTITUTE FOR STUDIES ON LATIN AMERICAN ART",
+    "city": "CORAL GABLES",
+    "state": "FL",
+    "amt": 26750
+   },
+   {
+    "name": "ANNENBERG FOUNDATION",
+    "city": "SANTA MONICA",
+    "state": "CA",
+    "amt": 25000
+   },
+   {
+    "name": "AYCO CHARITABLE FOUNDATION",
+    "city": "ALBANY",
+    "state": "NY",
+    "amt": 25000
+   },
+   {
+    "name": "DISNEY TIM",
+    "city": "LOS ANGELES",
+    "state": "CA",
+    "amt": 25000
+   },
+   {
+    "name": "EA MICHELSON PHILANTHROPY",
+    "city": "BELMONT",
+    "state": "CA",
+    "amt": 25000
+   },
+   {
+    "name": "FORSTER FAMILY FOUNDATION INC",
+    "city": "WILMINGTON",
+    "state": "DE",
+    "amt": 25000
+   },
+   {
+    "name": "GOLDMAN SACHS PHILANTHROPY FUND",
+    "city": "ALBANY",
+    "state": "NY",
+    "amt": 25000
+   },
+   {
+    "name": "MEOW WOLF",
+    "city": "SANTA FE",
+    "state": "NM",
+    "amt": 25000
+   },
+   {
+    "name": "MICHAEL ASHER FOUNDATION",
+    "city": "LOS ANGELES",
+    "state": "CA",
+    "amt": 25000
+   },
+   {
+    "name": "MOORE MARK",
+    "city": "ORANGE",
+    "state": "CA",
+    "amt": 25000
+   },
+   {
+    "name": "MUDD FOUNDATION",
+    "city": "LOS ANGELES",
+    "state": "CA",
+    "amt": 25000
+   },
+   {
+    "name": "NIMOY SUSAN BAY",
+    "city": "LOS ANGELES",
+    "state": "CA",
+    "amt": 25000
+   },
+   {
+    "name": "STEVENSON DAVE",
+    "city": "PARK CITY",
+    "state": "UT",
+    "amt": 25000
+   },
+   {
+    "name": "TISBEST PHILANTHROPY",
+    "city": "SEATTLE",
+    "state": "WA",
+    "amt": 25000
+   },
+   {
+    "name": "TUCKER GAGE",
+    "city": "PASADENA",
+    "state": "CA",
+    "amt": 25000
+   },
+   {
+    "name": "TUTTLE ROBERT HOLMES",
+    "city": "LOS ANGELES",
+    "state": "CA",
+    "amt": 25000
+   },
+   {
+    "name": "WHITTIER TRUST COMPANY",
+    "city": "PASADENA",
+    "state": "CA",
+    "amt": 25000
+   },
+   {
+    "name": "CHANEL",
+    "city": "NEW YORK",
+    "state": "NY",
+    "amt": 24975
+   },
+   {
+    "name": "RUBEL MICHAEL A",
+    "city": "LOS ANGELES",
+    "state": "CA",
+    "amt": 24811
+   },
+   {
+    "name": "UNITED WAY OF GREATER LOS ANGELES",
+    "city": "LOS ANGELES",
+    "state": "CA",
+    "amt": 24500
+   },
+   {
+    "name": "ARANGO ANTONIETA MONALDI",
+    "city": "LOS ANGELES",
+    "state": "CA",
+    "amt": 24237
+   },
+   {
+    "name": "BLACK CAROLE",
+    "city": "SANTA MONICA",
+    "state": "CA",
+    "amt": 24237
+   },
+   {
+    "name": "BOOTH LYNN A",
+    "city": "LOS ANGELES",
+    "state": "CA",
+    "amt": 24237
+   },
+   {
+    "name": "CAMILLA CHANDLER FAMILY FOUNDATION",
+    "city": "LOS ANGELES",
+    "state": "CA",
+    "amt": 24237
+   },
+   {
+    "name": "HAAGA HEATHER",
+    "city": "LOS ANGELES",
+    "state": "CA",
+    "amt": 24237
+   },
+   {
+    "name": "LEE FOUNDATION",
+    "city": "LOS ANGELES",
+    "state": "CA",
+    "amt": 24237
+   },
+   {
+    "name": "LYNN A BOOTH TRUST",
+    "city": "LOS ANGELES",
+    "state": "CA",
+    "amt": 24237
+   },
+   {
+    "name": "PETER K BARKER FOUNDATION",
+    "city": "MONTECITO",
+    "state": "CA",
+    "amt": 24237
+   },
+   {
+    "name": "CATTANEO ADORNO MARCELLO",
+    "city": "HOUSTON",
+    "state": "TX",
+    "amt": 24207
+   },
+   {
+    "name": "LEEMANN ANU",
+    "city": "NEW CANAAN",
+    "state": "CT",
+    "amt": 24033
+   },
+   {
+    "name": "MILLER ALLEN H",
+    "city": "SANTA MONICA",
+    "state": "CA",
+    "amt": 24033
+   },
+   {
+    "name": "SERVICE STATION FOUNDATION",
+    "city": "LOS ANGELES",
+    "state": "CA",
+    "amt": 24033
+   },
+   {
+    "name": "YELLIN ADELE",
+    "city": "LOS ANGELES",
+    "state": "CA",
+    "amt": 24033
+   },
+   {
+    "name": "7410 INC",
+    "city": "NORTH HOLLYWOOD",
+    "state": "CA",
+    "amt": 24000
+   },
+   {
+    "name": "WONG DAVID H",
+    "city": "LOS ANGELES",
+    "state": "CA",
+    "amt": 23147
+   },
+   {
+    "name": "CAMPBELL FOUNDATION",
+    "city": "LOS ANGELES",
+    "state": "CA",
+    "amt": 23085
+   },
+   {
+    "name": "JPMORGAN CHASE & COMPANY",
+    "city": "LOS ANGELES",
+    "state": "CA",
+    "amt": 23085
+   },
+   {
+    "name": "GEHRY NELSON DOREEN",
+    "city": "LOS ANGELES",
+    "state": "CA",
+    "amt": 21500
+   },
+   {
+    "name": "AMERICAN ACADEMY OF ARTS AND LETTERS",
+    "city": "NEW YORK",
+    "state": "NY",
+    "amt": 20000
+   },
+   {
+    "name": "BARR NEAL S",
+    "city": "CAMARILLO",
+    "state": "CA",
+    "amt": 20000
+   },
+   {
+    "name": "HANS P KRAUS JR FINE PHOTOGRAPHS",
+    "city": "NEW YORK",
+    "state": "NY",
+    "amt": 20000
+   },
+   {
+    "name": "HEITING MANFRED",
+    "city": "LOS ANGELES",
+    "state": "CA",
+    "amt": 20000
+   },
+   {
+    "name": "JAMES ROSENQUIST FOUNDATION",
+    "city": "NEW YORK",
+    "state": "NY",
+    "amt": 20000
+   },
+   {
+    "name": "LISSON GALLERY NY INC",
+    "city": "NEW YORK",
+    "state": "NY",
+    "amt": 20000
+   },
+   {
+    "name": "MALCOLM HEWITT WIENER FOUNDATION",
+    "city": "GREENWICH",
+    "state": "CT",
+    "amt": 20000
+   },
+   {
+    "name": "SCHREIBER MATTHEW",
+    "city": "BROOKLYN",
+    "state": "NY",
+    "amt": 20000
+   },
+   {
+    "name": "STUART FOUNDATION",
+    "city": "SAN FRANCISCO",
+    "state": "CA",
+    "amt": 20000
+   },
+   {
+    "name": "UNITED PLANKTON CHARITABLE TRUST",
+    "city": "LOS ANGELES",
+    "state": "CA",
+    "amt": 20000
+   },
+   {
+    "name": "LOPER ROBERT BENTON",
+    "city": "NEW YORK",
+    "state": "NY",
+    "amt": 19723
+   },
+   {
+    "name": "RUTH ORKIN ARCHIVE",
+    "city": "NEW YORK",
+    "state": "NY",
+    "amt": 19000
+   },
+   {
+    "name": "CARRILLO JUAN MANUEL",
+    "city": "PACIFIC PALISADES",
+    "state": "CA",
+    "amt": 18456
+   },
+   {
+    "name": "DHAWAN RAJ K",
+    "city": "BEVERLY HILLS",
+    "state": "CA",
+    "amt": 18456
+   },
+   {
+    "name": "SAUVAGE FAMILY TRUST",
+    "city": "PACIFIC PALISADES",
+    "state": "CA",
+    "amt": 18456
+   },
+   {
+    "name": "TRENTO ALFREDO",
+    "city": "MALIBU",
+    "state": "CA",
+    "amt": 18456
+   },
+   {
+    "name": "VICTORIA MIRO GALLERY",
+    "city": "LONDON",
+    "state": null,
+    "amt": 18200
+   },
+   {
+    "name": "WELLISZ CAROLYN FERUZZI",
+    "city": "LOS ANGELES",
+    "state": "CA",
+    "amt": 17978
+   },
+   {
+    "name": "FRAENKEL JEFFREY",
+    "city": "SAN FRANCISCO",
+    "state": "CA",
+    "amt": 17500
+   },
+   {
+    "name": "HUYCK WILLARD",
+    "city": "LOS ANGELES",
+    "state": "CA",
+    "amt": 16997
+   },
+   {
+    "name": "LUO YAN C",
+    "city": "PASADENA",
+    "state": "CA",
+    "amt": 15834
+   },
+   {
+    "name": "TINA KIM GALLERY LLC",
+    "city": "NEW YORK",
+    "state": "NY",
+    "amt": 15380
+   },
+   {
+    "name": "CROSSED PURPOSES FOUNDATION INC",
+    "city": "NEW YORK",
+    "state": "NY",
+    "amt": 15000
+   },
+   {
+    "name": "GANNON TODD",
+    "city": "UPPER ARLINGTON",
+    "state": "OH",
+    "amt": 15000
+   },
+   {
+    "name": "KREYSLER & ASSOCIATES",
+    "city": "AMERICAN CANYON",
+    "state": "CA",
+    "amt": 15000
+   },
+   {
+    "name": "STEINHAUSER SUSAN LEE",
+    "city": "LOS ANGELES",
+    "state": "CA",
+    "amt": 15000
+   },
+   {
+    "name": "RUDERMAN ANNE COHEN",
+    "city": "LOS ANGELES",
+    "state": "CA",
+    "amt": 14588
+   },
+   {
+    "name": "STEINMETZ CHARLES",
+    "city": "MANHATTAN BEACH",
+    "state": "CA",
+    "amt": 13641
+   },
+   {
+    "name": "DORSKY GALLERY CURATORIAL PROGRAMS",
+    "city": "GREENWICH",
+    "state": "CT",
+    "amt": 13600
+   },
+   {
+    "name": "SPALDING GLORIA JILL",
+    "city": "LOS ANGELES",
+    "state": "CA",
+    "amt": 13282
+   },
+   {
+    "name": "ART INSTITUTE OF CHICAGO",
+    "city": "CHICAGO",
+    "state": "IL",
+    "amt": 12680
+   },
+   {
+    "name": "JACK AND JEANETTE LAXER TRUST AGREEMENT",
+    "city": "WEST HILLS",
+    "state": "CA",
+    "amt": 12520
+   },
+   {
+    "name": "NELSON MARK ALEXANDER",
+    "city": "POINT PIPER",
+    "state": null,
+    "amt": 12043
+   },
+   {
+    "name": "FRAGOMENI FRANCESCO DIMITRI",
+    "city": "SPRING VALLEY",
+    "state": "CA",
+    "amt": 12000
+   },
+   {
+    "name": "PACIFIC AND GENERAL MASTER FUND",
+    "city": "GRAND CAYMAN",
+    "state": null,
+    "amt": 11043
+   },
+   {
+    "name": "DE BONT TRISH",
+    "city": "LOS ANGELES",
+    "state": "CA",
+    "amt": 10909
+   },
+   {
+    "name": "LEONARD A LAUDER 2013 REVOCABLE TRUST",
+    "city": "NEW YORK",
+    "state": "NY",
+    "amt": 10909
+   },
+   {
+    "name": "MCCOY BARBARA",
+    "city": "LOS ANGELES",
+    "state": "CA",
+    "amt": 10909
+   },
+   {
+    "name": "PONCHER FAMILY FOUNDATION",
+    "city": "LOS ANGELES",
+    "state": "CA",
+    "amt": 10909
+   },
+   {
+    "name": "ORNSTON MARJORIE",
+    "city": "LOS ANGELES",
+    "state": "CA",
+    "amt": 10410
+   },
+   {
+    "name": "MEADE SARAH ELEANOR",
+    "city": "LOS ANGELES",
+    "state": "CA",
+    "amt": 10015
+   },
+   {
+    "name": "CAROLEE SCHNEEMANN FOUNDATION",
+    "city": "NEW PALTZ",
+    "state": "NY",
+    "amt": 10000
+   },
+   {
+    "name": "COMMUNITY FOUNDATION SANTA CRUZ COUNTY",
+    "city": "APTOS",
+    "state": "CA",
+    "amt": 10000
+   },
+   {
+    "name": "CREATIVE CAPITAL FOUNDATION",
+    "city": "NEW YORK",
+    "state": "NY",
+    "amt": 10000
+   },
+   {
+    "name": "DANIELSON FOUNDATION",
+    "city": "CHICAGO",
+    "state": "IL",
+    "amt": 10000
+   },
+   {
+    "name": "DUCKLER HEIDI",
+    "city": "LOS ANGELES",
+    "state": "CA",
+    "amt": 10000
+   },
+   {
+    "name": "EHRLICH STEVEN",
+    "city": "CULVER CITY",
+    "state": "CA",
+    "amt": 10000
+   },
+   {
+    "name": "FARROW & BALL",
+    "city": "WIMBORNE",
+    "state": null,
+    "amt": 10000
+   },
+   {
+    "name": "FRANK MARTUCCI TRUST",
+    "city": "LONGBOAT KEY",
+    "state": "FL",
+    "amt": 10000
+   },
+   {
+    "name": "HARPO FOUNDATION",
+    "city": "LAS VEGAS",
+    "state": "NV",
+    "amt": 10000
+   },
+   {
+    "name": "HINDLE PATTON",
+    "city": "BROOKLYN",
+    "state": "NY",
+    "amt": 10000
+   },
+   {
+    "name": "JAY DEFEO FOUNDATION",
+    "city": "BERKELEY",
+    "state": "CA",
+    "amt": 10000
+   },
+   {
+    "name": "KAPLAN THOMAS SCOTT",
+    "city": "NEW YORK",
+    "state": "NY",
+    "amt": 10000
+   },
+   {
+    "name": "KWANZA JONES & JOS E FELICIANO INITIATIVE (JONESFELICIANO)",
+    "city": "MARINA DEL REY",
+    "state": "CA",
+    "amt": 10000
+   },
+   {
+    "name": "LEE MIE KYUNG",
+    "city": "ANAHEIM",
+    "state": "CA",
+    "amt": 10000
+   },
+   {
+    "name": "MORGAN STANLEY GIFT",
+    "city": "INDIANAPOLIS",
+    "state": "IN",
+    "amt": 10000
+   },
+   {
+    "name": "PERROTIN DELMAR LLC",
+    "city": "LOS ANGELES",
+    "state": "CA",
+    "amt": 10000
+   },
+   {
+    "name": "PETER W MULLIN FAMILY CHARTIABLE FOUNDATION",
+    "city": "OXNARD",
+    "state": "CA",
+    "amt": 10000
+   },
+   {
+    "name": "SAM FRANCIS FOUNDATION",
+    "city": "GLENDALE",
+    "state": "CA",
+    "amt": 10000
+   },
+   {
+    "name": "SUTTON FAMILY CHARITABLE FUND",
+    "city": "CORONA DEL MAR",
+    "state": "CA",
+    "amt": 10000
+   },
+   {
+    "name": "THADDAEUS ROPAC GALLERY LIMITED",
+    "city": "LONDON",
+    "state": null,
+    "amt": 10000
+   },
+   {
+    "name": "VISIONARY WOMEN",
+    "city": "BEVERLY HILLS",
+    "state": "CA",
+    "amt": 10000
+   },
+   {
+    "name": "WHITE CUBE BERMONDSEY",
+    "city": "LONDON",
+    "state": null,
+    "amt": 10000
+   },
+   {
+    "name": "WORSTER BRUCE",
+    "city": "SANTA BARBARA",
+    "state": "CA",
+    "amt": 10000
+   },
+   {
+    "name": "NIIYAMA YOICHI",
+    "city": "TOKYO",
+    "state": null,
+    "amt": 9522
+   },
+   {
+    "name": "SHAW LEE SPEER",
+    "city": "LOS ANGELES",
+    "state": "CA",
+    "amt": 9394
+   },
+   {
+    "name": "FELDSTEIN KATHLEEN",
+    "city": "SANTA BARBARA",
+    "state": "CA",
+    "amt": 9113
+   },
+   {
+    "name": "HSU VICTOR",
+    "city": "PLAYA DEL REY",
+    "state": "CA",
+    "amt": 9113
+   },
+   {
+    "name": "MERRILL LYNCH PIERCE FENNER & SMITH INCORPORATED",
+    "city": "JACKSONVILLE",
+    "state": "FL",
+    "amt": 9113
+   },
+   {
+    "name": "MONTGOMERY JAMES W",
+    "city": "LOS ANGELES",
+    "state": "CA",
+    "amt": 9113
+   },
+   {
+    "name": "PETERSON BRUCE",
+    "city": "LOS ANGELES",
+    "state": "CA",
+    "amt": 9113
+   },
+   {
+    "name": "STENSLAND LARS",
+    "city": "LOS ANGELES",
+    "state": "CA",
+    "amt": 9113
+   },
+   {
+    "name": "TURNER ELINOR",
+    "city": "BEVERLY HILLS",
+    "state": "CA",
+    "amt": 9113
+   },
+   {
+    "name": "WHITE DENNIS",
+    "city": "PACIFIC PALISADES",
+    "state": "CA",
+    "amt": 9113
+   },
+   {
+    "name": "YU GARSON",
+    "city": "LOS ANGELES",
+    "state": "CA",
+    "amt": 9113
+   },
+   {
+    "name": "CUNARD JEFFREY P",
+    "city": "WASHINGTON",
+    "state": "DC",
+    "amt": 9084
+   },
+   {
+    "name": "PETERSEN CHERYL",
+    "city": "LOS ANGELES",
+    "state": "CA",
+    "amt": 9069
+   },
+   {
+    "name": "PATEL PARAG",
+    "city": "CALABASAS",
+    "state": "CA",
+    "amt": 9052
+   },
+   {
+    "name": "KAUFMANN REPETTO",
+    "city": "NEW YORK",
+    "state": "NY",
+    "amt": 9000
+   },
+   {
+    "name": "KLONARIDES CAROLE ANN",
+    "city": "LOS ANGELES",
+    "state": "CA",
+    "amt": 9000
+   },
+   {
+    "name": "SUAREZ FRIMKESS MAGDALENA",
+    "city": "NEW YORK",
+    "state": "NY",
+    "amt": 9000
+   },
+   {
+    "name": "DEBREU ELIZABETH BYRNE",
+    "city": "LOS ANGELES",
+    "state": "CA",
+    "amt": 8953
+   },
+   {
+    "name": "TAVOLOZZA FOUNDATION GMBH",
+    "city": "BERG MUENCHEN",
+    "state": null,
+    "amt": 8953
+   },
+   {
+    "name": "THIERRY DANIEL",
+    "city": "BRUSSELS",
+    "state": null,
+    "amt": 8953
+   },
+   {
+    "name": "SWEENEY MAX",
+    "city": "MANHATTAN BEACH",
+    "state": "CA",
+    "amt": 8933
+   },
+   {
+    "name": "CATTANEO ADORNO SANDRA",
+    "city": "LONDON",
+    "state": null,
+    "amt": 8894
+   },
+   {
+    "name": "SAUVION CAROL",
+    "city": "BEVERLY HILLS",
+    "state": "CA",
+    "amt": 8666
+   },
+   {
+    "name": "BALSON BERNICE K",
+    "city": "BEVERLY HILLS",
+    "state": "CA",
+    "amt": 8641
+   },
+   {
+    "name": "GRIMSTAD KIRSTEN",
+    "city": "PACIFIC PALISADES",
+    "state": "CA",
+    "amt": 8641
+   },
+   {
+    "name": "ISEMAN FREDERICK J",
+    "city": "NEW YORK",
+    "state": "NY",
+    "amt": 8641
+   },
+   {
+    "name": "MARJORIE SANTORE BESSON TRUST",
+    "city": "SANTA MONICA",
+    "state": "CA",
+    "amt": 8641
+   },
+   {
+    "name": "VAN TILBURG JOHANNES",
+    "city": "MALIBU",
+    "state": "CA",
+    "amt": 8641
+   },
+   {
+    "name": "BARRON KEITH MICHAEL",
+    "city": "HAUTENENDAZ",
+    "state": null,
+    "amt": 8621
+   },
+   {
+    "name": "BABST TOBIN BENJAMIN",
+    "city": "LOS ANGELES",
+    "state": "CA",
+    "amt": 8588
+   },
+   {
+    "name": "BLOOMBERG TONI F",
+    "city": "PARK CITY",
+    "state": "UT",
+    "amt": 8588
+   },
+   {
+    "name": "COTSEN TOBEY L",
+    "city": "MALIBU",
+    "state": "CA",
+    "amt": 8588
+   },
+   {
+    "name": "FICHELSON JUSTIN",
+    "city": "SAN FRANCISCO",
+    "state": "CA",
+    "amt": 8588
+   },
+   {
+    "name": "GAGE DEBORAH P",
+    "city": "HELLINGLY",
+    "state": null,
+    "amt": 8588
+   },
+   {
+    "name": "HOLMES MARY TAVENER",
+    "city": "NEW YORK",
+    "state": "NY",
+    "amt": 8588
+   },
+   {
+    "name": "LATTY THEODORE",
+    "city": "MEDFORD",
+    "state": "OR",
+    "amt": 8588
+   },
+   {
+    "name": "MOORE WYNNSAN",
+    "city": "N HOLLYWOOD",
+    "state": "CA",
+    "amt": 8588
+   },
+   {
+    "name": "MORETTI FINE ART LTD",
+    "city": "LONDON",
+    "state": null,
+    "amt": 8588
+   },
+   {
+    "name": "MORTON JAY ALLEN",
+    "city": "RANCHO MIRAGE",
+    "state": "CA",
+    "amt": 8588
+   },
+   {
+    "name": "NEWMAN ROBERT C",
+    "city": "ENGLEWOOD",
+    "state": "CO",
+    "amt": 8588
+   },
+   {
+    "name": "RICHARD WOLF TRUST OF 2003",
+    "city": "ENCINO",
+    "state": "CA",
+    "amt": 8588
+   },
+   {
+    "name": "WACHTER GEORGE",
+    "city": "NEW YORK",
+    "state": "NY",
+    "amt": 8588
+   },
+   {
+    "name": "BROWNING PHILIPPE",
+    "city": "LOS ANGELES",
+    "state": "CA",
+    "amt": 8516
+   },
+   {
+    "name": "BELL LARRY",
+    "city": "TAOS",
+    "state": "NM",
+    "amt": 8500
+   },
+   {
+    "name": "BERRO ALAN N",
+    "city": "PARK CITY",
+    "state": "UT",
+    "amt": 8475
+   },
+   {
+    "name": "BOLLENBACH BARBARA",
+    "city": "LOS ANGELES",
+    "state": "CA",
+    "amt": 8475
+   },
+   {
+    "name": "MASLON LAURA",
+    "city": "MARINA DEL REY",
+    "state": "CA",
+    "amt": 8475
+   },
+   {
+    "name": "MCKENNA PATRICIA ANN",
+    "city": "LOS ANGELES",
+    "state": "CA",
+    "amt": 8475
+   },
+   {
+    "name": "RABKIN MICHAEL WILLIAM",
+    "city": "ENCINO",
+    "state": "CA",
+    "amt": 8475
+   },
+   {
+    "name": "RAY AND WYN RITCHIE EVANS FOUNDATION",
+    "city": "CULVER CITY",
+    "state": "CA",
+    "amt": 8475
+   },
+   {
+    "name": "ROSEN MICHAEL ADAM",
+    "city": "LOS ANGELES",
+    "state": "CA",
+    "amt": 8475
+   },
+   {
+    "name": "ROSENTHAL RICHARD JAY",
+    "city": "PLAYA DEL REY",
+    "state": "CA",
+    "amt": 8475
+   },
+   {
+    "name": "RUBINSTEIN LIDIA M",
+    "city": "LOS ANGELES",
+    "state": "CA",
+    "amt": 8475
+   },
+   {
+    "name": "STERN LOUIS",
+    "city": "WEST HOLLYWOOD",
+    "state": "CA",
+    "amt": 8475
+   },
+   {
+    "name": "WILLIAMS JAMES M",
+    "city": "PASADENA",
+    "state": "CA",
+    "amt": 8475
+   },
+   {
+    "name": "CROWELL ALISON BRYAN",
+    "city": "FOUNTAIN HILLS",
+    "state": "AZ",
+    "amt": 8409
+   },
+   {
+    "name": "ELY PAULA",
+    "city": "STUDIO CITY",
+    "state": "CA",
+    "amt": 8409
+   },
+   {
+    "name": "HAWLEY MICHAEL C",
+    "city": "LOS ANGELES",
+    "state": "CA",
+    "amt": 8409
+   },
+   {
+    "name": "PERRY ALFRED CLINTON",
+    "city": "LOS ANGELES",
+    "state": "CA",
+    "amt": 8409
+   },
+   {
+    "name": "PHILLIPS AUCTIONEERS LLC",
+    "city": "NEW YORK",
+    "state": "NY",
+    "amt": 8409
+   },
+   {
+    "name": "SILVERBERG WARREN",
+    "city": "BURBANK",
+    "state": "CA",
+    "amt": 8409
+   },
+   {
+    "name": "SOTHEBY'S",
+    "city": "NEW YORK",
+    "state": "NY",
+    "amt": 8409
+   },
+   {
+    "name": "CARLSON KENNETH A",
+    "city": "SANTA MONICA",
+    "state": "CA",
+    "amt": 8267
+   },
+   {
+    "name": "DAVID KORDANSKY GALLERY",
+    "city": "NEW YORK",
+    "state": "NY",
+    "amt": 8000
+   },
+   {
+    "name": "SARMIENTO ANDREAS KELLER",
+    "city": "SANTA FE",
+    "state": null,
+    "amt": 8000
+   },
+   {
+    "name": "HORVITZ DAVID",
+    "city": "LOS ANGELES",
+    "state": "CA",
+    "amt": 7500
+   },
+   {
+    "name": "JASMIN PAUL",
+    "city": "RALEIGH",
+    "state": "NC",
+    "amt": 7000
+   },
+   {
+    "name": "DUGAN JOANNE",
+    "city": "NEW YORK",
+    "state": "NY",
+    "amt": 6500
+   },
+   {
+    "name": "MCGOWAN TREVYN",
+    "city": "LOS ANGELES",
+    "state": "CA",
+    "amt": 6500
+   },
+   {
+    "name": "BANK OF AMERICA CHARITABLE GIFT FUND",
+    "city": "BOSTON",
+    "state": "MA",
+    "amt": 6000
+   },
+   {
+    "name": "DUGAN JESS T",
+    "city": "SAINT LOUIS",
+    "state": "MO",
+    "amt": 5200
+   },
+   {
+    "name": "PASTIER JOHN",
+    "city": "SAN JOSE",
+    "state": "CA",
+    "amt": 5200
+   },
+   {
+    "name": "TAOS ABSTRACT ARTIST COLLECTIVE",
+    "city": "ARROYO HONDO",
+    "state": "NM",
+    "amt": 5065
+   },
+   {
+    "name": "BEYELER MUSEUM AG",
+    "city": "RIEHEN B BASEL",
+    "state": null,
+    "amt": 5000
+   },
+   {
+    "name": "CHARLES SCHWAB",
+    "city": "SAN FRANCISCO",
+    "state": "CA",
+    "amt": 5000
+   },
+   {
+    "name": "COOKE BRYAN L",
+    "city": "LOS ANGELES",
+    "state": "CA",
+    "amt": 5000
+   },
+   {
+    "name": "DALVA LEON",
+    "city": "NEW YORK",
+    "state": "NY",
+    "amt": 5000
+   },
+   {
+    "name": "GALERIE LELONG & CO (ARTIC INC)",
+    "city": "NEW YORK",
+    "state": "NY",
+    "amt": 5000
+   },
+   {
+    "name": "GERLICH KATHARYN",
+    "city": "SEATTLE",
+    "state": "WA",
+    "amt": 5000
+   },
+   {
+    "name": "INCANDELA GERALD",
+    "city": "SUMMERLAND",
+    "state": "CA",
+    "amt": 5000
+   },
+   {
+    "name": "ISAACSON TAYLOR",
+    "city": "WEST HOLLYWOOD",
+    "state": "CA",
+    "amt": 5000
+   },
+   {
+    "name": "POWERS CAROLYN",
+    "city": "MANHATTAN BEACH",
+    "state": "CA",
+    "amt": 5000
+   },
+   {
+    "name": "SUNDELL MARGARET",
+    "city": "NEW YORK",
+    "state": "NY",
+    "amt": 5000
+   },
+   {
+    "name": "WOODMAN FAMILY FOUNDATION",
+    "city": "NEW YORK",
+    "state": "NY",
+    "amt": 5000
+   },
+   {
+    "name": "DAF GIVING 360",
+    "city": "SAN FRANCISCO",
+    "state": "CA",
+    "amt": 3500
    }
   ]
  }

@@ -139,20 +139,34 @@ _checks = [
  (2008, dict(rev=[4475309,11542703,48956353,234450,338330805,9004317,31497787], exp13_23=[3979144,86161000,60146457,4818837,584930,11312274,44568556,801439,48230402,11863596,4427785,3867029,69644395])),
  (2009, dict(rev=[5006626,1920370,29851084,386737,-249044122,7939274,28326076], exp13_23=[3501872,86219142,34197842,1828727,313249,7289497,24347611,631079,47888624,12007770,5112564,2692109,55434080])),
  (2019, dict(rev=None, exp13_23=[7476079,100116806,43373398,3110798,812672,1412464,21248968,144222,47577242,15526674,7231962,1318436,58472392])),
+ # FY2025 (FYE 2025-06-30, object_id 202611279349102996, IRS TEOS bulk XML 2026_TEOS_XML_05A). No
+ # independent ProPublica/GivingTuesday headline extract exists for this year yet, so the as-filed XML
+ # is checked against itself line-by-line instead: revenue lines 1-11 = line 12, expense lines 13-23 =
+ # line 24, and (via check 3 above) line 24 + line 25 = line 26, assets - liabilities = net assets, and
+ # BOY assets tie to FY2024 EOY (12,953,287,350).
+ (2025, dict(rev=[25468138,19219711,56820138,431048,524828780,9914816,130754014], exp13_23=[8454414,142889738,52155503,3129431,1090180,10140695,16907790,1623251,38465359,23732779,10109768,1421606,109912620])),
 ]
 for fy, c in _checks:
     d = by[fy]
     if c['rev'] is not None and sum(c['rev']) != d['total_revenue']: errors.append(f"FY{fy} hand-sum revenue {sum(c['rev'])} != {d['total_revenue']}")
     if sum(c['exp13_23']) != d['total_operating']: errors.append(f"FY{fy} hand-sum operating {sum(c['exp13_23'])} != {d['total_operating']}")
 
+# 5) surplus identity: line 12 - line 26 == line 27a, wherever all three are present
+for d in years:
+    if all(d.get(k) is not None for k in ('total_revenue','total_expenses','excess_revenue')):
+        if d['total_revenue'] - d['total_expenses'] != d['excess_revenue']:
+            errors.append(f"FY{d['fy']} revenue-expenses {d['total_revenue']-d['total_expenses']} != excess_revenue {d['excess_revenue']}")
+
 print('ERRORS:', len(errors)); [print('  !!', e) for e in errors]
 print('WARNINGS:', len(warns)); [print('  ~', w) for w in warns]
 if errors: sys.exit(1)
 
-# officers FY2024 (top by comp)
-off = [o for o in xml['2024']['officers'] if o.get('comp') is not None]
+# officers for the most recent filed year (top by comp). Keyed by that year rather than hard-coded so
+# adding a new filing carries the roster forward automatically.
+latest_fy = max(int(f) for f in xml)
+off = [o for o in xml[str(latest_fy)]['officers'] if o.get('comp') is not None]
 off.sort(key=lambda o: -o['comp'])
-officers2024 = off[:12]
+officers_latest = {'fy': latest_fy, 'list': off[:12]}
 
 PP = 'https://projects.propublica.org/nonprofits/download-filing?path='
 archive = [
@@ -174,20 +188,22 @@ archive = [
  {'fy':2022,'url':PP+'IRS%2F951790021_202206_990PF_2023060821406436.pdf','tag':'XML'},
  {'fy':2023,'url':'https://projects.propublica.org/nonprofits/download-xml?object_id=202421359349106107','tag':'XML'},
  {'fy':2024,'url':'https://projects.propublica.org/nonprofits/organizations/951790021/202531359349102323/full','tag':'XML'},
+ {'fy':2025,'url':'https://projects.propublica.org/nonprofits/organizations/951790021/202611279349102996/full','tag':'XML'},
 ]
 
 # Schedule B donor/contributor lists (public for private foundations). Covers years with source XML
-# only (FY2010-2018, FY2020-2024) via extract_donors.py; FY2007-2009 (PDF text) and FY2019 (no XML)
+# only (FY2010-2018, FY2020-2025) via extract_donors.py; FY2007-2009 (PDF text) and FY2019 (no XML)
 # are intentionally absent and flagged as unavailable in the UI rather than guessed at.
 try:
     donors = json.load(open('donors.json'))
 except FileNotFoundError:
     donors = {}
 
-data = {'years': years, 'officers2024': officers2024, 'archive': archive, 'donors': donors}
+data = {'years': years, 'officersLatest': officers_latest, 'archive': archive, 'donors': donors}
 json.dump(data, open('dataset.json','w'), indent=1)
 
 tpl = open('dashboard_template.html', encoding='utf-8').read()
 html = tpl.replace('__DATA__', json.dumps(data, separators=(',',':')))
 open('Getty_Trust_Financial_Dashboard.html','w',encoding='utf-8').write(html)
-print('OK: dashboard written,', len(years), 'years,', len(officers2024), 'officers,', len(donors), 'donor-list years')
+print('OK: dashboard written,', len(years), 'years,', len(officers_latest['list']),
+      f"officers (FY{latest_fy}),", len(donors), 'donor-list years')

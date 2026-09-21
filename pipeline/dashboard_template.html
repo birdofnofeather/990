@@ -94,7 +94,7 @@ nav a:hover{color:var(--gold2);border-color:var(--line);background:var(--panel)}
 <div class="wrap">
 <header>
   <h1>The <span class="accent">J. Paul Getty Trust</span> — Financial Dashboard<span class="badge">Form 990-PF</span></h1>
-  <div class="sub">EIN 95-1790021 · Los Angeles, CA · Private operating foundation · Fiscal years ending June 30, 2007 – 2024 · All figures from as-filed IRS returns</div>
+  <div class="sub">EIN 95-1790021 · Los Angeles, CA · Private operating foundation · Fiscal years ending June 30, 2007 – 2025 · All figures from as-filed IRS returns</div>
 </header>
 
 <nav>
@@ -105,7 +105,7 @@ nav a:hover{color:var(--gold2);border-color:var(--line);background:var(--panel)}
   <label>From</label><select id="yrFrom"></select>
   <label>To</label><select id="yrTo"></select>
   <button class="tgl on" id="btnNom">Nominal $</button>
-  <button class="tgl" id="btnReal">2024 dollars (CPI-U)</button>
+  <button class="tgl" id="btnReal">2025 dollars (CPI-U)</button>
   <button class="dl" id="btnCsv">⬇ Download CSV</button>
 </div>
 
@@ -143,20 +143,20 @@ nav a:hover{color:var(--gold2);border-color:var(--line);background:var(--panel)}
     <div class="chart-hint">click a metric to isolate it<button class="rst" onclick="resetChart('inv')" title="Reset — show all metrics">↺</button></div><div class="chartbox"><canvas id="chInv"></canvas></div>
   </div>
   <div class="card full" id="sec-table">
-    <h2>All Tracked Metrics — FY2007–FY2024</h2>
+    <h2>All Tracked Metrics — FY2007–FY2025</h2>
     <div class="note">Click a column header to sort. Values as filed (nominal $). Scroll horizontally for all fields — the fiscal year column stays pinned.</div>
     <div class="scroll bigTable-wrap"><table id="bigTable"></table></div>
   </div>
   <div class="card full collapsible collapsed" id="sec-arch">
     <h2 onclick="toggleCard(this.parentNode)">Filing Archive<span class="caret">▾</span></h2>
-    <div class="note">Original source filings at ProPublica Nonprofit Explorer for every fiscal year represented in this dashboard, FY2007–FY2024.</div>
+    <div class="note">Original source filings at ProPublica Nonprofit Explorer for every fiscal year represented in this dashboard, FY2007–FY2025.</div>
     <div class="archive" id="archive"></div>
   </div>
 </div>
 
 <footer id="foot">
-  <p><b>Sources.</b> IRS e-file XML via GivingTuesday 990 Data Lake (990-infrastructure.gtdata.org / gt990datalake-rawdata S3) for FY2010–FY2018 and FY2020–FY2024; hand-verified extraction from IRS e-file text-layer PDFs (990s.foundationcenter.org archive, confirmed "As Filed Data" e-file marker, not scanned) for FY2007–FY2009; and, for FY2019 (paper-filed — the only year with no e-file XML), IRS-extracted structured totals via the ProPublica Nonprofit Explorer API with the Part I expense line items and qualifying distributions transcribed directly from the source filing and confirmed. Values are cross-checked: each year's beginning-of-year balance ties to the prior year's end-of-year balance across FY2007–FY2024, and overlapping totals agree across independent sources.</p>
-  <p><b>Notes.</b> Fiscal years end June 30 (FY2024 = July 2023–June 2024). "2024 dollars" uses annual-average CPI-U for the calendar year of each fiscal year end. Total revenue swings (FY2009 crisis-year loss; FY2020/FY2023 dips) reflect realized-gain timing, not operating health. Prepared <span id="genDate"></span>; not financial advice.</p>
+  <p><b>Sources.</b> IRS e-file XML for FY2010–FY2018 and FY2020–FY2025 — via the GivingTuesday 990 Data Lake (990-infrastructure.gtdata.org / gt990datalake-rawdata S3) for FY2010–FY2018 and FY2020–FY2023, and direct from the IRS TEOS bulk XML releases (apps.irs.gov/pub/epostcard/990/xml) for FY2024–FY2025; hand-verified extraction from IRS e-file text-layer PDFs (990s.foundationcenter.org archive, confirmed "As Filed Data" e-file marker, not scanned) for FY2007–FY2009; and, for FY2019 (paper-filed — the only year with no e-file XML), IRS-extracted structured totals via the ProPublica Nonprofit Explorer API with the Part I expense line items and qualifying distributions transcribed directly from the source filing and confirmed. Values are cross-checked: each year's beginning-of-year balance ties to the prior year's end-of-year balance across FY2007–FY2025, and overlapping totals agree across independent sources.</p>
+  <p><b>Notes.</b> Fiscal years end June 30 (FY2025 = July 2024–June 2025). "2025 dollars" uses annual-average CPI-U for the calendar year of each fiscal year end; the 2025 average is BLS's own published figure (321.943), computed from eleven months because the October 2025 CPI release was cancelled during the federal shutdown. FY2024 and FY2025 predate ProPublica's summary-data extract, so those two years are verified against the as-filed XML's own printed subtotals and the balance-sheet chain rather than a second source. Total revenue swings (FY2009 crisis-year loss; FY2020/FY2023 dips) reflect realized-gain timing, not operating health. Prepared <span id="genDate"></span>; not financial advice.</p>
 </footer>
 </div>
 
@@ -182,15 +182,21 @@ nav a:hover{color:var(--gold2);border-color:var(--line);background:var(--panel)}
 
 <script>
 const RAW = __DATA__;
-const CPI = {2007:207.342,2008:215.303,2009:214.537,2010:218.056,2011:224.939,2012:229.594,2013:232.957,2014:236.736,2015:237.017,2016:240.007,2017:245.120,2018:251.107,2019:255.657,2020:258.811,2021:270.970,2022:292.655,2023:304.702,2024:313.689};
-const CPI24 = CPI[2024];
+// Annual-average CPI-U, U.S. city average, all items (BLS series CUUR0000SA0, 1982-84=100).
+// 2025 = 321.943, BLS's own published annual average for the year. It is an 11-month average: the
+// October 2025 CPI was never published (the release was cancelled during the autumn 2025 federal
+// shutdown), so BLS computed the annual figure from the eleven months that exist. Every earlier year
+// here is a full 12-month average.
+const CPI = {2007:207.342,2008:215.303,2009:214.537,2010:218.056,2011:224.939,2012:229.594,2013:232.957,2014:236.736,2015:237.017,2016:240.007,2017:245.120,2018:251.107,2019:255.657,2020:258.811,2021:270.970,2022:292.655,2023:304.702,2024:313.689,2025:321.943};
+const BASE_FY = 2025;
+const CPIBASE = CPI[BASE_FY];
 let mode = 'nom';           // 'nom' | 'real'
-let from = 2007, to = 2024;
+let from = 2007, to = 2025;
 const Y = RAW.years;        // sorted ascending by fy
 const fmtB = v => v==null?'—':(Math.abs(v)>=1e9? (v/1e9).toFixed(2)+' B' : (v/1e6).toFixed(1)+' M');
 const fmt$ = v => v==null?'—':'$'+fmtB(v);
 const fmtFull = v => v==null?'—':v.toLocaleString('en-US');
-const adj = (v,fy) => v==null?null:(mode==='real'? Math.round(v*CPI24/CPI[fy]) : v);
+const adj = (v,fy) => v==null?null:(mode==='real'? Math.round(v*CPIBASE/CPI[fy]) : v);
 const sel = () => Y.filter(d=>d.fy>=from && d.fy<=to);
 const COL = {gold:'#c9a45c',gold2:'#e6c987',green:'#7fa66a',red:'#c96a5c',blue:'#7d9bb5',violet:'#a08cb5',teal:'#6aa6a0',grey:'#8d8877',sand:'#b5a488',rust:'#b5836a'};
 Chart.defaults.color = '#a49c8a';
@@ -414,7 +420,7 @@ function renderGifts(){
   const total = rows.reduce((t,d)=>t+d.amt,0);
   const range = yFrom===yTo ? `FY${yFrom}` : `FY${yFrom}–FY${yTo}`;
   const missingTxt = missing.length ? ` No donor schedule available for ${missing.map(y=>'FY'+y).join(', ')} — excluded from this range (Getty's Schedule B appears in the IRS e-file XML, but those years don't have that machine-readable source; see Filing Archive).` : '';
-  const srcTxt = ` Source: <a href="https://projects.propublica.org/nonprofits/organizations/951790021" target="_blank" style="color:var(--gold)">ProPublica Nonprofit Explorer</a>.`;
+  const srcTxt = ` Source: Schedule B of the as-filed 990-PF e-file XML for each year (view the filings at <a href="https://projects.propublica.org/nonprofits/organizations/951790021" target="_blank" style="color:var(--gold)">ProPublica Nonprofit Explorer</a>).`;
 
   if(giftsView === 'donor'){
     const donors = groupDonors(rows);
@@ -463,19 +469,19 @@ function csv(){
   const rows = [FIELDS.map(([,l])=>l).join(',')].concat(Y.map(d=>FIELDS.map(([f])=>d[f]??'').join(',')));
   const blob = new Blob([rows.join('\n')],{type:'text/csv'});
   const u = URL.createObjectURL(blob); const a=document.createElement('a');
-  a.href=u; a.download='getty_trust_990pf_fy2010_2024.csv'; a.click(); URL.revokeObjectURL(u);
+  a.href=u; a.download=`getty_trust_990pf_fy${Y[0].fy}_${Y[Y.length-1].fy}.csv`; a.click(); URL.revokeObjectURL(u);
 }
 
 // controls
 const yrs = Y.map(d=>d.fy);
-yrFrom.innerHTML = yrs.map(y=>`<option ${y===2007?'selected':''}>${y}</option>`).join('');
-yrTo.innerHTML = yrs.map(y=>`<option ${y===2024?'selected':''}>${y}</option>`).join('');
+yrFrom.innerHTML = yrs.map(y=>`<option ${y===from?'selected':''}>${y}</option>`).join('');
+yrTo.innerHTML = yrs.map(y=>`<option ${y===to?'selected':''}>${y}</option>`).join('');
 yrFrom.onchange = e=>{from=+e.target.value; if(from>to){to=from;yrTo.value=to;} build();};
 yrTo.onchange = e=>{to=+e.target.value; if(to<from){from=to;yrFrom.value=from;} build();};
 btnNom.onclick = ()=>{mode='nom';btnNom.classList.add('on');btnReal.classList.remove('on');build();};
 btnReal.onclick = ()=>{mode='real';btnReal.classList.add('on');btnNom.classList.remove('on');build();};
 btnCsv.onclick = csv;
-document.getElementById('genDate').textContent = 'July 2026';
+document.getElementById('genDate').textContent = 'September 2026';
 
 makeKpis(); build(); table(); archive();
 </script>
